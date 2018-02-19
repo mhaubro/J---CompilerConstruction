@@ -9,4 +9,17 @@ public class Shift {
 		System.out.println("-30 logic shifted right 1: " + (-30 >>> 1));
 		System.out.println("47 shifted left 4: " + (47 << 4));
 	}
+
+	public int shiftLeft (int x, int y) {
+		return x << y;
+	}
+
+	public int shiftRight (int x, int y) {
+		return x >> y;
+	}
+
+	public int logicShiftRight (int x, int y) {
+		return x >>> y;
+	}
+
 }
