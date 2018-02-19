@@ -43,6 +43,19 @@ abstract class JBinaryExpression extends JExpression {
         this.rhs = rhs;
     }
 
+
+    /*
+        Helper for analyzing functions with two of the same type
+     */
+    public JExpression analyze(Context context, Type typeArg) {
+        lhs = (JExpression) lhs.analyze(context);
+        rhs = (JExpression) rhs.analyze(context);
+        lhs.type().mustMatchExpected(line(), typeArg);
+        rhs.type().mustMatchExpected(line(), typeArg);
+        type = Type.INT;
+        return this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -68,6 +81,54 @@ abstract class JBinaryExpression extends JExpression {
 
 }
 
+class JShiftLeftOp extends JBinaryExpression {
+    public JShiftLeftOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, "<<", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(ISHL);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+class JShiftRightOp extends JBinaryExpression {
+    public JShiftRightOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, ">>", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(ISHR);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+class JLogicShiftRightOp extends JBinaryExpression {
+    public JLogicShiftRightOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, ">>>", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(IUSHR);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
 class JRemainderOp extends JBinaryExpression {
     public JRemainderOp(int line, JExpression lhs, JExpression rhs) {
         super(line, "%", lhs, rhs);
@@ -78,15 +139,10 @@ class JRemainderOp extends JBinaryExpression {
         output.addNoArgInstruction(IREM);
     }
 
-    public JExpression analyze(Context context) {
-        lhs = (JExpression) lhs.analyze(context);
-        rhs = (JExpression) rhs.analyze(context);
-        lhs.type().mustMatchExpected(line(), Type.INT);
-        rhs.type().mustMatchExpected(line(), Type.INT);
-        type = Type.INT;
-        return this;
-    }
 
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
 }
 
 class JDivideOp extends JBinaryExpression {
@@ -98,15 +154,11 @@ class JDivideOp extends JBinaryExpression {
 		rhs.codegen(output);
 		output.addNoArgInstruction(IDIV);
 	}
-	
+
+
 	public JExpression analyze(Context context) {
-		lhs = (JExpression) lhs.analyze(context);
-		rhs = (JExpression) rhs.analyze(context);
-		lhs.type().mustMatchExpected(line(), Type.INT);
-		rhs.type().mustMatchExpected(line(), Type.INT);
-		type = Type.INT;
-		return this;
-	}
+        return analyze(context, Type.INT);
+    }
 }
 
 /**
@@ -214,12 +266,7 @@ class JSubtractOp extends JBinaryExpression {
      */
 
     public JExpression analyze(Context context) {
-        lhs = (JExpression) lhs.analyze(context);
-        rhs = (JExpression) rhs.analyze(context);
-        lhs.type().mustMatchExpected(line(), Type.INT);
-        rhs.type().mustMatchExpected(line(), Type.INT);
-        type = Type.INT;
-        return this;
+        return analyze(context, Type.INT);
     }
 
     /**
@@ -272,12 +319,7 @@ class JMultiplyOp extends JBinaryExpression {
      */
 
     public JExpression analyze(Context context) {
-        lhs = (JExpression) lhs.analyze(context);
-        rhs = (JExpression) rhs.analyze(context);
-        lhs.type().mustMatchExpected(line(), Type.INT);
-        rhs.type().mustMatchExpected(line(), Type.INT);
-        type = Type.INT;
-        return this;
+        return analyze(context, Type.INT);
     }
 
     /**
