@@ -61,6 +61,22 @@ abstract class JUnaryExpression extends JExpression {
 
 }
 
+class JUnaryPlusOp extends JUnaryExpression {
+    public JUnaryPlusOp(int line, JExpression arg) {
+        super(line, "+", arg);
+    }
+
+    public void codegen(CLEmitter output) {
+        output.addNoArgInstruction(ICONST_0);
+        arg.codegen(output);
+        output.addNoArgInstruction(IADD);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
 
 class JComplementOp extends JUnaryExpression {
     public JComplementOp(int line, JExpression arg) {
