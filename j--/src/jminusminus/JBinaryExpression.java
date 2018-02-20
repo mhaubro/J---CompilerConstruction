@@ -81,6 +81,55 @@ abstract class JBinaryExpression extends JExpression {
 
 }
 
+class JBitwiseOrOp extends JBinaryExpression {
+    public JBitwiseOrOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, "|", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(IOR);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+class JBitwiseXorOp extends JBinaryExpression {
+    public JBitwiseXorOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, "^", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(IXOR);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+class JBitwiseAndOp extends JBinaryExpression {
+    public JBitwiseAndOp(int line, JExpression lhs, JExpression rhs) {
+        super (line, "&", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        output.addNoArgInstruction(IAND);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+
 class JShiftLeftOp extends JBinaryExpression {
     public JShiftLeftOp(int line, JExpression lhs, JExpression rhs) {
         super (line, "<<", lhs, rhs);

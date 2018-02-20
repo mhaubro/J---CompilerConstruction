@@ -1022,15 +1022,59 @@ public class Parser {
     private JExpression conditionalAndExpression() {
         int line = scanner.token().line();
         boolean more = true;
-        JExpression lhs = equalityExpression();
+        JExpression lhs = bitwiseOrExpression();
         while (more) {
             if (have(LAND)) {
-                lhs = new JLogicalAndOp(line, lhs, equalityExpression());
+                lhs = new JLogicalAndOp(line, lhs, bitwiseOrExpression());
             } else {
                 more = false;
             }
         }
         return lhs;
+    }
+
+
+    private JExpression bitwiseOrExpression() {
+        int line = scanner.token().line();
+        boolean more = true;
+        JExpression lhs = bitwiseXorExpression();
+        while (more) {
+            if (have(BITWISE_OR)) {
+                lhs = new JBitwiseOrOp(line, lhs, bitwiseXorExpression());
+            } else {
+                more = false;
+            }
+        }
+        return lhs;
+    }
+
+    private JExpression bitwiseXorExpression() {
+        int line = scanner.token().line();
+        boolean more = true;
+        JExpression lhs = bitwiseAndExpression();
+        while (more) {
+            if (have(BITWISE_XOR)) {
+                lhs = new JBitwiseXorOp(line, lhs, bitwiseAndExpression());
+            } else {
+                more = false;
+            }
+        }
+        return lhs;
+    }
+
+    private JExpression bitwiseAndExpression() {
+        int line = scanner.token().line();
+        boolean more = true;
+        JExpression lhs = equalityExpression();
+        while (more) {
+            if (have(BITWISE_AND)) {
+                lhs = new JBitwiseAndOp(line, lhs, equalityExpression());
+            } else {
+                more = false;
+            }
+        }
+        return lhs;
+
     }
 
     /**
