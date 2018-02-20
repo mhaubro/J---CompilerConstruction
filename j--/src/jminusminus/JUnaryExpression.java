@@ -34,6 +34,13 @@ abstract class JUnaryExpression extends JExpression {
         this.arg = arg;
     }
 
+    public JExpression analyze(Context context, Type typeArg) {
+        arg = arg.analyze(context);
+        arg.type().mustMatchExpected(line(), typeArg);
+        type = typeArg;
+        return this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -53,6 +60,29 @@ abstract class JUnaryExpression extends JExpression {
     }
 
 }
+
+
+class JComplementOp extends JUnaryExpression {
+    public JComplementOp(int line, JExpression arg) {
+        super(line, "~", arg);
+    }
+
+    public void codegen(CLEmitter output) {
+        arg.codegen(output);
+        output.addNoArgInstruction(ICONST_M1);
+        output.addNoArgInstruction(IXOR);
+    }
+
+    public JExpression analyze(Context context) {
+        return analyze(context, Type.INT);
+    }
+}
+
+
+/**
+ * The AST node for a unary plus (+) expression.
+ */
+
 
 /**
  * The AST node for a unary negation (-) expression.

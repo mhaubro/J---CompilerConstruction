@@ -22,7 +22,8 @@ enum TokenKind {
             LPAREN("("), RPAREN(")"), LCURLY("{"), RCURLY("}"), LBRACK("["), RBRACK(
             "]"), SEMI(";"), COMMA(","), DOT("."), IDENTIFIER("<IDENTIFIER>"), INT_LITERAL(
             "<INT_LITERAL>"), CHAR_LITERAL("<CHAR_LITERAL>"), STRING_LITERAL(
-            "<STRING_LITERAL>"), ISHL("<<"), ISHR(">>"), IUSHR(">>>");
+            "<STRING_LITERAL>"), ISHL("<<"), ISHR(">>"), IUSHR(">>>"), COMPLEMENT("~"),
+            BITWISE_OR("|"), BITWISE_XOR("^"), BITWISE_AND("&");
 
     /** The token's string representation. */
     private String image;

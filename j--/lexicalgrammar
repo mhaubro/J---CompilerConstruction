@@ -47,9 +47,15 @@ PLUS_ASSIGN ::= "+="
 STAR        ::= "*"
 DIV 		::= "/"
 REM         ::= "%"
-LSHIFT      ::= "<<"
-RSHIFT      ::= ">>"
-LOGICRSHIFT ::= ">>>"
+ISHL        ::= "<<"
+ISHR        ::= ">>"
+IUSHR       ::= ">>>"
+COMPLEMENT  ::= "~"
+BITWISE_OR  ::= "|"
+BITWISE_XOR ::= "^"
+BITWISE_AND ::= "&"
+
+
 // Separators
 COMMA       ::= ","
 DOT         ::= "."

@@ -75,6 +75,8 @@ assignmentExpression ::= conditionalAndExpression  // must be a valid lhs
 conditionalAndExpression ::= equalityExpression // level 10
                                {LAND equalityExpression}
 
+
+
 equalityExpression ::= relationalExpression  // level 6
                          {EQUAL relationalExpression}
 
@@ -92,7 +94,7 @@ multiplicativeExpression ::= unaryExpression       // level 2
                                {(STAR | DIV | REM) unaryExpression}
 
 unaryExpression ::= INC unaryExpression  // level 1
-                  | MINUS unaryExpression
+                  | (MINUS | COMPLEMENT | PLUS) unaryExpression
                   | simpleUnaryExpression
 
 simpleUnaryExpression ::= LNOT unaryExpression
