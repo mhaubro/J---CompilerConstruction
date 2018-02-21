@@ -105,7 +105,21 @@ class Scanner {
                     while (ch != '\n' && ch != EOFCH) {
                         nextCh();
                     }
-                } else {
+                }
+                else if (ch == '*') {
+                    nextCh();
+                    while (ch != EOFCH) {
+                        if (ch == '*') {
+                            nextCh();
+                            if (ch == '/') {
+                                nextCh();
+                                break;
+                            }
+                        }
+                        nextCh();
+                    }
+                }
+                else {
                     return new TokenInfo(DIV, line);
                 }
             } else {
