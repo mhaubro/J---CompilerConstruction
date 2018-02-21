@@ -23,13 +23,16 @@ enum TokenKind {
             STRICTFP("strictfp"), SUPER("super"), SWITCH("switch"), SYNCHRONIZED("synchronized"),
             THIS("this"), THROW("throw"), THROWS("throws"), TRANSIENT("transient"), TRUE("true"),
             TRY("try"), VOID("void"), VOLATILE("volatile"), WHILE("while"), PLUS(
-            "+"), ASSIGN("="), DEC("--"), EQUAL("=="), GT(">"), INC("++"), LAND(
-            "&&"), LE("<="), LNOT("!"), MINUS("-"), PLUS_ASSIGN("+="), STAR("*"), DIV("/"), REM("%"),
+            "+"), ASSIGN("="), DEC("--"), EQUAL("=="), GE(">="), GT(">"), INC("++"), LOR("||"), LAND(
+            "&&"), LT("<"), LE("<="), LNOT("!"), MINUS("-"), PLUS_ASSIGN("+="), STAR("*"), DIV("/"), REM("%"),
             LPAREN("("), RPAREN(")"), LCURLY("{"), RCURLY("}"), LBRACK("["), RBRACK(
-            "]"), SEMI(";"), COMMA(","), DOT("."), IDENTIFIER("<IDENTIFIER>"), INT_LITERAL(
+            "]"), COLON(":"), SEMI(";"), COMMA(","), DOT("."), IDENTIFIER("<IDENTIFIER>"), INT_LITERAL(
             "<INT_LITERAL>"), CHAR_LITERAL("<CHAR_LITERAL>"), STRING_LITERAL(
             "<STRING_LITERAL>"), ISHL("<<"), ISHR(">>"), IUSHR(">>>"), COMPLEMENT("~"),
-            BITWISE_OR("|"), BITWISE_XOR("^"), BITWISE_AND("&");
+            BITWISE_OR("|"), BITWISE_XOR("^"), BITWISE_AND("&"), TERNARY("?"), NOT_EQUAL("!="),
+            DIV_ASSIGN("/="), MINUS_ASSIGN("-="), MULT_ASSIGN("*="), REM_ASSIGN("%="),
+            ISHR_ASSIGN(">>="), IUSHR_ASSIGN(">>>="), ISHL_ASSIGN("<<="), XOR_ASSIGN("^="),
+            OR_ASSIGN("|="), AND_ASSIGN("&=");
 
     /** The token's string representation. */
     private String image;

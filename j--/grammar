@@ -9,7 +9,9 @@ qualifiedIdentifier ::= IDENTIFIER {DOT IDENTIFIER}
 
 typeDeclaration ::= modifiers classDeclaration
 
-modifiers ::= {PUBLIC | PROTECTED | PRIVATE | STATIC | ABSTRACT}
+modifiers ::= {PUBLIC | PROTECTED | PRIVATE |
+                STATIC | ABSTRACT | VOLATILE |
+                FINAL  | SYNCHRONIZED}
 
 classDeclaration ::= CLASS IDENTIFIER 
                        [EXTENDS qualifiedIdentifier] 
