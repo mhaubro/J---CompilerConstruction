@@ -1,0 +1,14 @@
+
+j--/bin/
+
+*.class
+
+*.jar
+
+\.idea/ant\.xml
+
+\.idea/misc\.xml
+
+\.idea/modules\.xml
+
+\.idea/workspace\.xml
