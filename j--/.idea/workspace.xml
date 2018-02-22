@@ -4,10 +4,7 @@
     <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/grammar" afterPath="$PROJECT_DIR$/grammar" />
-      <change beforePath="$PROJECT_DIR$/lexicalgrammar" afterPath="$PROJECT_DIR$/lexicalgrammar" />
       <change beforePath="$PROJECT_DIR$/lib/j--.jar" afterPath="$PROJECT_DIR$/lib/j--.jar" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/Scanner.java" afterPath="$PROJECT_DIR$/src/jminusminus/Scanner.java" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/TokenInfo.java" afterPath="$PROJECT_DIR$/src/jminusminus/TokenInfo.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Scanner.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Scanner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/Scanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="200" column="40" lean-forward="false" selection-start-line="200" selection-start-column="40" selection-end-line="200" selection-end-column="40" />
+            <state relative-caret-position="350">
+              <caret line="364" column="36" lean-forward="false" selection-start-line="364" selection-start-column="36" selection-end-line="364" selection-end-column="36" />
               <folding>
                 <element signature="e#15147#15148#0" expanded="true" />
                 <element signature="e#15192#15193#0" expanded="true" />
@@ -38,21 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="grammar" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/grammar">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="850">
-              <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="TokenInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/TokenInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="31" column="82" lean-forward="false" selection-start-line="31" selection-start-column="82" selection-end-line="31" selection-end-column="82" />
+            <state relative-caret-position="494">
+              <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
               <folding>
                 <element signature="e#2767#2768#0" expanded="true" />
                 <element signature="e#2795#2796#0" expanded="true" />
@@ -61,10 +48,40 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="JMinusMinusTestRunner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/junit/JMinusMinusTestRunner.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="455">
+              <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DivisionTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tests/junit/DivisionTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="550">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="grammar" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/grammar">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="250">
+              <caret line="51" column="64" lean-forward="false" selection-start-line="51" selection-start-column="64" selection-end-line="51" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="lexicalgrammar" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lexicalgrammar">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
+            <state relative-caret-position="75">
               <caret line="97" column="22" lean-forward="false" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
               <folding />
             </state>
@@ -168,22 +185,6 @@
               <item name="j--" type="b2602c69:ProjectViewProjectNode" />
               <item name="j--" type="462c0819:PsiDirectoryNode" />
               <item name="bin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="j--" type="b2602c69:ProjectViewProjectNode" />
-              <item name="j--" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="j--" type="b2602c69:ProjectViewProjectNode" />
-              <item name="j--" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="jminusminus" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="j--" type="b2602c69:ProjectViewProjectNode" />
-              <item name="j--" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -335,7 +336,7 @@
       <workItem from="1519049103888" duration="623000" />
       <workItem from="1519051853100" duration="7436000" />
       <workItem from="1519060595327" duration="3476000" />
-      <workItem from="1519069056364" duration="21380000" />
+      <workItem from="1519069056364" duration="24462000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented &lt;&lt;, &gt;&gt; and &gt;&gt;&gt;">
       <created>1519063153564</created>
@@ -386,11 +387,18 @@
       <option name="project" value="LOCAL" />
       <updated>1519246912776</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="All code for step 1 complete. Lexical grammar complete but the grammar file still needs to be finished.">
+      <created>1519253112634</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1519253112634</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32915000" />
+    <option name="totallyTimeSpent" value="35997000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -448,7 +456,8 @@
     <MESSAGE value="Unary plus implemented and tested. Step 0 is now complete." />
     <MESSAGE value="Block comments implemented." />
     <MESSAGE value="Reserved Keywords from step 1 added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reserved Keywords from step 1 added." />
+    <MESSAGE value="All code for step 1 complete. Lexical grammar complete but the grammar file still needs to be finished." />
+    <option name="LAST_COMMIT_MESSAGE" value="All code for step 1 complete. Lexical grammar complete but the grammar file still needs to be finished." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -603,14 +612,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1341">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/junit/DivisionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -806,14 +807,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/junit/JMinusMinusTestRunner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/junit/ParserTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-348">
@@ -901,10 +894,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/lexicalgrammar">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="97" column="22" lean-forward="false" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/grammar">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="51" column="64" lean-forward="false" selection-start-line="51" selection-start-column="64" selection-end-line="51" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/TokenInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="33" column="13" lean-forward="false" selection-start-line="33" selection-start-column="13" selection-end-line="33" selection-end-column="13" />
+          <folding>
+            <element signature="e#2767#2768#0" expanded="true" />
+            <element signature="e#2795#2796#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/junit/JMinusMinusTestRunner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="455">
+          <caret line="27" column="45" lean-forward="false" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/junit/DivisionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/jminusminus/Scanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="200" column="40" lean-forward="false" selection-start-line="200" selection-start-column="40" selection-end-line="200" selection-end-column="40" />
+        <state relative-caret-position="350">
+          <caret line="364" column="36" lean-forward="false" selection-start-line="364" selection-start-column="36" selection-end-line="364" selection-end-column="36" />
           <folding>
             <element signature="e#15147#15148#0" expanded="true" />
             <element signature="e#15192#15193#0" expanded="true" />
@@ -915,33 +951,6 @@
             <element signature="e#16591#16592#0" expanded="true" />
             <element signature="e#16622#16623#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/TokenInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="31" column="82" lean-forward="false" selection-start-line="31" selection-start-column="82" selection-end-line="31" selection-end-column="82" />
-          <folding>
-            <element signature="e#2767#2768#0" expanded="true" />
-            <element signature="e#2795#2796#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lexicalgrammar">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1125">
-          <caret line="97" column="22" lean-forward="false" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/grammar">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="34" column="29" lean-forward="false" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-          <folding />
         </state>
       </provider>
     </entry>
