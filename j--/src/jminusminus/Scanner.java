@@ -390,6 +390,15 @@ class Scanner {
                 buffer.append(ch);
                 nextCh();
             }
+            if (ch == '.') {
+                buffer.append(ch);
+                nextCh();
+                while (isDigit(ch)) {
+                    buffer.append(ch);
+                    nextCh();
+                }
+                return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+            }
             return new TokenInfo(INT_LITERAL, buffer.toString(), line);
         default:
             if (isIdentifierStart(ch)) {
