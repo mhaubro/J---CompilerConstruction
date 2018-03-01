@@ -9,21 +9,30 @@ qualifiedIdentifier ::= IDENTIFIER {DOT IDENTIFIER}
 
 typeDeclaration ::= modifiers classDeclaration
 
-modifiers ::= {PUBLIC | PROTECTED | PRIVATE |
-                STATIC | ABSTRACT | VOLATILE |
-                FINAL  | SYNCHRONIZED}
+modifiers ::= {PUBLIC | PROTECTED | PRIVATE | CONST |
+                STATIC | ABSTRACT | VOLATILE | STRICTFP |
+                FINAL  | SYNCHRONIZED | TRANSIENT}
 
-classDeclaration ::= CLASS IDENTIFIER 
+classDeclaration ::= (CLASS) IDENTIFIER
                        [EXTENDS qualifiedIdentifier] 
+                       [IMPLEMENTS qualifiedIdentifier]
+                       [THROWS EXCEPTION]
+                       classBody | interfaceDeclaration
+
+interfaceDeclaration ::= (INTERFACE) IDENTIFIER
+                       [EXTENDS qualifiedIdentifier]
+                       [THROWS EXCEPTION]
                        classBody
+
 
 classBody ::= LCURLY {modifiers memberDecl} RCURLY
 
 memberDecl ::= IDENTIFIER            // constructor
                  formalParameters block
-             | (VOID | type) IDENTIFIER  // method
+             | (VOID | type) [NATIVE] IDENTIFIER  // method
                  formalParameters
                  (block | SEMI)
+                 [THROWS EXCEPTION]
              | type variableDeclarators SEMI // field
 
 block ::= LCURLY {blockStatement} RCURLY 
@@ -33,13 +42,25 @@ blockStatement ::= localVariableDeclarationStatement
 
 statement ::= block
             | IF parExpression statement [ELSE statement]
-            | FOR LPAREN [variableInitializer] SEMI [conditionalExpression] SEMI [statementExpression] RPAREN statement
-            | WHILE parExpression statement
+            | FOR LPAREN [variableInitializer] SEMI [conditionalExpression] SEMI [statementExpression] RPAREN (statement)
+            | WHILE parExpression (statement)
+            | DO statement WHILE parExpression
+            | CASE (expression | DEFAULT) COLON
             | RETURN [expression] SEMI
-            | SEMI 
+            | BREAK SEMI
+            | CONTINUE SEMI
+            | SWITCH ((CASE COLON statement) | (DEFAULT COLON statement))
+            | THROW expression SEMI
+            | TRY block (catch | (catch FINALLY block))
+            | SEMI
             | statementExpression SEMI
 
-formalParameters ::= LPAREN 
+
+catch           ::= CATCH LPAREN [modifiers] typeDeclaration IDENTIFIER RPAREN block
+
+
+
+formalParameters ::= LPAREN
                        [formalParameter {COMMA formalParameter}]
                      RPAREN
 
@@ -63,7 +84,7 @@ arguments ::= LPAREN [expression {COMMA expression}] RPAREN
 
 type ::= referenceType | basicType
 
-basicType ::= BOOLEAN | CHAR | INT 
+basicType ::= BOOLEAN | CHAR | INT | BYTE | DOUBLE | FLOAT | LONG | SHORT
 
 referenceType ::= basicType LBRACK RBRACK {LBRACK RBRACK}
                 | qualifiedIdentifier {LBRACK RBRACK}
@@ -147,5 +168,5 @@ creator ::= (basicType | qualifiedIdentifier)
 newArrayDeclarator ::= LBRACK expression RBRACK 
                          {LBRACK expression RBRACK} {LBRACK RBRACK}
 
-literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL
+literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL | FLOAT_LITERAL
           | TRUE        | FALSE        | NULL
