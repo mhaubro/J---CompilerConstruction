@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="j--" default="all">
+  
+  
+  <property file="j--.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+    <include name="*.ear"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.9.0" value="${jdk.home.9.0}/bin"/>
+  <path id="jdk.classpath.9.0">
+    <fileset dir="${jdk.home.9.0}">
+      <include name="../java-9-openjdk!/java.activation"/>
+      <include name="../java-9-openjdk!/java.base"/>
+      <include name="../java-9-openjdk!/java.compiler"/>
+      <include name="../java-9-openjdk!/java.corba"/>
+      <include name="../java-9-openjdk!/java.datatransfer"/>
+      <include name="../java-9-openjdk!/java.desktop"/>
+      <include name="../java-9-openjdk!/java.instrument"/>
+      <include name="../java-9-openjdk!/java.logging"/>
+      <include name="../java-9-openjdk!/java.management"/>
+      <include name="../java-9-openjdk!/java.management.rmi"/>
+      <include name="../java-9-openjdk!/java.naming"/>
+      <include name="../java-9-openjdk!/java.prefs"/>
+      <include name="../java-9-openjdk!/java.rmi"/>
+      <include name="../java-9-openjdk!/java.scripting"/>
+      <include name="../java-9-openjdk!/java.se"/>
+      <include name="../java-9-openjdk!/java.se.ee"/>
+      <include name="../java-9-openjdk!/java.security.jgss"/>
+      <include name="../java-9-openjdk!/java.security.sasl"/>
+      <include name="../java-9-openjdk!/java.smartcardio"/>
+      <include name="../java-9-openjdk!/java.sql"/>
+      <include name="../java-9-openjdk!/java.sql.rowset"/>
+      <include name="../java-9-openjdk!/java.transaction"/>
+      <include name="../java-9-openjdk!/java.xml"/>
+      <include name="../java-9-openjdk!/java.xml.bind"/>
+      <include name="../java-9-openjdk!/java.xml.crypto"/>
+      <include name="../java-9-openjdk!/java.xml.ws"/>
+      <include name="../java-9-openjdk!/java.xml.ws.annotation"/>
+      <include name="../java-9-openjdk!/jdk.accessibility"/>
+      <include name="../java-9-openjdk!/jdk.aot"/>
+      <include name="../java-9-openjdk!/jdk.attach"/>
+      <include name="../java-9-openjdk!/jdk.charsets"/>
+      <include name="../java-9-openjdk!/jdk.compiler"/>
+      <include name="../java-9-openjdk!/jdk.crypto.cryptoki"/>
+      <include name="../java-9-openjdk!/jdk.crypto.ec"/>
+      <include name="../java-9-openjdk!/jdk.dynalink"/>
+      <include name="../java-9-openjdk!/jdk.editpad"/>
+      <include name="../java-9-openjdk!/jdk.hotspot.agent"/>
+      <include name="../java-9-openjdk!/jdk.httpserver"/>
+      <include name="../java-9-openjdk!/jdk.incubator.httpclient"/>
+      <include name="../java-9-openjdk!/jdk.internal.ed"/>
+      <include name="../java-9-openjdk!/jdk.internal.jvmstat"/>
+      <include name="../java-9-openjdk!/jdk.internal.le"/>
+      <include name="../java-9-openjdk!/jdk.internal.opt"/>
+      <include name="../java-9-openjdk!/jdk.internal.vm.ci"/>
+      <include name="../java-9-openjdk!/jdk.internal.vm.compiler"/>
+      <include name="../java-9-openjdk!/jdk.jartool"/>
+      <include name="../java-9-openjdk!/jdk.javadoc"/>
+      <include name="../java-9-openjdk!/jdk.jcmd"/>
+      <include name="../java-9-openjdk!/jdk.jconsole"/>
+      <include name="../java-9-openjdk!/jdk.jdeps"/>
+      <include name="../java-9-openjdk!/jdk.jdi"/>
+      <include name="../java-9-openjdk!/jdk.jdwp.agent"/>
+      <include name="../java-9-openjdk!/jdk.jlink"/>
+      <include name="../java-9-openjdk!/jdk.jshell"/>
+      <include name="../java-9-openjdk!/jdk.jsobject"/>
+      <include name="../java-9-openjdk!/jdk.jstatd"/>
+      <include name="../java-9-openjdk!/jdk.localedata"/>
+      <include name="../java-9-openjdk!/jdk.management"/>
+      <include name="../java-9-openjdk!/jdk.management.agent"/>
+      <include name="../java-9-openjdk!/jdk.naming.dns"/>
+      <include name="../java-9-openjdk!/jdk.naming.rmi"/>
+      <include name="../java-9-openjdk!/jdk.net"/>
+      <include name="../java-9-openjdk!/jdk.pack"/>
+      <include name="../java-9-openjdk!/jdk.policytool"/>
+      <include name="../java-9-openjdk!/jdk.rmic"/>
+      <include name="../java-9-openjdk!/jdk.scripting.nashorn"/>
+      <include name="../java-9-openjdk!/jdk.scripting.nashorn.shell"/>
+      <include name="../java-9-openjdk!/jdk.sctp"/>
+      <include name="../java-9-openjdk!/jdk.security.auth"/>
+      <include name="../java-9-openjdk!/jdk.security.jgss"/>
+      <include name="../java-9-openjdk!/jdk.unsupported"/>
+      <include name="../java-9-openjdk!/jdk.xml.bind"/>
+      <include name="../java-9-openjdk!/jdk.xml.dom"/>
+      <include name="../java-9-openjdk!/jdk.xml.ws"/>
+      <include name="../java-9-openjdk!/jdk.zipfs"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.9.0}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.9.0}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.9.0"/>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  <import file="${basedir}/j--/module_j--.xml"/>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.j--" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.j--" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

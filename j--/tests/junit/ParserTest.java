@@ -44,6 +44,27 @@ public class ParserTest extends TestCase {
             }
         }
 
+        /*Testing only parser stuff*/
+        passTestsDir = new File(System.getProperty("PASS_TESTS_DIR") + "/ParserTests");
+        files = passTestsDir.listFiles();
+        for (int i = 0; files != null && i < files.length; i++) {
+            if (files[i].toString().endsWith(".java")) {
+                String[] args = null;
+                System.out.printf("Running handwritten parser on %s ...\n\n",
+                        files[i].toString());
+                args = new String[] { "-p", files[i].toString() };
+                Main.main(args);
+                System.out.printf("\n\n");
+
+                // true even if a single test fails
+                errorHasOccurred |= Main.errorHasOccurred();
+            }
+        }
+
+
+
+
+
         // We want all tests to pass
         assertFalse(errorHasOccurred);
     }
