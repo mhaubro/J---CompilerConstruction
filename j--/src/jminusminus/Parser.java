@@ -170,6 +170,17 @@ public class Parser {
         return result;
     }
 
+    /*
+        Are we seeing an initialization block?
+
+     */
+    private boolean seeInitBlock() {
+        scanner.recordPosition();
+        boolean result = (have(STATIC) && see(LCURLY)) || (have(LCURLY));
+        scanner.returnToPosition();
+        return result;
+    }
+
     /**
      * Are we looking at a cast? ie.
      * 
@@ -554,7 +565,18 @@ public class Parser {
             JBlock body = block();
             memberDecl = new JConstructorDeclaration(line, mods, name, params,
                     body);
-        } else {
+        }
+        else if (seeInitBlock()) {
+            if (have(LCURLY)) {
+                memberDecl = null;
+            }
+            else {
+                mustBe(STATIC);
+                mustBe(LCURLY);
+                memberDecl = null;
+            }
+        }
+        else {
             Type type = null;
             if (have(VOID)) {
                 // void method
