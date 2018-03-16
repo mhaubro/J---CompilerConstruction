@@ -100,7 +100,7 @@ assignmentExpression ::= ternaryExpression  // must be a valid lhs
                             XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN) assignmentExpression]
 
 ternaryExpression           ::= conditionalOrExpression // level 12
-                                {TERNARY conditionalOrExpression}
+                                {TERNARY conditionalOr COLON conditionalOr}
 
 conditionalOrExpression     ::= conditionalAndExpression // level 11
                                 {LOR conditionalAndExpression}

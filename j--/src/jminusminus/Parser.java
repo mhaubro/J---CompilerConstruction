@@ -1011,7 +1011,7 @@ public class Parser {
 
     private JExpression assignmentExpression() {
         int line = scanner.token().line();
-        JExpression lhs = conditionalOrExpression();
+        JExpression lhs = ternaryExpression();
         if (have(ASSIGN)) {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
@@ -1027,6 +1027,30 @@ public class Parser {
         } else {
             return lhs;
         }
+    }
+
+
+    /*
+     * Parses a ternary expression. Is of the format
+     *     ternaryExpression           ::= conditionalOrExpression // level 12
+     *                           {TERNARY conditionalOr COLON conditionalOr}
+     */
+    private JExpression ternaryExpression() {
+        int line = scanner.token().line();
+        boolean more = true;
+        JExpression lhs = conditionalOrExpression();
+        while (more) {
+            /* Format is lhs ? middle : rhs; */
+            if (have(TERNARY)) {
+                JExpression middle = conditionalOrExpression();
+                mustBe(COLON);
+                JExpression rhs = conditionalOrExpression();
+                lhs = new JTernaryExpression(line, lhs, middle, rhs);
+            } else {
+                more = false;
+            }
+        }
+        return lhs;
     }
 
     /**
