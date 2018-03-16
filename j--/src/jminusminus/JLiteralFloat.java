@@ -10,7 +10,7 @@ import static jminusminus.CLConstants.*;
 
 class JLiteralFloat extends JExpression {
 
-    /** String representation of the int. */
+    /** String representation of the float. */
     private String text;
 
     /**
