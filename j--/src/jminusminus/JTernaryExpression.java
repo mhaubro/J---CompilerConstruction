@@ -60,11 +60,11 @@ public class JTernaryExpression extends JExpression {
 		p.printf("<JTernaryExpression line=\"%d\" type=\"%s\"/>\n",
 				line(), ((type == null) ? "" : type.toString()));
 		p.indentRight();
-		p.printf("<ConditionalExpression>\n");
+		p.printf("<BooleanExpression>\n");
 		p.indentRight();
 		lhs.writeToStdOut(p);
 		p.indentLeft();
-		p.printf("</ConditionalExpression>\n");
+		p.printf("</BooleanExpression>\n");
 		p.printf("<TrueResult>\n");
 		p.indentRight();
 		middle.writeToStdOut(p);
