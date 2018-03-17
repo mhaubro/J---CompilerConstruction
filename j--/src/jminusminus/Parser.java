@@ -2,6 +2,7 @@
 
 package jminusminus;
 
+import java.beans.Expression;
 import java.util.ArrayList;
 import static jminusminus.TokenKind.*;
 
@@ -635,6 +636,25 @@ public class Parser {
         }
     }
 
+
+    /**
+     * Parse a block statement.
+     *
+     * <pre>
+     *   blockStatement ::= localVariableDeclarationStatement
+     *                    | statement
+     * </pre>
+     *
+     * @return an AST for a blockStatement.
+     */
+
+    private ArrayList<JCatchClause> catchClauses() {
+
+        return null;
+    }
+
+
+
     /**
      * Parse a statement.
      * 
@@ -643,6 +663,7 @@ public class Parser {
      *               | IF parExpression statement [ELSE statement]
      *               | WHILE parExpression statement 
      *               | RETURN [expression] SEMI
+     *               | throw Expression SEMI
      *               | SEMI 
      *               | statementExpression SEMI
      * </pre>
@@ -671,7 +692,25 @@ public class Parser {
                 mustBe(SEMI);
                 return new JReturnStatement(line, expr);
             }
-        } else if (have(SEMI)) {
+        }
+        else if (have(THROW)) {
+            JExpression expr = expression();
+            mustBe(SEMI);
+            return new JThrowStatement(line, expr);
+        }
+        else if (have(TRY)) {
+            JBlock tryBlock = block();
+            ArrayList<JCatchClause> catches = new ArrayList<>();
+            JBlock finalBlock = null;
+            catches = catchClauses();
+            if (have(FINALLY)) {
+                finalBlock = block();
+            }
+
+            return new JTryCatchBlock(line, tryBlock, catches, finalBlock);
+
+        }
+        else if (have(SEMI)) {
             return new JEmptyStatement(line);
         } else { // Must be a statementExpression
             JStatement statement = statementExpression();
