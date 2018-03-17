@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JCatchClause.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JThrowStatement.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JTryCatchBlock.java" />
       <change beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lib/j--.jar" afterPath="$PROJECT_DIR$/lib/j--.jar" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/Parser.java" afterPath="$PROJECT_DIR$/src/jminusminus/Parser.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -385,7 +380,7 @@
       <workItem from="1521051204915" duration="3839000" />
       <workItem from="1521105405770" duration="550000" />
       <workItem from="1521136684494" duration="3411000" />
-      <workItem from="1521189461462" duration="27589000" />
+      <workItem from="1521189461462" duration="27717000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented &lt;&lt;, &gt;&gt; and &gt;&gt;&gt;">
       <created>1519063153564</created>
@@ -492,11 +487,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521314690273</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Have added necessary classes to support exception handling parsing. Still needs to implement printing and some parsing.">
+      <created>1521327659940</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1521327659940</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="80545000" />
+    <option name="totallyTimeSpent" value="80673000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -559,7 +561,8 @@
     <MESSAGE value="Initializer parsing support added" />
     <MESSAGE value="Ternary expressions now properly represented in the AST" />
     <MESSAGE value="Throws exception parsed. Need to add throw, and try/catch/finally support." />
-    <option name="LAST_COMMIT_MESSAGE" value="Throws exception parsed. Need to add throw, and try/catch/finally support." />
+    <MESSAGE value="Have added necessary classes to support exception handling parsing. Still needs to implement printing and some parsing." />
+    <option name="LAST_COMMIT_MESSAGE" value="Have added necessary classes to support exception handling parsing. Still needs to implement printing and some parsing." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

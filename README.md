@@ -1,7 +1,10 @@
-### j-- Compiler Project
-####Step 0 - Complete!
-####Step 1 - Complete!
-####Step 2 - In progress
+## j-- Compiler Project
+
+###Step 0 - Complete!
+
+###Step 1 - Complete!
+
+###Step 2 - In progress
 
  Test | Status 
 ------|------
@@ -13,6 +16,8 @@
  Interface.java 			| Not Started 
  Operators.java 			| Not Started 
  
-####Step 3 - Not started
-####Step 4 - Not started
-####Step 5 - Not started
+###Step 3 - Not started
+
+###Step 4 - Not started
+
+###Step 5 - Not started
