@@ -32,7 +32,7 @@ memberDecl ::= IDENTIFIER            // constructor
              | (VOID | type) [NATIVE] IDENTIFIER  // method
                  formalParameters
                  (block | SEMI)
-                 [THROWS EXCEPTION]
+                 [THROWS EXCEPTION {COMMA EXCEPTION}]
              | type variableDeclarators SEMI // field
 
 block ::= LCURLY {blockStatement} RCURLY 

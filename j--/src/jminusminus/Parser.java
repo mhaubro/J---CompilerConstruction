@@ -551,8 +551,9 @@ public class Parser {
             mustBe(IDENTIFIER);
             String name = scanner.previousToken().image();
             ArrayList<JFormalParameter> params = formalParameters();
+            ArrayList<TypeName> except = exceptions();
             JBlock body = block();
-            memberDecl = new JConstructorDeclaration(line, mods, name, params,
+            memberDecl = new JConstructorDeclaration(line, mods, name, params, except,
                     body);
         }
         else if (see(LCURLY)) {
@@ -568,9 +569,10 @@ public class Parser {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
                 ArrayList<JFormalParameter> params = formalParameters();
+                ArrayList<TypeName> except = exceptions();
                 JBlock body = have(SEMI) ? null : block();
                 memberDecl = new JMethodDeclaration(line, mods, name, type,
-                        params, body);
+                        params, except, body);
             } else {
                 type = type();
                 if (seeIdentLParen()) {
@@ -578,9 +580,10 @@ public class Parser {
                     mustBe(IDENTIFIER);
                     String name = scanner.previousToken().image();
                     ArrayList<JFormalParameter> params = formalParameters();
+                    ArrayList<TypeName> except = exceptions();
                     JBlock body = have(SEMI) ? null : block();
                     memberDecl = new JMethodDeclaration(line, mods, name, type,
-                            params, body);
+                            params, except, body);
                 } else {
                     // Field
                     memberDecl = new JFieldDeclaration(line, mods,
@@ -676,6 +679,28 @@ public class Parser {
             return statement;
         }
     }
+
+    /**
+     * Parse Exceptions.
+     *
+     * <pre>
+     *   exceptions ::=  {THROWS [qualifiedIdentifier] {COMMA qualifiedIdentifier}}
+     * </pre>
+     *
+     * @return a list of exceptions.
+     */
+
+    private ArrayList<TypeName> exceptions() {
+        ArrayList<TypeName> except = new ArrayList<TypeName>();
+        if(have(THROWS)) {
+            except.add(qualifiedIdentifier());
+            while (have(COMMA)) {
+                except.add(qualifiedIdentifier());
+            }
+        }
+        return except;
+    }
+
 
     /**
      * Parse formal parameters.

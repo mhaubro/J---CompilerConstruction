@@ -24,6 +24,12 @@ class JMethodDeclaration
     /** The formal parameters. */
     protected ArrayList<JFormalParameter> params;
 
+    /** Exceptions thrown by this method
+     * This is an array of TypeName, which is j-- for
+     * qualifiedIdentifier
+     */
+    protected ArrayList<TypeName> exceptions;
+
     /** Method body. */
     protected JBlock body;
 
@@ -64,7 +70,7 @@ class JMethodDeclaration
 
     public JMethodDeclaration(int line, ArrayList<String> mods,
         String name, Type returnType,
-        ArrayList<JFormalParameter> params, JBlock body)
+        ArrayList<JFormalParameter> params, ArrayList<TypeName> exceptions, JBlock body)
 
     {
         super(line);
@@ -72,6 +78,7 @@ class JMethodDeclaration
         this.name = name;
         this.returnType = returnType;
         this.params = params;
+        this.exceptions = exceptions;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
@@ -243,6 +250,15 @@ class JMethodDeclaration
                 p.indentLeft();
             }
             p.println("</FormalParameters>");
+        }
+        if (exceptions != null) {
+            p.println("<Exceptions>");
+            p.indentRight();
+            for (TypeName ex : exceptions) {
+                p.printf("<Exception name=\"%s\"/>\n", ex.toString());
+            }
+            p.indentLeft();
+            p.println("</Exceptions>");
         }
         if (body != null) {
             p.println("<Body>");
