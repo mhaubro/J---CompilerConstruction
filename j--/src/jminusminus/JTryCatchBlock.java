@@ -36,6 +36,28 @@ public class JTryCatchBlock extends JStatement {
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {
-
+		p.printf("<JTryCatchBlock line=\"%d\">\n", line());
+		p.indentRight();
+		p.println("<Try>");
+		p.indentRight();
+		tryBlock.writeToStdOut(p);
+		p.indentLeft();
+		p.println("</Try>");
+		p.println("<Catches>");
+		p.indentRight();
+		for (JCatchClause cc : catches) {
+			cc.writeToStdOut(p);
+		}
+		p.indentLeft();
+		p.println("</Catches>");
+		if (finalBlock != null) {
+			p.println("<Finally>");
+			p.indentRight();
+			finalBlock.writeToStdOut(p);
+			p.indentLeft();
+			p.println("</Finally>");
+		}
+		p.indentLeft();
+		p.printf("</JTryCatchBlock>\n");
 	}
 }

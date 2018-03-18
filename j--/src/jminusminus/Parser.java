@@ -638,19 +638,31 @@ public class Parser {
 
 
     /**
-     * Parse a block statement.
+     * Parse all catch clauses following a try.
      *
      * <pre>
-     *   blockStatement ::= localVariableDeclarationStatement
-     *                    | statement
+     *   Catches ::= CatchClause {CatchClause}
      * </pre>
      *
      * @return an AST for a blockStatement.
      */
 
     private ArrayList<JCatchClause> catchClauses() {
-
-        return null;
+        int line = scanner.token().line();
+        ArrayList<JCatchClause> cc = new ArrayList<>();
+        scanner.recordPosition();
+        mustBe(CATCH);
+        scanner.returnToPosition();
+        while (have(CATCH)) {
+            mustBe(LPAREN);
+            TypeName ex = qualifiedIdentifier();
+            mustBe(IDENTIFIER);
+            String name = scanner.previousToken().image();
+            mustBe(RPAREN);
+            JBlock block = block();
+            cc.add(new JCatchClause(line, ex, name, block));
+        }
+        return cc;
     }
 
 
@@ -706,9 +718,7 @@ public class Parser {
             if (have(FINALLY)) {
                 finalBlock = block();
             }
-
             return new JTryCatchBlock(line, tryBlock, catches, finalBlock);
-
         }
         else if (have(SEMI)) {
             return new JEmptyStatement(line);
