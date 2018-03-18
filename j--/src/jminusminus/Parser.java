@@ -665,7 +665,21 @@ public class Parser {
         return cc;
     }
 
-
+    private boolean checkForType() {
+        boolean isRangeBased = false;
+        scanner.recordPosition();
+        while(!see(SEMI) && !see(COLON) && !see(EOF)) {
+            scanner.next();
+        }
+        if (have(COLON)) {
+            isRangeBased = true;
+        }
+        else if (!have(SEMI)){
+            reportParserError("Parser Error: Incorrect for loop usage.");
+        }
+        scanner.returnToPosition();
+        return isRangeBased;
+    }
 
     /**
      * Parse a statement.
@@ -696,7 +710,33 @@ public class Parser {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
-        } else if (have(RETURN)) {
+        }
+        else if (have(FOR)) {
+            JStatement body;
+            mustBe(LPAREN);
+            boolean isRangeBased = checkForType();
+
+            if (isRangeBased) {
+                return null;
+                //return new JRangeBasedFor(line, body, isRangeBased);
+            }
+            else {
+                JVariableDeclaration init;
+                JExpression condition;
+                ArrayList<JStatement> update = new ArrayList<>();
+                init = localVariableDeclarationStatement();
+                condition = expression();
+                mustBe(SEMI);
+                if (!have(RPAREN)) {
+                    do {
+                        update.add(statementExpression());
+                    } while(have(COMMA));
+                }
+                body = statement();
+                return new JTraditionalFor(line, init, condition, update, body, isRangeBased);
+            }
+        }
+        else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
             } else {
