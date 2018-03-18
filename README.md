@@ -8,10 +8,10 @@
 
  Test | Status 
 ------|------
- Blocks.java 				| Passed! 
- ConditionalExpress.java 	| Passed! 
- Double.java 				| Passed! 
- ExceptionHandler.java 	| In progress
+ Blocks.java 				| Complete! 
+ ConditionalExpression.java 	| Complete! 
+ Double.java 				| Complete! 
+ ExceptionHandler.java 	| Complete!
  ForStatement.java 		| Not Started 
  Interface.java 			| Not Started 
  Operators.java 			| Not Started 

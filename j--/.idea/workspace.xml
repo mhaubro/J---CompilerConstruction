@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="README update.">
+    <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/lib/j--.jar" afterPath="$PROJECT_DIR$/lib/j--.jar" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/JCatchClause.java" afterPath="$PROJECT_DIR$/src/jminusminus/JCatchClause.java" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/JTryCatchBlock.java" afterPath="$PROJECT_DIR$/src/jminusminus/JTryCatchBlock.java" />
-      <change beforePath="$PROJECT_DIR$/src/jminusminus/Parser.java" afterPath="$PROJECT_DIR$/src/jminusminus/Parser.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -381,7 +378,7 @@
       <workItem from="1521051204915" duration="3839000" />
       <workItem from="1521105405770" duration="550000" />
       <workItem from="1521136684494" duration="3411000" />
-      <workItem from="1521189461462" duration="30454000" />
+      <workItem from="1521189461462" duration="30507000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented &lt;&lt;, &gt;&gt; and &gt;&gt;&gt;">
       <created>1519063153564</created>
@@ -509,11 +506,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521327768917</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Exception handling for step 2 complete">
+      <created>1521331660047</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1521331660047</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83410000" />
+    <option name="totallyTimeSpent" value="83463000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -578,7 +582,8 @@
     <MESSAGE value="Throws exception parsed. Need to add throw, and try/catch/finally support." />
     <MESSAGE value="Have added necessary classes to support exception handling parsing. Still needs to implement printing and some parsing." />
     <MESSAGE value="README update." />
-    <option name="LAST_COMMIT_MESSAGE" value="README update." />
+    <MESSAGE value="Exception handling for step 2 complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Exception handling for step 2 complete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
