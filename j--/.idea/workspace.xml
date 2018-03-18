@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="Tradit">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JForStatement.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java" />
+    <list default="true" id="dbb45547-a724-46ab-bf5c-0c75c2ec8214" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../README.md" afterPath="$PROJECT_DIR$/../README.md" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/lib/j--.jar" afterPath="$PROJECT_DIR$/lib/j--.jar" />
+      <change beforePath="$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java" afterPath="$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java" />
+      <change beforePath="$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java" afterPath="$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java" />
       <change beforePath="$PROJECT_DIR$/src/jminusminus/Parser.java" afterPath="$PROJECT_DIR$/src/jminusminus/Parser.java" />
-      <change beforePath="$PROJECT_DIR$/tests/fail/SyntaxErrors.java" afterPath="$PROJECT_DIR$/tests/fail/SyntaxErrors.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -23,32 +22,52 @@
       <file leaf-file-name="Parser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="734" column="26" lean-forward="false" selection-start-line="734" selection-start-column="26" selection-end-line="734" selection-end-column="26" />
+            <state relative-caret-position="275">
+              <caret line="734" column="27" lean-forward="false" selection-start-line="734" selection-start-column="27" selection-end-line="734" selection-end-column="27" />
               <folding>
                 <element signature="e#10197#10207#0" expanded="true" />
                 <element signature="e#10382#10388#0" expanded="true" />
                 <element signature="e#12103#12111#0" expanded="true" />
                 <element signature="e#15399#15408#0" expanded="true" />
                 <element signature="e#18588#18600#0" expanded="true" />
-                <element signature="e#23888#23898#0" expanded="true" />
-                <element signature="e#24560#24578#0" expanded="true" />
-                <element signature="e#26122#26130#0" expanded="true" />
-                <element signature="e#26768#26789#0" expanded="true" />
-                <element signature="e#28621#28634#0" expanded="true" />
-                <element signature="e#29362#29375#0" expanded="true" />
-                <element signature="e#32669#32670#0" expanded="true" />
-                <element signature="e#32714#32715#0" expanded="true" />
-                <element signature="e#48574#48587#0" expanded="true" />
+                <element signature="e#24244#24254#0" expanded="true" />
+                <element signature="e#24916#24934#0" expanded="true" />
+                <element signature="e#26478#26486#0" expanded="true" />
+                <element signature="e#27124#27145#0" expanded="true" />
+                <element signature="e#28977#28990#0" expanded="true" />
+                <element signature="e#29718#29731#0" expanded="true" />
+                <element signature="e#33025#33026#0" expanded="true" />
+                <element signature="e#33070#33071#0" expanded="true" />
+                <element signature="e#48930#48943#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="JForStatement.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="JRangeBasedFor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="40" column="27" lean-forward="false" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JLiteralFloat.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/jminusminus/JLiteralFloat.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JForStatement.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/JForStatement.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="0">
               <caret line="10" column="12" lean-forward="false" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
               <folding>
                 <element signature="e#589#590#0" expanded="true" />
@@ -61,22 +80,9 @@
       <file leaf-file-name="JTraditionalFor.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="350">
-              <caret line="50" column="28" lean-forward="false" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+            <state relative-caret-position="125">
+              <caret line="41" column="34" lean-forward="false" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JRangeBasedFor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-              <folding>
-                <element signature="e#444#445#0" expanded="true" />
-                <element signature="e#482#483#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -84,7 +90,7 @@
       <file leaf-file-name="JVariableDeclarator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/JVariableDeclarator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3025">
+            <state relative-caret-position="175">
               <caret line="131" column="9" lean-forward="false" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
               <folding />
             </state>
@@ -155,8 +161,8 @@
         <option value="$PROJECT_DIR$/src/jminusminus/JCatchClause.java" />
         <option value="$PROJECT_DIR$/tests/fail/SyntaxErrors.java" />
         <option value="$PROJECT_DIR$/src/jminusminus/JForStatement.java" />
-        <option value="$PROJECT_DIR$/src/jminusminus/Parser.java" />
         <option value="$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java" />
+        <option value="$PROJECT_DIR$/src/jminusminus/Parser.java" />
         <option value="$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java" />
       </list>
     </option>
@@ -389,7 +395,7 @@
       <workItem from="1521105405770" duration="550000" />
       <workItem from="1521136684494" duration="3411000" />
       <workItem from="1521189461462" duration="38537000" />
-      <workItem from="1521377612816" duration="380000" />
+      <workItem from="1521377612816" duration="2032000" />
     </task>
     <task id="LOCAL-00001" summary="Implemented &lt;&lt;, &gt;&gt; and &gt;&gt;&gt;">
       <created>1519063153564</created>
@@ -531,11 +537,18 @@
       <option name="project" value="LOCAL" />
       <updated>1521331704093</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Traditional for support added. Range based for in progress. Note: SyntaxErrors.java was modified because it was passing, it originally failed due to the presence of a for loop.">
+      <created>1521378039910</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1521378039911</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="91873000" />
+    <option name="totallyTimeSpent" value="93525000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -548,7 +561,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -559,14 +571,14 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293979" sideWeight="0.50215983" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289941" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21893491" sideWeight="0.49784017" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.49784017" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289941" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16576675" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.17980562" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17980562" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
@@ -602,7 +614,8 @@
     <MESSAGE value="Have added necessary classes to support exception handling parsing. Still needs to implement printing and some parsing." />
     <MESSAGE value="README update." />
     <MESSAGE value="Exception handling for step 2 complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exception handling for step 2 complete" />
+    <MESSAGE value="Traditional for support added. Range based for in progress. Note: SyntaxErrors.java was modified because it was passing, it originally failed due to the presence of a for loop." />
+    <option name="LAST_COMMIT_MESSAGE" value="Traditional for support added. Range based for in progress. Note: SyntaxErrors.java was modified because it was passing, it originally failed due to the presence of a for loop." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -774,14 +787,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="250">
           <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/JLiteralFloat.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-781">
-          <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
           <folding />
         </state>
       </provider>
@@ -982,48 +987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="734" column="26" lean-forward="false" selection-start-line="734" selection-start-column="26" selection-end-line="734" selection-end-column="26" />
-          <folding>
-            <element signature="e#10197#10207#0" expanded="true" />
-            <element signature="e#10382#10388#0" expanded="true" />
-            <element signature="e#12103#12111#0" expanded="true" />
-            <element signature="e#15399#15408#0" expanded="true" />
-            <element signature="e#18588#18600#0" expanded="true" />
-            <element signature="e#23888#23898#0" expanded="true" />
-            <element signature="e#24560#24578#0" expanded="true" />
-            <element signature="e#26122#26130#0" expanded="true" />
-            <element signature="e#26768#26789#0" expanded="true" />
-            <element signature="e#28621#28634#0" expanded="true" />
-            <element signature="e#29362#29375#0" expanded="true" />
-            <element signature="e#32669#32670#0" expanded="true" />
-            <element signature="e#32714#32715#0" expanded="true" />
-            <element signature="e#48574#48587#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="50" column="28" lean-forward="false" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding>
-            <element signature="e#444#445#0" expanded="true" />
-            <element signature="e#482#483#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jminusminus/JVariableDeclaration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1040,22 +1003,69 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/jminusminus/JVariableDeclarator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3025">
-          <caret line="131" column="9" lean-forward="false" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/jminusminus/JForStatement.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="0">
           <caret line="10" column="12" lean-forward="false" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
           <folding>
             <element signature="e#589#590#0" expanded="true" />
             <element signature="e#607#608#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/JTraditionalFor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="41" column="34" lean-forward="false" selection-start-line="41" selection-start-column="34" selection-end-line="41" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/JVariableDeclarator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="131" column="9" lean-forward="false" selection-start-line="131" selection-start-column="9" selection-end-line="131" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/JLiteralFloat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="12" column="41" lean-forward="false" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="734" column="27" lean-forward="false" selection-start-line="734" selection-start-column="27" selection-end-line="734" selection-end-column="27" />
+          <folding>
+            <element signature="e#10197#10207#0" expanded="true" />
+            <element signature="e#10382#10388#0" expanded="true" />
+            <element signature="e#12103#12111#0" expanded="true" />
+            <element signature="e#15399#15408#0" expanded="true" />
+            <element signature="e#18588#18600#0" expanded="true" />
+            <element signature="e#24244#24254#0" expanded="true" />
+            <element signature="e#24916#24934#0" expanded="true" />
+            <element signature="e#26478#26486#0" expanded="true" />
+            <element signature="e#27124#27145#0" expanded="true" />
+            <element signature="e#28977#28990#0" expanded="true" />
+            <element signature="e#29718#29731#0" expanded="true" />
+            <element signature="e#33025#33026#0" expanded="true" />
+            <element signature="e#33070#33071#0" expanded="true" />
+            <element signature="e#48930#48943#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/jminusminus/JRangeBasedFor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="40" column="27" lean-forward="false" selection-start-line="40" selection-start-column="27" selection-end-line="40" selection-end-column="27" />
+          <folding />
         </state>
       </provider>
     </entry>

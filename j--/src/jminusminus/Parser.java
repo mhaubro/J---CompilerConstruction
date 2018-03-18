@@ -717,8 +717,14 @@ public class Parser {
             boolean isRangeBased = checkForType();
 
             if (isRangeBased) {
-                return null;
-                //return new JRangeBasedFor(line, body, isRangeBased);
+                Type type = type();
+                mustBe(IDENTIFIER);
+                String name = scanner.previousToken().image();
+                mustBe(COLON);
+                JExpression range = expression();
+                mustBe(RPAREN);
+                body = statement();
+                return new JRangeBasedFor(line, type, name, range, body, isRangeBased);
             }
             else {
                 JVariableDeclaration init;
@@ -728,10 +734,12 @@ public class Parser {
                 condition = expression();
                 mustBe(SEMI);
                 if (!have(RPAREN)) {
-                    do {
+                    update.add(statementExpression());
+                    while (have(COMMA)) {
                         update.add(statementExpression());
-                    } while(have(COMMA));
+                    }
                 }
+                mustBe(RPAREN);
                 body = statement();
                 return new JTraditionalFor(line, init, condition, update, body, isRangeBased);
             }

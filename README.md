@@ -12,7 +12,7 @@
  ConditionalExpression.java 	| Complete! 
  Double.java 				| Complete! 
  ExceptionHandler.java 	| Complete!
- ForStatement.java 		| Not Started 
+ ForStatement.java 		| Complete!
  Interface.java 			| Not Started 
  Operators.java 			| Not Started 
  

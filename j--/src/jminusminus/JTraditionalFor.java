@@ -51,7 +51,7 @@ public class JTraditionalFor extends JForStatement {
 		p.println("</Update>");
 		p.println("<Body>");
 		p.indentRight();
-		this.body.writeToStdOut(p);
+		body.writeToStdOut(p);
 		p.indentLeft();
 		p.println("</Body>");
 		p.indentLeft();
