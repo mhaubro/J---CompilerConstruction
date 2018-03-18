@@ -14,7 +14,7 @@
  ExceptionHandler.java 	| Complete!
  ForStatement.java 		| Complete!
  Interface.java 			| Not Started 
- Operators.java 			| Not Started 
+ Operators.java 			| Complete!
  
 ### Step 3 - Not started
 
