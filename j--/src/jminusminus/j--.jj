@@ -169,6 +169,7 @@ TOKEN:
 | < TRUE: "true" >
 | < VOID: "void" >
 | < WHILE: "while" >
+| < THROWS: "throws"> // Step 3
 }
 
 // Operators (these could be combined with the reserved words)
@@ -523,6 +524,7 @@ private JMember memberDecl( ArrayList<String>  mods ): {
     JBlock body = null;
     ArrayList<JVariableDeclarator> variableDeclarators = null;
     JMember memberDecl = null;
+	ArrayList<TypeName> excepts = null;
 }
 {
     try {
@@ -534,11 +536,12 @@ private JMember memberDecl( ArrayList<String>  mods ): {
                 name = token.image; 
             } 
             params = formalParameters() 
+			excepts = exceptions()
             body = block()
             { 
                 memberDecl = 
                 new JConstructorDeclaration( line, mods, 
-                                             name, params, body );
+                                             name, params, excepts, body );
             }
         ) |     
         LOOKAHEAD( ( <VOID> | type() ) <IDENTIFIER> <LPAREN> )
@@ -550,6 +553,7 @@ private JMember memberDecl( ArrayList<String>  mods ): {
             { line = token.beginLine; }
             <IDENTIFIER> { name = token.image; } 
             params = formalParameters() 
+			excepts = exceptions()
             ( 
                 body = block() | 
                 <SEMI> 
@@ -557,7 +561,7 @@ private JMember memberDecl( ArrayList<String>  mods ): {
             { 
                 memberDecl = 
                    new JMethodDeclaration( line, mods, name, 
-                                           type, params, body ); 
+                                           type, params, excepts, body ); 
             } 
         ) | 
         ( 
@@ -576,6 +580,38 @@ private JMember memberDecl( ArrayList<String>  mods ): {
     { return memberDecl; }
 }
 
+private ArrayList<TypeName> exceptions(): {
+	ArrayList<TypeName> excepts = new ArrayList<TypeName>();
+	TypeName id = null;
+}
+{
+	try {
+		<THROWS>
+		[
+			id = exception() { excepts.add(id); }
+			(
+				<COMMA> id = exception() { excepts.add(id); }
+			)*
+		]
+	}
+	catch(ParseException e) {
+		recoverFromError( new int[] {SEMI, EOF}, e);
+	}
+	{ return excepts; }
+}
+
+private TypeName exception(): {
+	int line = 0;
+	String name = "";
+}
+{
+	try {
+		<IDENTIFIER> { line = token.beginLine; name = token.image; }
+	} catch(ParseException e) {
+		recoverFromError( new int[] {SEMI, EOF}, e);
+	}
+	{ return new TypeName(line, name); }
+}
 /**
  * Parse a block.
  * 
