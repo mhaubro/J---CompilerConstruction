@@ -394,7 +394,7 @@ public class Parser {
      * Parse a type declaration.
      * 
      * <pre>
-     *   typeDeclaration ::= modifiers classDeclaration
+     *   typeDeclaration ::= modifiers (classDeclaration | interfaceDeclaration)
      * </pre>
      * 
      * @return an AST for a typeDeclaration.
@@ -402,7 +402,11 @@ public class Parser {
 
     private JAST typeDeclaration() {
         ArrayList<String> mods = modifiers();
-        return classDeclaration(mods);
+        if (see(CLASS))
+            return classDeclaration(mods);
+        else {
+            return interfaceDeclaration(mods);
+        }
     }
 
     /**
@@ -478,7 +482,8 @@ public class Parser {
      * 
      * <pre>
      *   classDeclaration ::= CLASS IDENTIFIER 
-     *                        [EXTENDS qualifiedIdentifier] 
+     *                        [EXTENDS qualifiedIdentifier]
+     *                        [IMPLEMENTS qualifiedIdentifier]
      *                        classBody
      * </pre>
      * 
@@ -496,12 +501,49 @@ public class Parser {
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
         Type superClass;
+        Type implInterface;
         if (have(EXTENDS)) {
             superClass = qualifiedIdentifier();
         } else {
             superClass = Type.OBJECT;
         }
-        return new JClassDeclaration(line, mods, name, superClass, classBody());
+        if (have(IMPLEMENTS)) {
+            implInterface = qualifiedIdentifier();
+        }
+        else {
+            implInterface = null;
+        }
+        return new JClassDeclaration(line, mods, name, superClass, implInterface, classBody());
+    }
+
+
+
+    /**
+     * Parse an interface declaration.
+     *
+     * <pre>
+     *   interfaceDeclaration ::= INTERFACE IDENTIFIER
+     *                        [EXTENDS qualifiedIdentifier]
+     *                        interfaceBody
+     * </pre>
+     *
+     *
+     * @param mods
+     *            the interface modifiers.
+     * @return an AST for a interfaceDeclaration.
+     */
+    private JInterfaceDeclaration interfaceDeclaration(ArrayList<String> mods) {
+        int line = scanner.token().line();
+        mustBe(INTERFACE);
+        mustBe(IDENTIFIER);
+        String name = scanner.previousToken().image();
+        Type superClass;
+        if (have(EXTENDS)) {
+            superClass = qualifiedIdentifier();
+        } else {
+            superClass = Type.OBJECT;
+        }
+        return new JInterfaceDeclaration(line, mods, name, superClass, interfaceBody());
     }
 
     /**
@@ -521,6 +563,28 @@ public class Parser {
         mustBe(LCURLY);
         while (!see(RCURLY) && !see(EOF)) {
             members.add(memberDecl(modifiers()));
+        }
+        mustBe(RCURLY);
+        return members;
+    }
+
+    /**
+     * Parse an interface body.
+     *
+     * <pre>
+     *   interfaceBody ::= LCURLY
+     *                   {modifiers memberDecl}
+     *                 RCURLY
+     * </pre>
+     *
+     * @return list of members in the class body.
+     */
+
+    private ArrayList<JMember> interfaceBody() {
+        ArrayList<JMember> members = new ArrayList<JMember>();
+        mustBe(LCURLY);
+        while (!see(RCURLY) && !see(EOF)) {
+            members.add(interfaceMemberDecl(modifiers()));
         }
         mustBe(RCURLY);
         return members;
@@ -593,6 +657,58 @@ public class Parser {
                 }
             }
         }
+        return memberDecl;
+    }
+
+    /**
+     * Parse an interface member declaration.
+     *
+     * <pre>
+     *   memberDecl ::= (VOID | type) IDENTIFIER  // method
+     *                    formalParameters
+     *                    (block | SEMI)
+     *                | type variableDeclarators SEMI
+     * </pre>
+     *
+     * @param mods
+     *            the class member modifiers.
+     * @return an AST for a memberDecl.
+     */
+
+    private JMember interfaceMemberDecl(ArrayList<String> mods) {
+        int line = scanner.token().line();
+        JMember memberDecl = null;
+		Type type = null;
+		if (have(VOID)) {
+			// void method
+			type = Type.VOID;
+			mustBe(IDENTIFIER);
+			String name = scanner.previousToken().image();
+			ArrayList<JFormalParameter> params = formalParameters();
+			ArrayList<TypeName> except = exceptions();
+			mustBe(SEMI);
+			JBlock body = null;
+			memberDecl = new JMethodDeclaration(line, mods, name, type,
+					params, except, body);
+		} else {
+			type = type();
+			if (seeIdentLParen()) {
+				// Non void method
+				mustBe(IDENTIFIER);
+				String name = scanner.previousToken().image();
+				ArrayList<JFormalParameter> params = formalParameters();
+				ArrayList<TypeName> except = exceptions();
+				mustBe(SEMI);
+				JBlock body = null;
+				memberDecl = new JMethodDeclaration(line, mods, name, type,
+						params, except, body);
+			} else {
+				// Field
+				memberDecl = new JFieldDeclaration(line, mods,
+						variableDeclarators(type));
+				mustBe(SEMI);
+			}
+		}
         return memberDecl;
     }
 
