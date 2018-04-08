@@ -66,7 +66,7 @@
 	       includeantruntime="false"
                debug="on">
             <!-- Uncomment the following to see compiler warnings. -->
-            <!-- <compilerarg value="-Xlint" />                    -->
+             <!--<compilerarg value="-Xlint" />-->
         </javac>
     </target>
 

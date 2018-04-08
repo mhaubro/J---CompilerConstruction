@@ -1292,14 +1292,14 @@ public class Parser {
     }
 
     /**
-     * Parse a conditional-and expression.
+     * Parse a conditional-or expression.
      * 
      * <pre>
-     *   conditionalAndExpression ::= equalityExpression // level 10
-     *                                  {LAND equalityExpression}
+     *   conditionalOrExpression ::= conditionalAndExpression // level 10
+     *                                  {LOR conditionalAndExpression}
      * </pre>
      * 
-     * @return an AST for a conditionalExpression.
+     * @return an AST for a conditionalOrExpression.
      */
 
     private JExpression conditionalOrExpression() {
@@ -1403,8 +1403,8 @@ public class Parser {
      * Parse a relational expression.
      * 
      * <pre>
-     *   relationalExpression ::= additiveExpression  // level 5
-     *                              [(GT | LE) additiveExpression 
+     *   relationalExpression ::= shiftExpression  // level 5
+     *                              [(GT | LE) shiftExpression 
      *                              | INSTANCEOF referenceType]
      * </pre>
      * 
@@ -1425,6 +1425,13 @@ public class Parser {
         }
     }
 
+	/**
+	Parse a shift expression 
+	
+	shiftExpression     ::= additiveExpression      // level 4
+                        [(LSHIFT | RSHIFT | LOGICRSHIFT)] additiveExpression
+	@return AST for a shift expression					
+	*/
     private JExpression shiftExpression() {
         int line = scanner.token().line();
         JExpression lhs = additiveExpression();
