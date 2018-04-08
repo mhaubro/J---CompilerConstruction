@@ -142,20 +142,41 @@ SKIP: {" "|"\t"|"\n"|"\r"|"\f"}
 // Single line comment -- ignored
 SKIP: {<SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>}
 
+// Multi line comment -- ignored
+SKIP: {<MULTI_LINE_COMMENT: "/*" (~["*"] | "*" ~["/"] )* "*/">}
+
 // Reserved words
 TOKEN:
 {
   < ABSTRACT: "abstract" >
 | < BOOLEAN: "boolean" >
+| < BREAK: "break" >
+| < BYTE: "byte" >
+| < CASE: "case" >
+| < CATCH: "catch" >
 | < CHAR: "char" >
 | < CLASS: "class" >
+| < CONST: "const" >
+| < CONTINUE: "continue" >
+| < DEFAULT_KEYWORD: "default" >
+| < DO: "do" >
+| < DOUBLE: "double" >
 | < ELSE: "else" >
 | < EXTENDS: "extends" >
+| < FINAL: "final" >
+| < FINALLY: "finally" >
+| < FLOAT: "float" >
+| < FOR: "for" >
 | < FALSE: "false" >
+| < GOTO: "goto" >
 | < IF: "if" >
+| < IMPLEMENTS: "implements" >
 | < IMPORT: "import" >
 | < INSTANCEOF: "instanceof" >
 | < INT: "int" >
+| < INTERFACE: "interface" >
+| < LONG: "long" >
+| < NATIVE: "native" >
 | < NEW: "new" >
 | < NULL: "null" >
 | < PACKAGE: "package">
@@ -163,13 +184,21 @@ TOKEN:
 | < PROTECTED: "protected" >
 | < PUBLIC: "public" >
 | < RETURN: "return" >
+| < SHORT: "short" >
 | < STATIC: "static" >
+| < STRICTFP: "strictfp" >
 | < SUPER: "super" >
+| < SWITCH: "switch" >
+| < SYNCHRONIZED: "synchronized" >
 | < THIS: "this" >
+| < THROW: "throw" >
+| < THROWS: "throws" >
+| < TRANSIENT: "transient" >
+| < TRY: "try" >
 | < TRUE: "true" >
 | < VOID: "void" >
+| < VOLATILE: "volatile" >
 | < WHILE: "while" >
-| < THROWS: "throws"> // Step 3
 }
 
 // Operators (these could be combined with the reserved words)
@@ -187,6 +216,30 @@ TOKEN:
 | < MINUS: "-" >
 | < PLUS_ASSIGN: "+=" >
 | < STAR: "*" >
+//Below is added from original
+| < QMARK: "?" >
+| < MINUS_ASSIGN: "-=" >
+| < LEFTSHIFT: "<<" >
+| < LEFTSHIFT_ASSIGN: "<<=" >
+| < MULT_ASSIGN: "*=" >
+| < L: "<" >
+| < TILDE: "~" >
+| < MOD: "%" >
+| < POW: "^" >
+| < NEQ: "!=" >
+| < MOD_ASSIGN: "%=" >
+| < POW_ASSIGN: "^=" >
+| < DIV: "/" >
+| < RIGHTSHIFT_ASSIGN: ">>=" >
+| < PIPE_ASSIGN: "|=" >
+| < DIV_ASSIGN: "/=" >
+| < PIPE: "|" >
+| < LOGICAL_RIGHTSHFIT: ">>>" >
+| < OR: "||" >
+| < LOGICAL_RIGHTSHFIT_ASSIGN: ">>>=" >
+| < BITWISE_AND: "&" >
+| < GE: ">=" >
+| < BITWISE_AND_ASSIGN: "&=" >
 }
 
 // Separators (these could be combined with the reserved words)
@@ -199,6 +252,7 @@ TOKEN:
 | < LBRACK: "[" >
 | < RBRACK: "]" >
 | < SEMI: ";" >
+| < COLON: ":" >
 | < COMMA: "," >
 | < DOT: "." >
 }
@@ -217,6 +271,7 @@ TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
+| < DOUBLE_LITERAL: (<INT_LITERAL> <DOT> (<DIGIT>)+)>
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
 }
@@ -586,8 +641,8 @@ private ArrayList<TypeName> exceptions(): {
 }
 {
 	try {
-		<THROWS>
 		[
+		<THROWS>
 			id = exception() { excepts.add(id); }
 			(
 				<COMMA> id = exception() { excepts.add(id); }
@@ -1051,7 +1106,8 @@ private Type basicType(): {
     try {
         <BOOLEAN> { type = Type.BOOLEAN; } |
         <CHAR> { type = Type.CHAR; } |
-        <INT> { type = Type.INT; }
+        <INT> { type = Type.INT; } |
+        <DOUBLE> { type = Type.DOUBLE; }
     } 
     catch ( ParseException e ) { 
         recoverFromError( new int[] { SEMI, EOF }, e ); 
@@ -1699,7 +1755,9 @@ private JExpression literal(): {
     try {
         <INT_LITERAL> 
         { expr = new JLiteralInt( token.beginLine, token.image ); } | 
-        <CHAR_LITERAL> 
+        <DOUBLE_LITERAL>
+        { expr = new JLiteralDouble( token.beginLine, token.image ); } |
+        <CHAR_LITERAL>
         { expr = new JLiteralChar( token.beginLine, token.image ); } |
         <STRING_LITERAL> 
         { expr = 

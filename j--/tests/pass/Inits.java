@@ -17,6 +17,9 @@ public class Inits {
         System.out.println(obj.ia[1][1]);
         System.out.println(obj.ia[1][2]);
         System.out.println((Object) obj.ia[2]);
+        /*
+        Oi there! ****
+         */
     }
 
 }

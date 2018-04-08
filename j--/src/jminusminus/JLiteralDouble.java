@@ -5,12 +5,12 @@ package jminusminus;
 import static jminusminus.CLConstants.*;
 
 /**
- * The AST node for an int literal.
+ * The AST node for an double literal.
  */
 
-class JLiteralFloat extends JExpression {
+class JLiteralDouble extends JExpression {
 
-    /** String representation of the float. */
+    /** String representation of the double. */
     private String text;
 
     /**
@@ -23,7 +23,7 @@ class JLiteralFloat extends JExpression {
      *            string representation of the literal.
      */
 
-    public JLiteralFloat(int line, String text) {
+    public JLiteralDouble(int line, String text) {
         super(line);
         this.text = text;
     }
@@ -51,6 +51,9 @@ class JLiteralFloat extends JExpression {
      */
 
     public void codegen(CLEmitter output) {
+        /*
+        TODO
+         */
         int i = Integer.parseInt(text);
         switch (i) {
             case 0:
@@ -78,7 +81,7 @@ class JLiteralFloat extends JExpression {
      */
 
     public void writeToStdOut(PrettyPrinter p) {
-        p.printf("<JLiteralFloat line=\"%d\" type=\"%s\" " + "value=\"%s\"/>\n",
+        p.printf("<JLiteralDouble line=\"%d\" type=\"%s\" " + "value=\"%s\"/>\n",
                 line(), ((type == null) ? "" : type.toString()), text);
     }
 
