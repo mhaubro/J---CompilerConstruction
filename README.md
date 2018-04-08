@@ -13,10 +13,10 @@
  Double.java 				| Complete! 
  ExceptionHandler.java 	| Complete!
  ForStatement.java 		| Complete!
- Interface.java 			| Not Started 
+ Interface.java 			| Complete! 
  Operators.java 			| Complete!
  
-### Step 3 - Not started
+### Step 3 - In Progress
 
 ### Step 4 - Not started
 
