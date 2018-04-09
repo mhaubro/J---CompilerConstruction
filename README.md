@@ -4,7 +4,7 @@
 
 ### Step 1 - Complete!
 
-### Step 2 - In progress
+### Step 2 - Complete!
 
  Test | Status 
 ------|------
@@ -17,6 +17,22 @@
  Operators.java 			| Complete!
  
 ### Step 3 - In Progress
+ Test | Status 
+------|------
+ AllTokens.java 				| Complete!
+ Blocks.java 	| Incomplete 
+ ConditionalExpression.java 				| Complete!
+ Double.java 	| Incomplete
+ ExceptionHandler.java 		| Incomplete
+ ForStatements.java 			| Incomplete 
+ Interface.java 			| Incomplete
+ Literals.java 				| Incomplete 
+ MultiLineComment.java 	| Incomplete 
+ Operators1.java 				| Incomplete 
+ Operators2.java 	| Incomplete
+ PassTests.java 		| Incomplete
+ ReservedWords.java 			| Incomplete 
+ Separators.java 			| Incomplete
 
 ### Step 4 - Not started
 
