@@ -51,12 +51,12 @@ statement ::= block
             | CONTINUE SEMI
             | SWITCH ((CASE COLON statement) | (DEFAULT COLON statement))
             | THROW expression SEMI
-            | TRY block (catch | (catch FINALLY block))
+            | TRY block catch [FINALLY block]
             | SEMI
             | statementExpression SEMI
 
 
-catch           ::= CATCH LPAREN [modifiers] typeDeclaration IDENTIFIER RPAREN block
+catch           ::= (CATCH LPAREN [modifiers] typeDeclaration IDENTIFIER RPAREN block)+
 
 
 

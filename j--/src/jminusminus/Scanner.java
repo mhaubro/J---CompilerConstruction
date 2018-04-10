@@ -375,6 +375,9 @@ class Scanner {
         case '0':
             // Handle only simple decimal integers for now.
             nextCh();
+            if (ch == '.') {
+
+            }
             return new TokenInfo(INT_LITERAL, "0", line);
         case '1':
         case '2':

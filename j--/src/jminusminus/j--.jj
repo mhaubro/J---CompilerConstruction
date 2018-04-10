@@ -673,6 +673,45 @@ private ArrayList<TypeName> exceptions(): {
 	{ return excepts; }
 }
 
+/**
+ * Parse all catch clauses following a try.
+ *
+ * <pre>
+ *   Catches ::= CatchClause {CatchClause}
+ * </pre>
+ *
+ * @return an AST for a blockStatement.
+ */
+
+private ArrayList<JCatchClause> catchClauses() : {
+	int line = 0;
+	ArrayList<String> mods = null;
+	ArrayList<JCatchClause> cc = new ArrayList<JCatchClause>();
+	TypeName typeDecl = null;
+	String name = "";
+	JBlock block=  null;
+}
+{
+	try {
+		(
+			<CATCH> { line = token.beginLine; }
+			<LPAREN>
+			mods = modifiers()
+			typeDecl = qualifiedIdentifier()
+			<IDENTIFIER> { name = token.image; }
+			<RPAREN>
+			block = block()
+			{ cc.add(new JCatchClause(line, mods, typeDecl, name, block)); }
+		)+
+	}
+	catch(ParseException e) {
+		recoverFromError( new int[] {SEMI, EOF}, e);
+	}
+	{ return cc; }	
+}
+
+
+
 private TypeName exception(): {
 	int line = 0;
 	String name = "";
@@ -749,6 +788,8 @@ private JStatement blockStatement(): {
  *               | IF parExpression statement [ELSE statement]
  *               | WHILE parExpression statement 
  *               | RETURN [expression] SEMI
+ *				 | THROW expression SEMI
+ *            	 | TRY block (catch | (catch FINALLY block))
  *               | SEMI 
  *               | statementExpression SEMI
  * </pre>
@@ -764,6 +805,11 @@ private JStatement statement(): {
     JStatement alternate = null;
     JStatement body = null;
     JExpression expr = null;
+	
+	JBlock tryBlock = null;
+	ArrayList<JCatchClause> catches = null;
+	JBlock finalBlock = null;
+	
 }
 {       
     try {
@@ -792,6 +838,19 @@ private JStatement statement(): {
         ] 
         <SEMI>
         { statement = new JReturnStatement( line, expr ); } |
+		<THROW> { line = token.beginLine; }
+		expr = expression()
+		<SEMI>
+		{ statement = new JThrowStatement( line, expr); } |
+		<TRY> { line = token.beginLine; }
+		tryBlock = block()
+		catches = catchClauses()
+		[
+			<FINALLY>
+			finalBlock = block()
+		]
+		{ statement = new JTryCatchBlock(line, tryBlock, catches, finalBlock); }
+		|
         <SEMI> 
         { statement = new JEmptyStatement( line ); } |
         // Must be a statementExpression

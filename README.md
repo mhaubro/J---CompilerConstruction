@@ -8,7 +8,7 @@
 
  Test | Status 
 ------|------
- Blocks.java 				| Complete! 
+ Blocks.java 				| Incomplete
  ConditionalExpression.java 	| Complete! 
  Double.java 				| Complete! 
  ExceptionHandler.java 	| Complete!
@@ -22,8 +22,8 @@
  AllTokens.java 				| Complete!
  Blocks.java 	| Complete!
  ConditionalExpression.java 				| Complete!
- Double.java 	| Complete
- ExceptionHandler.java 		| Incomplete
+ Double.java 	| Complete!
+ ExceptionHandlers.java 		| Complete!
  ForStatements.java 			| Incomplete 
  Interface.java 			| Incomplete
  Literals.java 				| Incomplete 

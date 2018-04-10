@@ -765,18 +765,20 @@ public class Parser {
 
     private ArrayList<JCatchClause> catchClauses() {
         int line = scanner.token().line();
+        ArrayList<String> mods = new ArrayList<>();
         ArrayList<JCatchClause> cc = new ArrayList<>();
         scanner.recordPosition();
         mustBe(CATCH);
         scanner.returnToPosition();
         while (have(CATCH)) {
             mustBe(LPAREN);
+            mods = modifiers();
             TypeName ex = qualifiedIdentifier();
             mustBe(IDENTIFIER);
             String name = scanner.previousToken().image();
             mustBe(RPAREN);
             JBlock block = block();
-            cc.add(new JCatchClause(line, ex, name, block));
+            cc.add(new JCatchClause(line, mods, ex, name, block));
         }
         return cc;
     }
