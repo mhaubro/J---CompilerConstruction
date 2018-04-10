@@ -8,7 +8,7 @@
 
  Test | Status 
 ------|------
- Blocks.java 				| Incomplete
+ Blocks.java 				| Complete!
  ConditionalExpression.java 	| Complete! 
  Double.java 				| Complete! 
  ExceptionHandler.java 	| Complete!

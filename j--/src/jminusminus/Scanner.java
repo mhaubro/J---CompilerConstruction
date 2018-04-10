@@ -375,10 +375,9 @@ class Scanner {
         case '0':
             // Handle only simple decimal integers for now.
             nextCh();
-            if (ch == '.') {
-
+            if (ch != '.') {
+                return new TokenInfo(INT_LITERAL, "0", line);
             }
-            return new TokenInfo(INT_LITERAL, "0", line);
         case '1':
         case '2':
         case '3':
@@ -400,7 +399,10 @@ class Scanner {
                     buffer.append(ch);
                     nextCh();
                 }
-                return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+                if (ch == 'D') {
+                    nextCh();
+                }
+                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
             }
             return new TokenInfo(INT_LITERAL, buffer.toString(), line);
         default:
