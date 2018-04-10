@@ -27,17 +27,17 @@
       <file leaf-file-name="Scanner.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/jminusminus/Scanner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="629">
-              <caret line="404" column="58" lean-forward="false" selection-start-line="404" selection-start-column="58" selection-end-line="404" selection-end-column="58" />
+            <state relative-caret-position="300">
+              <caret line="382" column="16" lean-forward="false" selection-start-line="382" selection-start-column="16" selection-end-line="382" selection-end-column="16" />
               <folding>
-                <element signature="e#15583#15584#0" expanded="true" />
-                <element signature="e#15628#15629#0" expanded="true" />
-                <element signature="e#16647#16648#0" expanded="true" />
-                <element signature="e#16706#16707#0" expanded="true" />
-                <element signature="e#16862#16863#0" expanded="true" />
-                <element signature="e#16894#16895#0" expanded="true" />
-                <element signature="e#17027#17028#0" expanded="true" />
-                <element signature="e#17058#17059#0" expanded="true" />
+                <element signature="e#16043#16044#0" expanded="true" />
+                <element signature="e#16088#16089#0" expanded="true" />
+                <element signature="e#17107#17108#0" expanded="true" />
+                <element signature="e#17166#17167#0" expanded="true" />
+                <element signature="e#17322#17323#0" expanded="true" />
+                <element signature="e#17354#17355#0" expanded="true" />
+                <element signature="e#17487#17488#0" expanded="true" />
+                <element signature="e#17518#17519#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -363,7 +363,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523380735064</updated>
-      <workItem from="1523380747399" duration="5875000" />
+      <workItem from="1523380747399" duration="6306000" />
     </task>
     <task id="LOCAL-00001" summary="Just realized we aren't passing Step 2 because Double scanning was not implemented yet. ExceptionHandlers.java for step 3 passing now.">
       <created>1523386428492</created>
@@ -372,11 +372,18 @@
       <option name="project" value="LOCAL" />
       <updated>1523386428493</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fixed double scanning. Was returning &lt;FLOAT_LITERAL&gt; instead of &lt;DOUBLE_LITERAL&gt;, so the token wasn't matching. Also, was not properly scanning floating point values of the form '0.XXX'">
+      <created>1523386716807</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1523386716807</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5875000" />
+    <option name="totallyTimeSpent" value="6306000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -390,7 +397,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="1.0" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2606635" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -447,7 +454,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Just realized we aren't passing Step 2 because Double scanning was not implemented yet. ExceptionHandlers.java for step 3 passing now." />
-    <option name="LAST_COMMIT_MESSAGE" value="Just realized we aren't passing Step 2 because Double scanning was not implemented yet. ExceptionHandlers.java for step 3 passing now." />
+    <MESSAGE value="Fixed double scanning. Was returning &lt;FLOAT_LITERAL&gt; instead of &lt;DOUBLE_LITERAL&gt;, so the token wasn't matching. Also, was not properly scanning floating point values of the form '0.XXX'" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed double scanning. Was returning &lt;FLOAT_LITERAL&gt; instead of &lt;DOUBLE_LITERAL&gt;, so the token wasn't matching. Also, was not properly scanning floating point values of the form '0.XXX'" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -559,17 +567,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/jminusminus/Scanner.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="629">
-          <caret line="404" column="58" lean-forward="false" selection-start-line="404" selection-start-column="58" selection-end-line="404" selection-end-column="58" />
+        <state relative-caret-position="300">
+          <caret line="382" column="16" lean-forward="false" selection-start-line="382" selection-start-column="16" selection-end-line="382" selection-end-column="16" />
           <folding>
-            <element signature="e#15583#15584#0" expanded="true" />
-            <element signature="e#15628#15629#0" expanded="true" />
-            <element signature="e#16647#16648#0" expanded="true" />
-            <element signature="e#16706#16707#0" expanded="true" />
-            <element signature="e#16862#16863#0" expanded="true" />
-            <element signature="e#16894#16895#0" expanded="true" />
-            <element signature="e#17027#17028#0" expanded="true" />
-            <element signature="e#17058#17059#0" expanded="true" />
+            <element signature="e#16043#16044#0" expanded="true" />
+            <element signature="e#16088#16089#0" expanded="true" />
+            <element signature="e#17107#17108#0" expanded="true" />
+            <element signature="e#17166#17167#0" expanded="true" />
+            <element signature="e#17322#17323#0" expanded="true" />
+            <element signature="e#17354#17355#0" expanded="true" />
+            <element signature="e#17487#17488#0" expanded="true" />
+            <element signature="e#17518#17519#0" expanded="true" />
           </folding>
         </state>
       </provider>

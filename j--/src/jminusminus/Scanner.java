@@ -378,6 +378,20 @@ class Scanner {
             if (ch != '.') {
                 return new TokenInfo(INT_LITERAL, "0", line);
             }
+            else {
+                buffer = new StringBuffer();
+                buffer.append("0");
+                buffer.append(ch);
+                nextCh();
+                while (isDigit(ch)) {
+                    buffer.append(ch);
+                    nextCh();
+                }
+                if (ch == 'D') {
+                    nextCh();
+                }
+                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            }
         case '1':
         case '2':
         case '3':
