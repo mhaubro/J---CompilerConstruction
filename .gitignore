@@ -5,6 +5,8 @@ j--/bin/
 
 *.jar
 
+j--/.idea/*
+
 \.idea/ant\.xml
 
 \.idea/misc\.xml

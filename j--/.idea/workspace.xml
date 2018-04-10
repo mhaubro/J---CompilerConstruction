@@ -369,7 +369,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523380735064</updated>
-      <workItem from="1523380747399" duration="6533000" />
+      <workItem from="1523380747399" duration="6619000" />
     </task>
     <task id="LOCAL-00001" summary="Just realized we aren't passing Step 2 because Double scanning was not implemented yet. ExceptionHandlers.java for step 3 passing now.">
       <created>1523386428492</created>
@@ -392,11 +392,18 @@
       <option name="project" value="LOCAL" />
       <updated>1523387096695</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="should no longer push .idea files.">
+      <created>1523387329615</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1523387329615</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6533000" />
+    <option name="totallyTimeSpent" value="6619000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
@@ -468,7 +475,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Just realized we aren't passing Step 2 because Double scanning was not implemented yet. ExceptionHandlers.java for step 3 passing now." />
     <MESSAGE value="Fixed double scanning. Was returning &lt;FLOAT_LITERAL&gt; instead of &lt;DOUBLE_LITERAL&gt;, so the token wasn't matching. Also, was not properly scanning floating point values of the form '0.XXX'" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed double scanning. Was returning &lt;FLOAT_LITERAL&gt; instead of &lt;DOUBLE_LITERAL&gt;, so the token wasn't matching. Also, was not properly scanning floating point values of the form '0.XXX'" />
+    <MESSAGE value="should no longer push .idea files." />
+    <option name="LAST_COMMIT_MESSAGE" value="should no longer push .idea files." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
