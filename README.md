@@ -20,7 +20,7 @@
  Test | Status 
 ------|------
  AllTokens.java 				| Complete!
- Blocks.java 	| Incomplete
+ Blocks.java 	| Complete!
  ConditionalExpression.java 				| Complete!
  Double.java 	| Complete!
  ExceptionHandlers.java 		| Complete!
