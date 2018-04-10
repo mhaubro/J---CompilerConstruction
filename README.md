@@ -20,9 +20,9 @@
  Test | Status 
 ------|------
  AllTokens.java 				| Complete!
- Blocks.java 	| Incomplete 
+ Blocks.java 	| Complete!
  ConditionalExpression.java 				| Complete!
- Double.java 	| Incomplete
+ Double.java 	| Complete
  ExceptionHandler.java 		| Incomplete
  ForStatements.java 			| Incomplete 
  Interface.java 			| Incomplete

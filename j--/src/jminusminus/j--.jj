@@ -272,7 +272,7 @@ TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
-| < DOUBLE_LITERAL: (<INT_LITERAL> <DOT> (<DIGIT>)+)>
+| < DOUBLE_LITERAL: (<INT_LITERAL> <DOT> (<DIGIT>)+ ["D"])>
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
 }
@@ -566,6 +566,7 @@ private ArrayList<JMember> classBody(): {
  *   memberDecl ::= IDENTIFIER            // constructor
  *                    formalParameters
  *                    block
+				  | block // initializer
  *                | (VOID | type) IDENTIFIER  // method
  *                    formalParameters
  *                    (block | SEMI)
@@ -603,7 +604,19 @@ private JMember memberDecl( ArrayList<String>  mods ): {
                 new JConstructorDeclaration( line, mods, 
                                              name, params, excepts, body );
             }
-        ) |     
+        ) 
+		|
+		LOOKAHEAD ( <LCURLY> )
+		(
+			{
+				line = token.beginLine;
+			}
+			body = block()
+			{
+				memberDecl = new JClassInitializer(line, mods, body);
+			}
+		)
+		|     
         LOOKAHEAD( ( <VOID> | type() ) <IDENTIFIER> <LPAREN> )
         (
             ( 
