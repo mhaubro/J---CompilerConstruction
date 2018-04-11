@@ -387,7 +387,19 @@ class Scanner {
                     buffer.append(ch);
                     nextCh();
                 }
-                if (ch == 'D') {
+                if (ch == 'E' || ch == 'e') {
+                    buffer.append(ch);
+                    nextCh();
+                    if (!isDigit(ch)) {
+                        reportScannerError("Exponent must have at least one digit but got: %c", ch);
+                    }
+                    while (isDigit(ch)) {
+                        buffer.append(ch);
+                        nextCh();
+                    }
+                }
+                if (ch == 'D' || ch == 'd') {
+                    buffer.append(ch);
                     nextCh();
                 }
                 return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
@@ -413,7 +425,19 @@ class Scanner {
                     buffer.append(ch);
                     nextCh();
                 }
-                if (ch == 'D') {
+                if (ch == 'E' || ch == 'e') {
+                   buffer.append(ch);
+                   nextCh();
+                   if (!isDigit(ch)) {
+                       reportScannerError("Exponent must have at least one digit but got: %c", ch);
+                   }
+                   while (isDigit(ch)) {
+                       buffer.append(ch);
+                       nextCh();
+                   }
+                }
+                if (ch == 'D' || ch == 'd') {
+                    buffer.append(ch);
                     nextCh();
                 }
                 return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
