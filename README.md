@@ -24,7 +24,7 @@
  ConditionalExpression.java 				| Complete!
  Double.java 	| Complete!
  ExceptionHandlers.java 		| Complete!
- ForStatements.java 			| Incomplete 
+ ForStatements.java 			| Complete!
  Interface.java 			| Incomplete
  Literals.java 				| Incomplete 
  MultiLineComment.java 	| Incomplete 

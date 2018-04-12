@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 public class JTraditionalFor extends JForStatement {
 	/* Initial set of StatementExpressions in the For loop */
-	private JVariableDeclaration init;
+	private JVariableDeclaration varInit;
+
+	private ArrayList<JStatement> init;
 
 	/* Update set of StatementExpressions in the For loop */
 	private ArrayList<JStatement> update;
@@ -19,9 +21,11 @@ public class JTraditionalFor extends JForStatement {
 	 * @param body
 	 * @param isRangeBased
 	 */
-	protected JTraditionalFor(int line, JVariableDeclaration init, JExpression condition,
+	protected JTraditionalFor(int line, ArrayList<String> mods, JVariableDeclaration varInit, ArrayList<JStatement> init, JExpression condition,
 							  ArrayList<JStatement> update, JStatement body, boolean isRangeBased) {
 		super(line, body, isRangeBased);
+		this.mods = mods;
+		this.varInit = varInit;
 		this.init = init;
 		this.update = update;
 		this.condition = condition;
@@ -34,20 +38,41 @@ public class JTraditionalFor extends JForStatement {
 		p.indentRight();
 		p.println("<Init>");
 		p.indentRight();
-		init.writeToStdOut(p);
+		if (mods != null) {
+			p.println("<VariableModifiers>");
+			p.indentRight();
+			for (String mod : mods) {
+				p.printf("<VariableModifier name=\"%s\"/>\n", mod);
+			}
+			p.indentLeft();
+			p.println("</VariableModifiers>");
+		}
+
+		if (init != null) {
+			for (JStatement i : init) {
+				i.writeToStdOut(p);
+			}
+		}
+		else if (varInit != null) {
+			varInit.writeToStdOut(p);
+		}
 		p.indentLeft();
 		p.println("</Init>");
 		p.println("<Condition>");
-		p.indentRight();
-		condition.writeToStdOut(p);
-		p.indentLeft();
+		if (condition != null) {
+			p.indentRight();
+			condition.writeToStdOut(p);
+			p.indentLeft();
+		}
 		p.println("</Condition>");
 		p.println("<Update>");
-		p.indentRight();
-		for (JStatement i : update) {
-			i.writeToStdOut(p);
+		if (update != null) {
+			p.indentRight();
+			for (JStatement i : update) {
+				i.writeToStdOut(p);
+			}
+			p.indentLeft();
 		}
-		p.indentLeft();
 		p.println("</Update>");
 		p.println("<Body>");
 		p.indentRight();

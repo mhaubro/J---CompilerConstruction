@@ -1,5 +1,7 @@
 package jminusminus;
 
+import java.util.ArrayList;
+
 public class JRangeBasedFor extends JForStatement {
 
 	/* Type of the iterating variable */
@@ -18,9 +20,10 @@ public class JRangeBasedFor extends JForStatement {
 	 * @param body
 	 * @param isRangeBased
 	 */
-	protected JRangeBasedFor(int line, Type type, String name,
+	protected JRangeBasedFor(int line, ArrayList<String> mods, Type type, String name,
 							 JExpression range, JStatement body, boolean isRangeBased) {
 		super(line, body, isRangeBased);
+		this.mods = mods;
 		this.type = type;
 		this.name = name;
 		this.range = range;
@@ -32,10 +35,19 @@ public class JRangeBasedFor extends JForStatement {
 		p.printf("<JRangeBasedFor line=\"%d\">\n", line());
 		p.indentRight();
 		p.printf("<RangeVar type=\"%s\" name=\"%s\">\n", type.toString(), name);
+		if (mods != null) {
+			p.println("<VariableModifiers>");
+			p.indentRight();
+			for (String mod : mods) {
+				p.printf("<VariableModifier name=\"%s\"/>\n", mod);
+			}
+			p.indentLeft();
+			p.println("</VariableModifiers>");
+		}
 		p.indentRight();
 		p.println("<RangeObject>");
 		range.writeToStdOut(p);
-		p.println("</RangeObject");
+		p.println("</RangeObject>");
 		p.indentLeft();
 		p.println("</RangeVar>");
 		p.println("<Body>");

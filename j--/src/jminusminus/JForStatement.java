@@ -9,6 +9,7 @@ public class JForStatement extends JStatement {
 
 	/* Is the for loop range-based or traditional */
 	protected boolean isRangeBased;
+	protected ArrayList<String> mods;
 
 	/**
 	 * Construct an AST node for a statement given its line number.
