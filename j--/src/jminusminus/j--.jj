@@ -271,9 +271,9 @@ TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
-| < DOUBLE_LITERAL: <INT_LITERAL> <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)? >
+| < DOUBLE_LITERAL: <INT_LITERAL> ((<EXPONENT>)? <DOUBLE_SUFFIX> | <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)?) >
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >  
-| < #EXPONENT: ["e", "E"] (<DIGIT>)+ >
+| < #EXPONENT: ["e", "E"] ("-")? (<DIGIT>)+ >
 | < #DOUBLE_SUFFIX: ["d", "D"] >  
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
 }

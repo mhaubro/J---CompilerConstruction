@@ -26,7 +26,7 @@
  ExceptionHandlers.java 		| Complete!
  ForStatements.java 			| Complete!
  Interface.java 			| Incomplete
- Literals.java 				| Incomplete 
+ Literals.java 				| Complete! 
  MultiLineComment.java 	| Complete!
  Operators1.java 				| Incomplete 
  Operators2.java 	| Incomplete
