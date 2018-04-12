@@ -375,11 +375,16 @@ class Scanner {
         case '0':
             // Handle only simple decimal integers for now.
             nextCh();
+            buffer = new StringBuffer();
             if (ch != '.') {
+                buffer.append("0");
+                if (ch == 'e' || ch == 'E' || ch == 'd' || ch == 'D') {
+                    parseED(buffer);
+                    return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+                }
                 return new TokenInfo(INT_LITERAL, "0", line);
             }
             else {
-                buffer = new StringBuffer();
                 buffer.append("0");
                 buffer.append(ch);
                 nextCh();
@@ -387,21 +392,7 @@ class Scanner {
                     buffer.append(ch);
                     nextCh();
                 }
-                if (ch == 'E' || ch == 'e') {
-                    buffer.append(ch);
-                    nextCh();
-                    if (!isDigit(ch)) {
-                        reportScannerError("Exponent must have at least one digit but got: %c", ch);
-                    }
-                    while (isDigit(ch)) {
-                        buffer.append(ch);
-                        nextCh();
-                    }
-                }
-                if (ch == 'D' || ch == 'd') {
-                    buffer.append(ch);
-                    nextCh();
-                }
+                parseED(buffer);
                 return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
             }
         case '1':
@@ -425,21 +416,10 @@ class Scanner {
                     buffer.append(ch);
                     nextCh();
                 }
-                if (ch == 'E' || ch == 'e') {
-                   buffer.append(ch);
-                   nextCh();
-                   if (!isDigit(ch)) {
-                       reportScannerError("Exponent must have at least one digit but got: %c", ch);
-                   }
-                   while (isDigit(ch)) {
-                       buffer.append(ch);
-                       nextCh();
-                   }
-                }
-                if (ch == 'D' || ch == 'd') {
-                    buffer.append(ch);
-                    nextCh();
-                }
+                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            }
+            if (ch == 'e' || ch == 'E' || ch == 'd' || ch == 'D') {
+                parseED(buffer);
                 return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
             }
             return new TokenInfo(INT_LITERAL, buffer.toString(), line);
@@ -469,6 +449,30 @@ class Scanner {
      * 
      * @return escaped character.
      */
+
+    private void parseED(StringBuffer buffer) {
+        if (ch == 'E' || ch == 'e') {
+            buffer.append(ch);
+            nextCh();
+
+            if (ch == '-') {
+                buffer.append(ch);
+                nextCh();
+            }
+
+            if (!isDigit(ch)) {
+                reportScannerError("Exponent must have at least one digit but got: %c", ch);
+            }
+            while (isDigit(ch)) {
+                buffer.append(ch);
+                nextCh();
+            }
+        }
+        if (ch == 'D' || ch == 'd') {
+            buffer.append(ch);
+            nextCh();
+        }
+    }
 
     private String escape() {
         switch (ch) {

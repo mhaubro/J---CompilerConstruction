@@ -286,6 +286,17 @@ public class Parser {
             return false;
         }
     }
+	/**
+	 * statementExpressionList := statementExpression { COMMA statementExpression }
+	 */
+	private ArrayList<JStatement> statementExpressionList() {
+		ArrayList<JStatement> result = new ArrayList<JStatement>();
+		result.add(statementExpression());
+		while (have(COMMA)) {
+			result.add(statementExpression());
+		}
+		return result;
+	}
 
     /**
      * Are we looking at a reference type? ie.
@@ -297,7 +308,6 @@ public class Parser {
      * 
      * @return true iff we're looking at a reference type; false otherwise.
      */
-
     private boolean seeReferenceType() {
         if (see(IDENTIFIER)) {
             return true;
@@ -831,9 +841,13 @@ public class Parser {
         }
         else if (have(FOR)) {
             JStatement body;
+			ArrayList<String> mods = new ArrayList<String>();
             mustBe(LPAREN);
+			if (have(FINAL)) {
+				mods.add("final");
+			}
             boolean isRangeBased = checkForType();
-
+			
             if (isRangeBased) {
                 Type type = type();
                 mustBe(IDENTIFIER);
@@ -842,24 +856,35 @@ public class Parser {
                 JExpression range = expression();
                 mustBe(RPAREN);
                 body = statement();
-                return new JRangeBasedFor(line, type, name, range, body, isRangeBased);
+                return new JRangeBasedFor(line, mods, type, name, range, body, isRangeBased);
             }
             else {
-                JVariableDeclaration init;
-                JExpression condition;
-                ArrayList<JStatement> update = new ArrayList<>();
-                init = localVariableDeclarationStatement();
-                condition = expression();
-                mustBe(SEMI);
-                if (!have(RPAREN)) {
-                    update.add(statementExpression());
-                    while (have(COMMA)) {
-                        update.add(statementExpression());
-                    }
-                }
-                mustBe(RPAREN);
+                ArrayList<JStatement> init = null;
+                JVariableDeclaration varInit = null;
+                JExpression condition = null;
+                ArrayList<JStatement> update = new ArrayList<JStatement>();
+				scanner.recordPosition();
+				if (seeBasicType() || have(IDENTIFIER) && have(IDENTIFIER)) {
+					scanner.returnToPosition();
+					varInit = localVariableDeclarationStatement();
+				}
+				else if (!have(SEMI)) {
+					scanner.returnToPosition();
+					init = statementExpressionList();
+					mustBe(SEMI);
+				}
+				
+				if (!have(SEMI)) {
+					condition = expression();
+					mustBe(SEMI);
+				}
+				
+				if (!have(RPAREN)) {
+					update = statementExpressionList();
+					mustBe(RPAREN);
+				}
                 body = statement();
-                return new JTraditionalFor(line, init, condition, update, body, isRangeBased);
+                return new JTraditionalFor(line, mods, varInit, init, condition, update, body, isRangeBased);
             }
         }
         else if (have(RETURN)) {

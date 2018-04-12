@@ -24,10 +24,10 @@
  ConditionalExpression.java 				| Complete!
  Double.java 	| Complete!
  ExceptionHandlers.java 		| Complete!
- ForStatements.java 			| Incomplete 
+ ForStatements.java 			| Complete!
  Interface.java 			| Incomplete
- Literals.java 				| Incomplete 
- MultiLineComment.java 	| Incomplete 
+ Literals.java 				| Complete! 
+ MultiLineComment.java 	| Complete!
  Operators1.java 				| Incomplete 
  Operators2.java 	| Incomplete
  PassTests.java 		| Incomplete
