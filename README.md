@@ -28,8 +28,8 @@
  Interface.java 			| Incomplete
  Literals.java 				| Complete! 
  MultiLineComment.java 	| Complete!
- Operators1.java 				| Incomplete 
- Operators2.java 	| Incomplete
+ Operators1.java 				| Complete!
+ Operators2.java 	| Complete!
  PassTests.java 		| Incomplete
  ReservedWords.java 			| Incomplete 
  Separators.java 			| Incomplete

@@ -1793,6 +1793,9 @@ private JExpression unaryExpression(): {
         <INC> { line = token.beginLine; }
         unaryExpr = unaryExpression()
         { expr = new JPreIncrementOp( line, unaryExpr ); } | 
+		<DEC> { line = token.beginLine; }
+		unaryExpr = unaryExpression()
+		{ expr = new JPreDecrementOp( line, unaryExpr ); } |
         <MINUS> { line = token.beginLine; }
         unaryExpr = unaryExpression()
         { expr = new JNegateOp( line, unaryExpr ); } |        
