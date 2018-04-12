@@ -1,16 +1,16 @@
 public class Separators {
     public static void main(String[] args) {
-        switch(args[0]) {
-        case "1":
+		int y = 5;
+       // switch(args[0]) {
+        //case "1":
             /** do nothing **/
-            break;
-        case "2":
-            for (String x : args) {
-                /** do nothing **/
-            }
-            break;
-        default:
+            //break;
+        //case "2":
+		int x = 5;
+		System.out.println(x);
+         //   break;
+        /*default:
             /** do nothing **/
-        }
+       // }*/
     } 
 }

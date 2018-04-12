@@ -31,8 +31,8 @@
  Operators1.java 				| Complete!
  Operators2.java 	| Complete!
  PassTests.java 		| Incomplete
- ReservedWords.java 			| Incomplete 
- Separators.java 			| Incomplete
+ ReservedWords.java 			| Not necessary 
+ Separators.java 			| Modified but comments failing
 
 ### Step 4 - Not started
 
