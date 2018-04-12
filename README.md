@@ -27,7 +27,7 @@
  ForStatements.java 			| Incomplete 
  Interface.java 			| Incomplete
  Literals.java 				| Incomplete 
- MultiLineComment.java 	| Incomplete 
+ MultiLineComment.java 	| Complete!
  Operators1.java 				| Incomplete 
  Operators2.java 	| Incomplete
  PassTests.java 		| Incomplete
