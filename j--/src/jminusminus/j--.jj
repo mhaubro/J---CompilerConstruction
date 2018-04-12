@@ -144,6 +144,7 @@ SKIP: {<SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>}
 
 // Multi line comment -- ignored
 SKIP: {<MULTI_LINE_COMMENT: "/*" (~["*"] | "*" ~["/"])* ("*")+ "/">}
+
 // Reserved words
 TOKEN:
 {
@@ -379,10 +380,43 @@ private TypeName qualifiedIdentifier(): {
 }
 
 /**
+ * Parse a typeList identifier.
+ *
+ * <pre>
+ *   typeList ::= IDENTIFIER {DOT IDENTIFIER}
+ * </pre>
+ *
+ * @return a list of TypeName.
+ */
+
+private Type interfaceQualifier(): {
+    int line = 0;
+    String qualifiedIdentifier = "";
+}
+{
+    try {
+        <IDENTIFIER>
+        {
+            line = token.beginLine;
+            qualifiedIdentifier = token.image;
+        }
+        (
+            LOOKAHEAD( <COMMA> <IDENTIFIER> ) <COMMA> <IDENTIFIER>
+            { qualifiedIdentifier += "," + token.image; }
+        )*
+    }
+    catch ( ParseException e ) {
+        recoverFromError( new int[] { SEMI, EOF }, e );
+    }
+    { return
+         new TypeName( line, qualifiedIdentifier ); }
+}
+
+/**
  * Parse a type declaration.
  * 
  * <pre>
- *   typeDeclaration ::= modifiers classDeclaration
+ *   typeDeclaration ::= modifiers (classDeclaration | interfaceDeclaration)
  * </pre>
  * 
  * @return an AST for a typeDeclaration.
@@ -395,8 +429,14 @@ private JAST typeDeclaration(): {
 {
     try {
         mods = modifiers()
-        classDeclaration = classDeclaration( mods )
-    } 
+        (
+        <CLASS>
+        { classDeclaration = classDeclaration( mods ); }
+        |
+        <INTERFACE>
+        { classDeclaration = interfaceDeclaration( mods ); }
+        )
+    }
     catch ( ParseException e ) { 
         recoverFromError( new int[] { SEMI, EOF }, e ); 
     }
@@ -509,7 +549,7 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
 }
 {
     try {
-        <CLASS> { line = token.beginLine; }
+        { line = token.beginLine; }
         <IDENTIFIER> { name = token.image; }
         [ 
             <EXTENDS> superClass = qualifiedIdentifier() 
@@ -525,6 +565,46 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
     { 
         return new JClassDeclaration( line, mods, 
             name, superClass, implType, classBody ); 
+    }
+}
+
+/**
+ * Parse a interface declaration.
+ *
+ * <pre>
+ *   interfaceDeclaration ::= INTERFACE IDENTIFIER
+ *                        [EXTENDS qualifiedIdentifier]
+ *                        classBody
+ * </pre>
+ *
+ * A class which doesn't explicitly extend another (super) class
+ * implicitly extends the superclass java.lang.Object.
+ *
+ * @param mods the interface modifiers.
+ * @return an AST for a interfaceDeclaration.
+ */
+
+private JInterfaceDeclaration interfaceDeclaration( ArrayList<String> mods ): {
+    int line = 0;
+    String name = "";
+    Type superClass = Type.OBJECT;
+    ArrayList<JMember> classBody = null;
+}
+{
+    try {
+        { line = token.beginLine; }
+        <IDENTIFIER> { name = token.image; }
+        [
+            <EXTENDS> superClass = qualifiedIdentifier()
+        ]
+        classBody = interfaceBody()
+    }
+    catch ( ParseException e ) {
+        recoverFromError( new int[] { SEMI, EOF }, e );
+    }
+    {
+        return new JInterfaceDeclaration( line, mods,
+            name, superClass, classBody );
     }
 }
 
@@ -556,6 +636,38 @@ private ArrayList<JMember> classBody(): {
     } 
     catch ( ParseException e ) { 
         recoverFromError( new int[] { SEMI, EOF }, e ); 
+    }
+    { return members; }
+}
+
+/**
+ * Parse a interface body.
+ *
+ * <pre>
+ *   interfaceBody ::= LCURLY
+ *                   {modifiers memberDecl}
+ *                 RCURLY
+ * </pre>
+ *
+ * @return list of members in the interface body.
+ */
+
+private ArrayList<JMember> interfaceBody(): {
+    ArrayList<String> mods = null;
+    JMember aMember = null;
+    ArrayList<JMember> members = new ArrayList<JMember>();
+}
+{
+    try {
+        <LCURLY>
+        (
+            mods = modifiers()
+            aMember = memberDecl( mods ) { members.add( aMember ); }
+        )*
+        <RCURLY>
+    }
+    catch ( ParseException e ) {
+        recoverFromError( new int[] { SEMI, EOF }, e );
     }
     { return members; }
 }
