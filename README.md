@@ -32,7 +32,7 @@
  Operators2.java 	| Complete!
  PassTests.java 		| Incomplete
  ReservedWords.java 			| Not necessary 
- Separators.java 			| Modified but comments failing
+ Separators.java 			| Complete!
 
 ### Step 4 - Not started
 
