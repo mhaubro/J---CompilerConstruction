@@ -136,14 +136,17 @@ class Scanner {
                 else if (ch == '*') {
                     nextCh();
                     while (ch != EOFCH) {
+                        boolean foundStar = false;
                         if (ch == '*') {
                             nextCh();
+                            foundStar = true;
                             if (ch == '/') {
                                 nextCh();
                                 break;
                             }
                         }
-                        nextCh();
+                        if(!foundStar)
+                            nextCh();
                     }
                 }
                 else if (ch == '=') {
