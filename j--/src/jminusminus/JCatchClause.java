@@ -15,7 +15,7 @@ public class JCatchClause extends JAST {
 	/* Block portion of the catch */
 	private JBlock catchBlock;
 
-	/**
+	/*
 	 * Construct an AST node the given its line number in the source file.
 	 *
 	 * @param line line in which the source for the AST was found.
