@@ -52,7 +52,7 @@ abstract class JBinaryExpression extends JExpression {
         rhs = (JExpression) rhs.analyze(context);
         lhs.type().mustMatchExpected(line(), typeArg);
         rhs.type().mustMatchExpected(line(), typeArg);
-        type = Type.INT;
+        type = typeArg;
         return this;
     }
 
