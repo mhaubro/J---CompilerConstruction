@@ -17,6 +17,7 @@
  Operators.java 			| Complete!
  
 ### Step 3 - In Progress
+
  Test | Status 
 ------|------
  AllTokens.java 				| Complete!
@@ -35,5 +36,15 @@
  Separators.java 			| Complete!
 
 ### Step 4 - Not started
+
+Test | Status
+-----|-------
+Blocks.java | Incomplete
+ConditionalExpression.java | Incomplete (to be tested)
+Double.java | Incomplete (to be tested)
+ExceptionHandlers.java | Incomplete
+ForStratements.java | Incomplete
+Interface.java | Incomplete
+Operators.java | Incomplete (to be tested)
 
 ### Step 5 - Not started
