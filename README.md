@@ -40,10 +40,10 @@
 Test | Status
 -----|-------
 Blocks.java | Incomplete
-ConditionalExpression.java | Incomplete (to be tested)
-Double.java | Incomplete (to be tested)
+ConditionalExpression.java | Complete!
+Double.java | Complete!
 ExceptionHandlers.java | Incomplete
-ForStratements.java | Incomplete
+ForStatements.java | Incomplete
 Interface.java | Incomplete
 Operators.java | Incomplete (to be tested)
 
