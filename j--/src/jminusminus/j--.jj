@@ -391,7 +391,7 @@ private TypeName qualifiedIdentifier(): {
 
 private ArrayList<TypeName> interfaceQualifier(): {
     int line = 0;
-    ArrayList<TypeName> implementations;
+    ArrayList<TypeName> implementations = new ArrayList<TypeName>();
 
 }
 {
@@ -589,7 +589,7 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
 private JInterfaceDeclaration interfaceDeclaration( ArrayList<String> mods ): {
     int line = 0;
     String name = "";
-    ArrayList<TypeName> superClass = null;
+    ArrayList<TypeName> superInterface = null;
     ArrayList<JMember> classBody = null;
 }
 {
@@ -597,16 +597,16 @@ private JInterfaceDeclaration interfaceDeclaration( ArrayList<String> mods ): {
         { line = token.beginLine; }
         <IDENTIFIER> { name = token.image; }
         [
-            <EXTENDS> superClass = interfaceQualifier()
+            <EXTENDS> superInterface = interfaceQualifier()
         ]
         classBody = interfaceBody()
-    }y
+    }
     catch ( ParseException e ) {
         recoverFromError( new int[] { SEMI, EOF }, e );
     }
     {
         return new JInterfaceDeclaration( line, mods,
-            name, superClass, classBody );
+            name, superInterface, classBody );
     }
 }
 

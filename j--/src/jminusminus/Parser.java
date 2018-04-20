@@ -400,6 +400,19 @@ public class Parser {
         return new TypeName(line, qualifiedIdentifier);
     }
 
+    private ArrayList<TypeName> interfaceExtensions() {
+        ArrayList<TypeName> interfaces = new ArrayList<TypeName>();
+        int line = scanner.token().line();
+        mustBe(IDENTIFIER);
+        interfaces.add(new TypeName(line, scanner.previousToken().image()));
+        while (have(COMMA)) {
+            mustBe(IDENTIFIER);
+            interfaces.add(new TypeName(line, scanner.previousToken().image()));
+        }
+        return interfaces;
+    }
+
+
     /**
      * Parse a type declaration.
      * 
@@ -511,14 +524,14 @@ public class Parser {
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
         Type superClass;
-        Type implInterface;
+        ArrayList<TypeName> implInterface;
         if (have(EXTENDS)) {
             superClass = qualifiedIdentifier();
         } else {
             superClass = Type.OBJECT;
         }
         if (have(IMPLEMENTS)) {
-            implInterface = qualifiedIdentifier();
+            implInterface = interfaceExtensions();
         }
         else {
             implInterface = null;
@@ -548,12 +561,14 @@ public class Parser {
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
         Type superClass;
+        ArrayList<TypeName> superInterface = null;
+
         if (have(EXTENDS)) {
             superClass = qualifiedIdentifier();
         } else {
             superClass = Type.OBJECT;
         }
-        return new JInterfaceDeclaration(line, mods, name, superClass, interfaceBody());
+        return new JInterfaceDeclaration(line, mods, name, superInterface, interfaceBody());
     }
 
     /**

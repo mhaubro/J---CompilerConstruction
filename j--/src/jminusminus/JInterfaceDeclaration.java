@@ -6,6 +6,7 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 
 	ArrayList<String> mods;
 	String name;
+	ArrayList<TypeName> superInterfaces;
 	Type superType;
 	ArrayList<JMember> body;
 	private ClassContext context;
@@ -18,15 +19,17 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	 * @param line line in which the source for the AST was found.
 	 * @param mods the modifiers for the interface
 	 * @param name The name of the interface
-	 * @param superType the type of the superclass that might be extended by the interface
+	 * @param superInterfaces the type of the superclass that might be extended by the interface
 	 * @param body the interface body
 	 */
-	protected JInterfaceDeclaration(int line, ArrayList<String> mods, String name, Type superType, ArrayList<JMember> body) {
+	protected JInterfaceDeclaration(int line, ArrayList<String> mods, String name, ArrayList<TypeName> superInterfaces, ArrayList<JMember> body) {
 		super(line);
 		this.line = line;
 		this.mods = mods;
 		this.name = name;
-		this.superType = superType;
+		this.superType = null;//the default supertype for JClass is Type.OBJECT, but for interface it's null.
+		//If the interface extends more, they'll just have to grab the ArrayList if the list is desired.
+		this.superInterfaces = superInterfaces;
 		this.body = body;
 		staticFieldInitializations = new ArrayList<JFieldDeclaration>();
 	}
@@ -38,10 +41,22 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	public void codegen(CLEmitter output) {
 
 	}
-
 	public void writeToStdOut(PrettyPrinter p) {
-		p.printf("<JInterfaceDeclaration line=\"%d\" name=\"%s\""
-				+ " super=\"%s\">\n", line(), name, superType.toString());
+	    String s = "";
+
+
+
+	    if (!superInterfaces.equals(null)){
+            for (int i = 0; i < superInterfaces.size() - 1; i++){
+                s = s + (superInterfaces.get(i).toString()) + ", ";
+            }
+            if (superInterfaces.size() > 0){
+                s = s + (superInterfaces.get(superInterfaces.size()-1).toString()) + ", ";
+            }
+        }
+
+        p.printf("<JInterfaceDeclaration line=\"%d\" name=\"%s\""
+				+ " super=\"%s\">\n", line(), name, s);
 		p.indentRight();
 		if (context != null) {
 			context.writeToStdOut(p);
