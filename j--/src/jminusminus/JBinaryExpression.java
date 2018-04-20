@@ -48,14 +48,25 @@ abstract class JBinaryExpression extends JExpression {
         Helper for analyzing functions with two of the same type
      */
     public JExpression analyze(Context context, Type typeArg) {
-        lhs = (JExpression) lhs.analyze(context);
-        rhs = (JExpression) rhs.analyze(context);
         lhs.type().mustMatchExpected(line(), typeArg);
         rhs.type().mustMatchExpected(line(), typeArg);
         type = typeArg;
         return this;
     }
 
+    public JExpression analyze(Context context, Type typeArg, Type typeArg2) {
+        lhs = (JExpression) lhs.analyze(context);
+        rhs = (JExpression) rhs.analyze(context);
+        lhs.type().mustMatchOneOf(line, typeArg, typeArg2);
+        if (lhs.type() == typeArg) {
+            return analyze (context, typeArg);
+        }
+        else if (lhs.type() == typeArg2) {
+            return analyze(context, typeArg2);
+        }
+        type = Type.NULLTYPE;
+        return this;
+    }
     /**
      * @inheritDoc
      */
@@ -93,7 +104,7 @@ class JBitwiseOrOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -109,7 +120,7 @@ class JBitwiseXorOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -125,7 +136,7 @@ class JBitwiseAndOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -142,7 +153,7 @@ class JShiftLeftOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -158,7 +169,7 @@ class JShiftRightOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -174,7 +185,7 @@ class JLogicShiftRightOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -190,7 +201,7 @@ class JRemainderOp extends JBinaryExpression {
 
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -206,7 +217,7 @@ class JDivideOp extends JBinaryExpression {
 
 
 	public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -253,6 +264,8 @@ class JPlusOp extends JBinaryExpression {
                     .analyze(context);
         } else if (lhs.type() == Type.INT && rhs.type() == Type.INT) {
             type = Type.INT;
+        } else if (lhs.type() == Type.DOUBLE && rhs.type() == Type.DOUBLE) {
+            type = Type.DOUBLE;
         } else {
             type = Type.ANY;
             JAST.compilationUnit.reportSemanticError(line(),
@@ -260,7 +273,6 @@ class JPlusOp extends JBinaryExpression {
         }
         return this;
     }
-
     /**
      * Any string concatenation has been rewritten as a JStringConcatenationOp
      * (in analyze()), so code generation here involves simply generating code
@@ -315,7 +327,7 @@ class JSubtractOp extends JBinaryExpression {
      */
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 
     /**
@@ -368,7 +380,7 @@ class JMultiplyOp extends JBinaryExpression {
      */
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 
     /**
