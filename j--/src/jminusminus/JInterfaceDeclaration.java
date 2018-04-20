@@ -43,15 +43,12 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	}
 	public void writeToStdOut(PrettyPrinter p) {
 	    String s = "";
-
-
-
-	    if (!superInterfaces.equals(null)){
+	    if (superInterfaces != null){
             for (int i = 0; i < superInterfaces.size() - 1; i++){
-                s = s + (superInterfaces.get(i).toString()) + ", ";
+                s = s + superInterfaces.get(i).toString() + ", ";
             }
             if (superInterfaces.size() > 0){
-                s = s + (superInterfaces.get(superInterfaces.size()-1).toString()) + ", ";
+                s = s + superInterfaces.get(superInterfaces.size()-1).toString();
             }
         }
 
