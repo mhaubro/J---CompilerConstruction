@@ -6,7 +6,11 @@ interface C {
     public int k(int x);
 }
 
-public class B implements A,C {
+class D {
+    public int a;
+}
+
+public class B extends D implements A,C {
     public int f(int x) {
         return x * x;
     }

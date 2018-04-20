@@ -14,3 +14,7 @@ j--/.idea/*
 \.idea/modules\.xml
 
 \.idea/workspace\.xml
+
+j--/j--\.iml
+
+\.idea/vcs\.xml

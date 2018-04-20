@@ -389,27 +389,29 @@ private TypeName qualifiedIdentifier(): {
  * @return a list of TypeName.
  */
 
-private Type interfaceQualifier(): {
+private ArrayList<TypeName> interfaceQualifier(): {
     int line = 0;
-    String qualifiedIdentifier = "";
+    ArrayList<TypeName> implementations;
+
 }
 {
     try {
         <IDENTIFIER>
         {
             line = token.beginLine;
-            qualifiedIdentifier = token.image;
+ //           interfaceIdentifier = token.image;
+            implementations.add(new TypeName(line, token.image));
         }
         (
             LOOKAHEAD( <COMMA> <IDENTIFIER> ) <COMMA> <IDENTIFIER>
-            { qualifiedIdentifier += "," + token.image; }
+            { implementations.add(new TypeName(line, token.image)); }
         )*
     }
     catch ( ParseException e ) {
         recoverFromError( new int[] { SEMI, EOF }, e );
     }
     { return
-         new TypeName( line, qualifiedIdentifier ); }
+         implementations; }
 }
 
 /**
@@ -544,7 +546,7 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
     int line = 0;
     String name = "";
     Type superClass = Type.OBJECT;
-	Type implType = Type.OBJECT;
+	ArrayList<TypeName> implType = null;
     ArrayList<JMember> classBody = null;
 }
 {
@@ -555,7 +557,7 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
             <EXTENDS> superClass = qualifiedIdentifier() 
         ]
 		[
-			<IMPLEMENTS> implType = qualifiedIdentifier()
+			<IMPLEMENTS> implType = interfaceQualifier()
 		]
         classBody = classBody()           
     } 
@@ -587,7 +589,7 @@ private JClassDeclaration classDeclaration( ArrayList<String> mods ): {
 private JInterfaceDeclaration interfaceDeclaration( ArrayList<String> mods ): {
     int line = 0;
     String name = "";
-    Type superClass = Type.OBJECT;
+    ArrayList<TypeName> superClass = null;
     ArrayList<JMember> classBody = null;
 }
 {
@@ -595,10 +597,10 @@ private JInterfaceDeclaration interfaceDeclaration( ArrayList<String> mods ): {
         { line = token.beginLine; }
         <IDENTIFIER> { name = token.image; }
         [
-            <EXTENDS> superClass = qualifiedIdentifier()
+            <EXTENDS> superClass = interfaceQualifier()
         ]
         classBody = interfaceBody()
-    }
+    }y
     catch ( ParseException e ) {
         recoverFromError( new int[] { SEMI, EOF }, e );
     }
