@@ -13,7 +13,7 @@
  Double.java 				| Complete! 
  ExceptionHandler.java 	| Complete!
  ForStatement.java 		| Complete!
- Interface.java 			| Complete! 
+ Interface.java 			| Complete! Now also with implementing several interfaces
  Operators.java 			| Complete!
  
 ### Step 3 - In Progress
@@ -26,12 +26,12 @@
  Double.java 	| Complete!
  ExceptionHandlers.java 		| Complete!
  ForStatements.java 			| Complete!
- Interface.java 			| Incomplete
+ Interface.java 			| Complete!
  Literals.java 				| Complete! 
  MultiLineComment.java 	| Complete!
  Operators1.java 				| Complete!
  Operators2.java 	| Complete!
- PassTests.java 		| Incomplete
+ PassTests.java 		| Complete!
  ReservedWords.java 			| Not necessary 
  Separators.java 			| Complete!
 
