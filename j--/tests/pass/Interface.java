@@ -10,8 +10,12 @@ class D {
     public int a;
 }
 
-public class B extends D implements A,C {
+class B extends D implements A,C {
     public int f(int x) {
         return x * x;
     }
+    public int k(int x) {
+        return x * x;
+    }
+
 }
