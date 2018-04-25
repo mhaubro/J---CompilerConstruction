@@ -941,7 +941,7 @@ public class CLEmitter {
 
     public void addClass(ArrayList<String> accessFlags, String thisClass,
             String superClass, ArrayList<String> superInterfaces,
-            boolean isSynthetic) {
+            boolean isSynthetic, boolean isClass) {
         clFile = new CLFile();
         constantPool = new CLConstantPool();
         interfaces = new ArrayList<Integer>();
@@ -953,12 +953,15 @@ public class CLEmitter {
         clFile.magic = MAGIC;
         clFile.majorVersion = MAJOR_VERSION;
         clFile.minorVersion = MINOR_VERSION;
+
         if (!validInternalForm(thisClass)) {
             reportEmitterError("'%s' is not in internal form", thisClass);
         }
-        if (!validInternalForm(superClass)) {
-            reportEmitterError("'%s' is not in internal form", superClass);
-        }
+
+		if (!validInternalForm(superClass)) {
+			reportEmitterError("'%s' is not in internal form", superClass);
+		}
+
         if (accessFlags != null) {
             for (int i = 0; i < accessFlags.size(); i++) {
                 clFile.accessFlags |= CLFile
@@ -967,7 +970,9 @@ public class CLEmitter {
         }
         name = thisClass;
         clFile.thisClass = constantPool.constantClassInfo(thisClass);
+
         clFile.superClass = constantPool.constantClassInfo(superClass);
+
         for (int i = 0; superInterfaces != null && i < superInterfaces.size(); i++) {
             if (!validInternalForm(superInterfaces.get(i))) {
                 reportEmitterError("'%s' is not in internal form",

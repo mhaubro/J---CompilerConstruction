@@ -6,7 +6,10 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 
 	ArrayList<String> mods;
 	String name;
-	ArrayList<TypeName> superInterfaces;
+	ArrayList<TypeName> implType;
+	ArrayList<String> superInterfaces;
+	/** This class type. */
+	private Type thisType;
 	Type superType;
 	ArrayList<JMember> body;
 	private ClassContext context;
@@ -19,17 +22,24 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	 * @param line line in which the source for the AST was found.
 	 * @param mods the modifiers for the interface
 	 * @param name The name of the interface
-	 * @param superInterfaces the type of the superclass that might be extended by the interface
+	 * @param implType the type of the superclass that might be extended by the interface
 	 * @param body the interface body
 	 */
-	protected JInterfaceDeclaration(int line, ArrayList<String> mods, String name, ArrayList<TypeName> superInterfaces, ArrayList<JMember> body) {
+	protected JInterfaceDeclaration(int line, ArrayList<String> mods, String name, ArrayList<TypeName> implType, ArrayList<JMember> body) {
 		super(line);
 		this.line = line;
 		this.mods = mods;
+		mods.add("interface");
 		this.name = name;
 		this.superType = null;//the default supertype for JClass is Type.OBJECT, but for interface it's null.
 		//If the interface extends more, they'll just have to grab the ArrayList if the list is desired.
-		this.superInterfaces = superInterfaces;
+		if (implType != null) {
+			this.superInterfaces = new ArrayList<>();
+			for (TypeName interfaceType : implType) {
+				this.superInterfaces.add(interfaceType.jvmName());
+			}
+		}
+		this.implType = implType;
 		this.body = body;
 		staticFieldInitializations = new ArrayList<JFieldDeclaration>();
 	}
@@ -43,12 +53,12 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	}
 	public void writeToStdOut(PrettyPrinter p) {
 	    String s = "";
-	    if (superInterfaces != null){
-            for (int i = 0; i < superInterfaces.size() - 1; i++){
-                s = s + superInterfaces.get(i).toString() + ", ";
+	    if (implType != null){
+            for (int i = 0; i < implType.size() - 1; i++){
+                s = s + implType.get(i).toString() + ", ";
             }
-            if (superInterfaces.size() > 0){
-                s = s + superInterfaces.get(superInterfaces.size()-1).toString();
+            if (implType.size() > 0){
+                s = s + implType.get(superInterfaces.size()-1).toString();
             }
         }
 
@@ -79,11 +89,36 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	}
 
 	public void declareThisType(Context context) {
-
+		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
+				: JAST.compilationUnit.packageName() + "/" + name;
+		CLEmitter partial = new CLEmitter(false);
+		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces,
+				false, false);
+		thisType = Type.typeFor(partial.toClass());
+		context.addType(line, thisType);
 	}
 
 	public void preAnalyze(Context context) {
+		// Construct a class context
+		this.context = new ClassContext(this, context);
 
+		// Create the (partial) class
+		CLEmitter partial = new CLEmitter(false);
+
+
+		// Add the class header to the partial class
+		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
+				: JAST.compilationUnit.packageName() + "/" + name;
+
+		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false, false);
+
+
+		// Get the Class rep for the (partial) class and make it
+		// the representation for this type
+		Type id = this.context.lookupType(name);
+		if (id != null && !JAST.compilationUnit.errorHasOccurred()) {
+			id.setClassRep(partial.toClass());
+		}
 	}
 
 	public String name() {

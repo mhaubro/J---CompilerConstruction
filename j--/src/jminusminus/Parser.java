@@ -402,13 +402,9 @@ public class Parser {
 
     private ArrayList<TypeName> interfaceExtensions() {
         ArrayList<TypeName> interfaces = new ArrayList<TypeName>();
-        int line = scanner.token().line();
-        mustBe(IDENTIFIER);
-        interfaces.add(new TypeName(line, scanner.previousToken().image()));
-        while (have(COMMA)) {
-            mustBe(IDENTIFIER);
-            interfaces.add(new TypeName(line, scanner.previousToken().image()));
-        }
+        do {
+            interfaces.add(qualifiedIdentifier());
+        } while (have(COMMA));
         return interfaces;
     }
 
@@ -560,13 +556,13 @@ public class Parser {
         mustBe(INTERFACE);
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
-        Type superClass;
-        ArrayList<TypeName> superInterface = null;
+        ArrayList<TypeName> superInterface = null;;
 
         if (have(EXTENDS)) {
-            superClass = qualifiedIdentifier();
-        } else {
-            superClass = Type.OBJECT;
+            superInterface = new ArrayList<>();
+            do {
+                superInterface.add(qualifiedIdentifier());
+            } while (have(COMMA));
         }
         return new JInterfaceDeclaration(line, mods, name, superInterface, interfaceBody());
     }
