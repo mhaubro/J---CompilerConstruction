@@ -135,7 +135,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
                 : JAST.compilationUnit.packageName() + "/" + name;
         CLEmitter partial = new CLEmitter(false);
         partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfaces,
-                false, true); // Object for superClass, just for now
+                false); // Object for superClass, just for now
         thisType = Type.typeFor(partial.toClass());
         context.addType(line, thisType);
     }
@@ -171,7 +171,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // Add the class header to the partial class
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
-        partial.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false, true);
+        partial.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
 
         // Pre-analyze the members and add them to the partial
         // class
@@ -252,7 +252,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // The class header
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
-        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false, true);
+        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
 
         // The implicit empty constructor?
         if (!hasExplicitConstructor) {

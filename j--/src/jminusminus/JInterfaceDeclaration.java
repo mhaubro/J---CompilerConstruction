@@ -14,7 +14,6 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	ArrayList<JMember> body;
 	private ClassContext context;
 	/** Static (class) fields of this class. */
-	private ArrayList<JFieldDeclaration> staticFieldInitializations;
 
 	/**
 	 * Construct an AST node the given its line number in the source file.
@@ -41,7 +40,6 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		}
 		this.implType = implType;
 		this.body = body;
-		staticFieldInitializations = new ArrayList<JFieldDeclaration>();
 	}
 
 	public JAST analyze(Context context) {
@@ -72,7 +70,9 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 			p.println("<Modifiers>");
 			p.indentRight();
 			for (String mod : mods) {
-				p.printf("<Modifier name=\"%s\"/>\n", mod);
+				if (mod != "interface") {
+					p.printf("<Modifier name=\"%s\"/>\n", mod);
+				}
 			}
 			p.indentLeft();
 			p.println("</Modifiers>");
@@ -93,7 +93,7 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 				: JAST.compilationUnit.packageName() + "/" + name;
 		CLEmitter partial = new CLEmitter(false);
 		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces,
-				false, false);
+				false);
 		thisType = Type.typeFor(partial.toClass());
 		context.addType(line, thisType);
 	}
@@ -110,7 +110,7 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
 				: JAST.compilationUnit.packageName() + "/" + name;
 
-		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false, false);
+		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false);
 
 
 		// Get the Class rep for the (partial) class and make it

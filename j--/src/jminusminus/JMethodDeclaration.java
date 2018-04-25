@@ -146,29 +146,29 @@ class JMethodDeclaration
     public JAST analyze(Context context) {
         MethodContext methodContext = 
 	    new MethodContext(context, isStatic, returnType);
-	this.context = methodContext;
+		this.context = methodContext;
 
-        if (!isStatic) {
-            // Offset 0 is used to address "this".
-            this.context.nextOffset();
-        }
+		if (!isStatic) {
+			// Offset 0 is used to address "this".
+			this.context.nextOffset();
+		}
 
-        // Declare the parameters. We consider a formal parameter 
-        // to be always initialized, via a function call.
-        for (JFormalParameter param : params) {
-            LocalVariableDefn defn = new LocalVariableDefn(param.type(), 
-                this.context.nextOffset());
-            defn.initialize();
-            this.context.addEntry(param.line(), param.name(), defn);
-        }
-        if (body != null) {
-            body = body.analyze(this.context);
-	    if (returnType!=Type.VOID && ! methodContext.methodHasReturn()){
-		JAST.compilationUnit.reportSemanticError(line(),
-		    "Non-void method must have a return statement");
-	    }
-        }
-	return this;
+		// Declare the parameters. We consider a formal parameter
+		// to be always initialized, via a function call.
+		for (JFormalParameter param : params) {
+			LocalVariableDefn defn = new LocalVariableDefn(param.type(),
+				this.context.nextOffset());
+			defn.initialize();
+			this.context.addEntry(param.line(), param.name(), defn);
+		}
+		if (body != null) {
+			body = body.analyze(this.context);
+			if (returnType!=Type.VOID && ! methodContext.methodHasReturn()){
+			JAST.compilationUnit.reportSemanticError(line(),
+				"Non-void method must have a return statement");
+			}
+		}
+		return this;
     }
 
     /**

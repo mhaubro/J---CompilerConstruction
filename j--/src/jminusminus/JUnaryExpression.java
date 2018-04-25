@@ -36,8 +36,20 @@ abstract class JUnaryExpression extends JExpression {
 
     public JExpression analyze(Context context, Type typeArg) {
         arg = arg.analyze(context);
-        arg.type().mustMatchExpected(line(), typeArg);
+        arg.type().mustMatchOneOf(line(), typeArg);
         type = typeArg;
+        return this;
+    }
+
+    public JExpression analyze(Context context, Type typeArg, Type typeArg2) {
+        arg = arg.analyze(context);
+        arg.type().mustMatchOneOf(line(), typeArg, typeArg2);
+        if (arg.type() == typeArg) {
+            type = typeArg;
+        }
+        else {
+            type = typeArg2;
+        }
         return this;
     }
 
@@ -73,7 +85,7 @@ class JUnaryPlusOp extends JUnaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT);
+        return analyze(context, Type.INT, Type.DOUBLE);
     }
 }
 
@@ -132,8 +144,13 @@ class JNegateOp extends JUnaryExpression {
 
     public JExpression analyze(Context context) {
         arg = arg.analyze(context);
-        arg.type().mustMatchExpected(line(), Type.INT);
-        type = Type.INT;
+        arg.type().mustMatchOneOf(line(), Type.INT, Type.DOUBLE);
+        if (arg.type() == Type.INT) {
+            type = Type.INT;
+        }
+        else {
+            type = Type.DOUBLE;
+        }
         return this;
     }
 
@@ -261,8 +278,13 @@ class JPostDecrementOp extends JUnaryExpression {
             type = Type.ANY;
         } else {
             arg = (JExpression) arg.analyze(context);
-            arg.type().mustMatchExpected(line(), Type.INT);
-            type = Type.INT;
+            arg.type().mustMatchOneOf(line(), Type.INT, Type.DOUBLE);
+            if (arg.type() == Type.INT) {
+                type = Type.INT;
+            }
+            else {
+                type = Type.DOUBLE;
+            }
         }
         return this;
     }
@@ -342,8 +364,13 @@ class JPostIncrementOp extends JUnaryExpression {
             type = Type.ANY;
         } else {
             arg = (JExpression) arg.analyze(context);
-            arg.type().mustMatchExpected(line(), Type.INT);
-            type = Type.INT;
+            arg.type().mustMatchOneOf(line(), Type.INT, Type.DOUBLE);
+            if (arg.type() == Type.INT) {
+                type = Type.INT;
+            }
+            else {
+                type = Type.DOUBLE;
+            }
         }
         return this;
     }
@@ -420,8 +447,13 @@ class JPreDecrementOp extends JUnaryExpression {
             type = Type.ANY;
         } else {
             arg = (JExpression) arg.analyze(context);
-            arg.type().mustMatchExpected(line(), Type.INT);
-            type = Type.INT;
+            arg.type().mustMatchOneOf(line(), Type.INT, Type.DOUBLE);
+            if (arg.type() == Type.INT) {
+                type = Type.INT;
+            }
+            else {
+                type = Type.DOUBLE;
+            }
         }
         return this;
     }
@@ -498,8 +530,13 @@ class JPreIncrementOp extends JUnaryExpression {
             type = Type.ANY;
         } else {
             arg = (JExpression) arg.analyze(context);
-            arg.type().mustMatchExpected(line(), Type.INT);
-            type = Type.INT;
+            arg.type().mustMatchOneOf(line(), Type.INT, Type.DOUBLE);
+            if (arg.type() == Type.INT) {
+                type = Type.INT;
+            }
+            else {
+                type = Type.DOUBLE;
+            }
         }
         return this;
     }

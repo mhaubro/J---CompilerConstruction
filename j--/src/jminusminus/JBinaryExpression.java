@@ -48,6 +48,8 @@ abstract class JBinaryExpression extends JExpression {
         Helper for analyzing functions with two of the same type
      */
     public JExpression analyze(Context context, Type typeArg) {
+        lhs = (JExpression) lhs.analyze(context);
+        rhs = (JExpression) rhs.analyze(context);
         lhs.type().mustMatchExpected(line(), typeArg);
         rhs.type().mustMatchExpected(line(), typeArg);
         type = typeArg;
@@ -57,14 +59,18 @@ abstract class JBinaryExpression extends JExpression {
     public JExpression analyze(Context context, Type typeArg, Type typeArg2) {
         lhs = (JExpression) lhs.analyze(context);
         rhs = (JExpression) rhs.analyze(context);
-        lhs.type().mustMatchOneOf(line, typeArg, typeArg2);
+        lhs.type().mustMatchOneOf(line(), typeArg, typeArg2);
         if (lhs.type() == typeArg) {
-            return analyze (context, typeArg);
+            rhs.type().mustMatchExpected(line(), typeArg);
+            type = typeArg;
         }
         else if (lhs.type() == typeArg2) {
-            return analyze(context, typeArg2);
+            rhs.type().mustMatchExpected(line(), typeArg2);
+            type = typeArg2;
         }
-        type = Type.NULLTYPE;
+        else {
+            type = Type.NULLTYPE;
+        }
         return this;
     }
     /**
@@ -104,7 +110,7 @@ class JBitwiseOrOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
@@ -120,7 +126,7 @@ class JBitwiseXorOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
@@ -136,7 +142,7 @@ class JBitwiseAndOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
@@ -153,7 +159,7 @@ class JShiftLeftOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
@@ -169,7 +175,7 @@ class JShiftRightOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
@@ -185,7 +191,7 @@ class JLogicShiftRightOp extends JBinaryExpression {
     }
 
     public JExpression analyze(Context context) {
-        return analyze(context, Type.INT, Type.DOUBLE);
+        return analyze(context, Type.INT);
     }
 }
 
