@@ -949,8 +949,7 @@ private JStatement statement(): {
 	ArrayList<JStatement> init = null;
 	ArrayList<String> mods = new ArrayList<String>();
 	
-	Type type = null;
-	String name = "";
+	JFormalParameter formalParam = null;
 	JExpression range = null;
 	
 	JBlock tryBlock = null;
@@ -984,16 +983,15 @@ private JStatement statement(): {
 		]
 		// Range-based
 		(
-			LOOKAHEAD( type() <IDENTIFIER> <COLON> ) 
-			type = type()
-			<IDENTIFIER> { name = token.image; }
+			LOOKAHEAD( formalParameter() )
+			formalParam = formalParameter()
 			<COLON>
 			range = expression()
 			<RPAREN>
 			body = statement()
-			{ statement = new JRangeBasedFor(line, mods, type, name, range, body, true); }
+			{ statement = new JRangeBasedFor(line, mods, formalParam, range, body, true); }
 		|
-		
+		// Traditional
 			(
 			LOOKAHEAD( type() <IDENTIFIER> )
 			varInit = localVariableDeclarationStatement() |

@@ -43,7 +43,23 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	}
 
 	public JAST analyze(Context context) {
-		return null;
+		// Analyze all members
+		for (JMember member : body) {
+			((JAST) member).analyze(this.context);
+		}
+
+		// Finally, ensure that a non-abstract class has
+		// no abstract methods.
+		if (!thisType.isAbstract() && thisType.abstractMethods().size() > 0) {
+			String methods = "";
+			for (Method method : thisType.abstractMethods()) {
+				methods += "\n" + method;
+			}
+			JAST.compilationUnit.reportSemanticError(line,
+					"Class must be declared abstract since it defines "
+							+ "the following abstract methods: %s", methods);
+		}
+		return this;
 	}
 
 	public void codegen(CLEmitter output) {
@@ -131,6 +147,6 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 
 
 	public Type thisType() {
-		return null;
+		return thisType;
 	}
 }

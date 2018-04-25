@@ -39,12 +39,12 @@
 
 Test | Status
 -----|-------
-Blocks.java | Incomplete
+Blocks.java | Complete!
 ConditionalExpression.java | Complete!
 Double.java | Complete!
 ExceptionHandlers.java | Incomplete
-ForStatements.java | Incomplete
+ForStatements.java | Complete!
 Interface.java | Incomplete
-Operators.java | Incomplete (to be tested)
+Operators.java | Complete!
 
 ### Step 5 - Not started

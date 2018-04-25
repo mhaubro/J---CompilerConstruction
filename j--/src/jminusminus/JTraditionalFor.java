@@ -32,7 +32,31 @@ public class JTraditionalFor extends JForStatement {
 	}
 
 
-	@Override
+	public JForStatement analyze(Context context) {
+		if (varInit == null) {
+			for (int i = 0; i < init.size(); i++) {
+				init.set(i, (JStatement) init.get(i).analyze(context));
+			}
+		}
+		else {
+			varInit = (JVariableDeclaration) varInit.analyze(context);
+		}
+
+		condition = condition.analyze(context);
+		condition.type().mustMatchExpected(line(), Type.BOOLEAN);
+
+		for (int i = 0; i < update.size(); i++) {
+			update.set(i, (JStatement) update.get(i).analyze(context));
+		}
+
+		body = (JStatement) body.analyze(context);
+		return this;
+	}
+
+	public void codegen(CLEmitter output) {
+
+	}
+
 	public void writeToStdOut(PrettyPrinter p) {
 		p.printf("<JTraditionalFor line=\"%d\">\n", line());
 		p.indentRight();

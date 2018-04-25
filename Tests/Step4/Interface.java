@@ -1,6 +1,8 @@
 /**
  * Interface.java
  */
+import java.lang.Integer;
+import java.lang.System;
 
 interface A {
     public int f(int x);

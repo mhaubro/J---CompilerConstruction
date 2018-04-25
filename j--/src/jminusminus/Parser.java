@@ -860,14 +860,12 @@ public class Parser {
             boolean isRangeBased = checkForType();
 			
             if (isRangeBased) {
-                Type type = type();
-                mustBe(IDENTIFIER);
-                String name = scanner.previousToken().image();
+                JFormalParameter formalParam = formalParameter();
                 mustBe(COLON);
                 JExpression range = expression();
                 mustBe(RPAREN);
                 body = statement();
-                return new JRangeBasedFor(line, mods, type, name, range, body, isRangeBased);
+                return new JRangeBasedFor(line, mods, formalParam, range, body, isRangeBased);
             }
             else {
                 ArrayList<JStatement> init = null;
