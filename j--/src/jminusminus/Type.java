@@ -54,6 +54,7 @@ class Type {
     /** java.lang.Boolean. */
     public final static Type BOXED_BOOLEAN = typeFor(java.lang.Boolean.class);
 
+
     /** The type java.lang.String. */
     public static Type STRING = typeFor(java.lang.String.class);
 
@@ -65,6 +66,9 @@ class Type {
 
     /** The null void. */
     public final static Type NULLTYPE = new Type(java.lang.Object.class);
+
+    /** Throwable class. All exceptions must be a subclass of throwable */
+    public static Type THROWABLE = typeFor(java.lang.Throwable.class);
 
     /**
      * A type marker indicating a constructor (having no return type).

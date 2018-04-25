@@ -15,7 +15,14 @@ public class JThrowStatement extends JStatement {
 	}
 
 	public JStatement analyze(Context context) {
-		return null;
+		exception.analyze(context);
+
+		if (!Type.THROWABLE.isJavaAssignableFrom(exception.type())) {
+			JAST.compilationUnit.reportSemanticError(line,
+					"Type %s does not extend type %s, which is required for" +
+							" objects in a throw statement", exception.type(), Type.THROWABLE);
+		}
+		return this;
 	}
 
 	public void codegen(CLEmitter output) {

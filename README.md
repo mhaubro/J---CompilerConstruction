@@ -44,7 +44,7 @@ ConditionalExpression.java | Complete!
 Double.java | Complete!
 ExceptionHandlers.java | Incomplete
 ForStatements.java | Complete!
-Interface.java | Incomplete
+Interface.java | Complete!
 Operators.java | Complete!
 
 ### Step 5 - Not started

@@ -794,12 +794,10 @@ public class Parser {
         while (have(CATCH)) {
             mustBe(LPAREN);
             mods = modifiers();
-            TypeName ex = qualifiedIdentifier();
-            mustBe(IDENTIFIER);
-            String name = scanner.previousToken().image();
+            JFormalParameter exception_param = formalParameter();
             mustBe(RPAREN);
             JBlock block = block();
-            cc.add(new JCatchClause(line, mods, ex, name, block));
+            cc.add(new JCatchClause(line, mods, exception_param, block));
         }
         return cc;
     }

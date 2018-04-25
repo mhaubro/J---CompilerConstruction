@@ -28,7 +28,12 @@ public class JTryCatchBlock extends JStatement {
 	}
 
 	public JAST analyze(Context context) {
-		return null;
+		tryBlock.analyze(context);
+		for (JCatchClause catch_clause : catches) {
+			catch_clause.analyze(context);
+		}
+		finalBlock.analyze(context);
+		return this;
 	}
 
 	public void codegen(CLEmitter output) {

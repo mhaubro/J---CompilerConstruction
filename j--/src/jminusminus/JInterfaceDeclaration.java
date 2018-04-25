@@ -13,7 +13,12 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	Type superType;
 	ArrayList<JMember> body;
 	private ClassContext context;
+
+	/** Instance fields of this class. */
+	private ArrayList<JFieldDeclaration> instanceFieldInitializations;
+
 	/** Static (class) fields of this class. */
+	private ArrayList<JFieldDeclaration> staticFieldInitializations;
 
 	/**
 	 * Construct an AST node the given its line number in the source file.
@@ -46,6 +51,18 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		// Analyze all members
 		for (JMember member : body) {
 			((JAST) member).analyze(this.context);
+		}
+
+		// Copy declared fields for purposes of initialization.
+		for (JMember member : body) {
+			if (member instanceof JFieldDeclaration) {
+				JFieldDeclaration fieldDecl = (JFieldDeclaration) member;
+				if (fieldDecl.mods().contains("static")) {
+					staticFieldInitializations.add(fieldDecl);
+				} else {
+					instanceFieldInitializations.add(fieldDecl);
+				}
+			}
 		}
 
 		// Finally, ensure that a non-abstract class has

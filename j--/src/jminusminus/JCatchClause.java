@@ -7,13 +7,14 @@ public class JCatchClause extends JAST {
 	private ArrayList<String> mods;
 
 	/* The type of exception being caught */
-	private TypeName catchType;
-
-	/* Name of the exception being caught */
-	private String catchName;
+	private JFormalParameter exception_param;
 
 	/* Block portion of the catch */
 	private JBlock catchBlock;
+
+
+	/** Built in analyze(). Exceptions have their own context */
+	protected LocalContext context;
 
 	/*
 	 * Construct an AST node the given its line number in the source file.
@@ -23,16 +24,38 @@ public class JCatchClause extends JAST {
 	 * @param catchName the name of the exception
 	 * @param catchBlock the code in the block of the exception
 	 */
-	protected JCatchClause(int line, ArrayList<String> mods, TypeName catchType, String catchName, JBlock catchBlock) {
+	protected JCatchClause(int line, ArrayList<String> mods, JFormalParameter exception_param, JBlock catchBlock) {
 		super(line);
 		this.mods = mods;
-		this.catchType = catchType;
-		this.catchName = catchName;
+		this.exception_param = exception_param;
 		this.catchBlock = catchBlock;
 	}
 
 	public JAST analyze(Context context) {
-		return null;
+		LocalContext localContext =
+				new LocalContext(context);
+		this.context = localContext;
+
+		for (String mod : mods) {
+			if (!mod.equals("final")) {
+				JAST.compilationUnit.reportSemanticError(line,
+						"Modifier %s may not be used to modify a catchtype", mod);
+			}
+		}
+
+		LocalVariableDefn defn = new LocalVariableDefn(exception_param.type(), this.context.nextOffset());
+		defn.initialize();
+		this.context.addEntry(exception_param.line(), exception_param.name(), defn);
+		/*if (!Type.THROWABLE.isJavaAssignableFrom(exception_param.type())) {
+			JAST.compilationUnit.reportSemanticError(line,
+					"Type %s does not extend type %s, which is required for" +
+							" objects in a throw statement", exception_param.type(), Type.THROWABLE);
+
+		}*/
+
+		catchBlock.analyze(context);
+
+		return this;
 	}
 
 	public void codegen(CLEmitter output) {
@@ -40,8 +63,8 @@ public class JCatchClause extends JAST {
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {
-		p.printf("<JCatchClause line=\"%d\" type=\"%s\" name=\"%s\">\n",
-				line(), this.catchType.toString(), this.catchName);
+		p.printf("<JCatchClause line=\"%d\">\n",
+				line());
 		if (mods != null) {
 			p.println("<Modifiers>");
 			p.indentRight();
@@ -51,6 +74,9 @@ public class JCatchClause extends JAST {
 			p.indentLeft();
 			p.println("</Modifiers>");
 		}
+		p.indentRight();
+		exception_param.writeToStdOut(p);
+		p.indentLeft();
 		p.indentRight();
 		this.catchBlock.writeToStdOut(p);
 		p.indentLeft();
