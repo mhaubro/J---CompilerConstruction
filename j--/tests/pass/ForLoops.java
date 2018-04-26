@@ -7,7 +7,7 @@ public class ForLoops {
 
         String sourceChar = "ABCDEFG";
         int[] numbers = {1,2,3,4,5,6,7,8};
-	double d = .5;
+	    double d = .5;
 
         for(int i = 0; i <= 6; i++) {
             System.out.print(sourceChar.charAt(i));
