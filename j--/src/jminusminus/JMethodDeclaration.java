@@ -190,11 +190,12 @@ class JMethodDeclaration
         // Add implicit RETURN
         if (returnType == Type.VOID) {
             partial.addNoArgInstruction(RETURN);
-        } else if (returnType == Type.INT
+        } else if (returnType == Type.INT || returnType == Type.DOUBLE
             || returnType == Type.BOOLEAN || returnType == Type.CHAR) {
             partial.addNoArgInstruction(ICONST_0);
             partial.addNoArgInstruction(IRETURN);
-        } else {
+        }
+        else {
             // A reference type.
             partial.addNoArgInstruction(ACONST_NULL);
             partial.addNoArgInstruction(ARETURN);

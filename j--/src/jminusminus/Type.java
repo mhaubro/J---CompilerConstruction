@@ -408,6 +408,7 @@ class Type {
      */
 
     public String toDescriptor() {
+        System.out.println(this.toString() + " " + descriptorFor(classRep));
         return descriptorFor(classRep);
     }
 
@@ -421,12 +422,14 @@ class Type {
      */
 
     private static String descriptorFor(Class<?> cls) {
-        return cls == null ? "V" : cls == void.class ? "V"
-                : cls.isArray() ? "[" + descriptorFor(cls.getComponentType())
-                        : cls.isPrimitive() ? (cls == int.class ? "I"
-                                : cls == char.class ? "C"
-                                        : cls == boolean.class ? "Z" : "?")
-                                : "L" + cls.getName().replace('.', '/') + ";";
+        return cls == null ? "V"    : cls == void.class     ? "V"
+                                    : cls.isArray()         ? "[" + descriptorFor(cls.getComponentType())
+                                    : cls.isPrimitive()     ?
+                (cls == int.class                           ? "I"
+                                    : cls == char.class     ? "C"
+                                    : cls == boolean.class  ? "Z"
+                                    : cls == double.class   ? "D" : "?")
+                                    : "L" + cls.getName().replace('.', '/') + ";";
     }
 
     /**

@@ -1,5 +1,7 @@
 package pass;
 
+import java.lang.System;
+
 public class OperatorsDouble {
 
 	public static void main (String[] args) {
