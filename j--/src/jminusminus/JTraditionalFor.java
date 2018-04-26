@@ -14,6 +14,9 @@ public class JTraditionalFor extends JForStatement {
 	/* Condition of the for statement */
 	private JExpression condition;
 
+	/* Local context for the For loop */
+	private LocalContext context;
+
 	/**
 	 * Construct an AST node for a statement given its line number.
 	 *
@@ -33,23 +36,25 @@ public class JTraditionalFor extends JForStatement {
 
 
 	public JForStatement analyze(Context context) {
+		this.context =  new LocalContext(context);
+
 		if (varInit == null) {
 			for (int i = 0; i < init.size(); i++) {
-				init.set(i, (JStatement) init.get(i).analyze(context));
+				init.set(i, (JStatement) init.get(i).analyze(this.context));
 			}
 		}
 		else {
-			varInit = (JVariableDeclaration) varInit.analyze(context);
+			varInit = (JVariableDeclaration) varInit.analyze(this.context);
 		}
 
-		condition = condition.analyze(context);
+		condition = condition.analyze(this.context);
 		condition.type().mustMatchExpected(line(), Type.BOOLEAN);
 
 		for (int i = 0; i < update.size(); i++) {
-			update.set(i, (JStatement) update.get(i).analyze(context));
+			update.set(i, (JStatement) update.get(i).analyze(this.context));
 		}
 
-		body = (JStatement) body.analyze(context);
+		body = (JStatement) body.analyze(this.context);
 		return this;
 	}
 

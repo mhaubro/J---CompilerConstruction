@@ -54,26 +54,8 @@ class JLiteralDouble extends JExpression {
         /*
         TODO
          */
-        int i = Integer.parseInt(text);
-        switch (i) {
-            case 0:
-                output.addNoArgInstruction(FCONST_0);
-                break;
-            case 1:
-                output.addNoArgInstruction(FCONST_1);
-                break;
-            case 2:
-                output.addNoArgInstruction(FCONST_2);
-                break;
-            default:
-                if (i >= 4 && i <= 127) {
-                    output.addOneArgInstruction(BIPUSH, i);
-                } else if (i >= 128 && i <= 32767) {
-                    output.addOneArgInstruction(SIPUSH, i);
-                } else {
-                    output.addLDCInstruction(i);
-                }
-        }
+        double d = Double.parseDouble(text);
+        output.addLDCInstruction(d);
     }
 
     /**
