@@ -89,12 +89,14 @@ class JArrayExpression
         indexExpr.codegen(output);
         if (type == Type.INT) {
             output.addNoArgInstruction(IALOAD);
-	} else if (type == Type.BOOLEAN) {
+	    } else if (type == Type.BOOLEAN) {
             output.addNoArgInstruction(BALOAD);
-	} else if (type == Type.CHAR) {
+	    } else if (type == Type.CHAR) {
             output.addNoArgInstruction(CALOAD);
         } else if (!type.isPrimitive()) {
             output.addNoArgInstruction(AALOAD);
+        } else if (type == Type.DOUBLE) {
+            output.addNoArgInstruction(DALOAD);
         }
     }
 
@@ -134,14 +136,16 @@ class JArrayExpression
         } else {
             output.addNoArgInstruction(DUP2);
         }
-	if (type == Type.INT) {
-	    output.addNoArgInstruction(IALOAD);
-	} else if (type == Type.BOOLEAN) {
-	    output.addNoArgInstruction(BALOAD);
-	} else if (type == Type.CHAR) {
-	    output.addNoArgInstruction(CALOAD);
+    	if (type == Type.INT) {
+	        output.addNoArgInstruction(IALOAD);
+	    } else if (type == Type.BOOLEAN) {
+	        output.addNoArgInstruction(BALOAD);
+	    } else if (type == Type.CHAR) {
+    	    output.addNoArgInstruction(CALOAD);
         } else if (!type.isPrimitive()) {
             output.addNoArgInstruction(AALOAD);
+        } else if (type == Type.DOUBLE) {
+            output.addNoArgInstruction(DALOAD);
         }
     }
 
@@ -172,16 +176,17 @@ class JArrayExpression
      */
 
     public void codegenStore(CLEmitter output) {
-	if (type == Type.INT) {
-	    output.addNoArgInstruction(IASTORE);
-	} else if (type == Type.BOOLEAN) {
-	    output.addNoArgInstruction(BASTORE);
-	} else if (type == Type.CHAR) {
-	    output.addNoArgInstruction(CASTORE);
+        if (type == Type.INT) {
+            output.addNoArgInstruction(IASTORE);
+        } else if (type == Type.BOOLEAN) {
+            output.addNoArgInstruction(BASTORE);
+        } else if (type == Type.CHAR) {
+            output.addNoArgInstruction(CASTORE);
         } else if (!type.isPrimitive()) {
             output.addNoArgInstruction(AASTORE);
+        } else if (type == Type.DOUBLE) {
+            output.addNoArgInstruction(DASTORE);
         }
-
     }
 
     /**

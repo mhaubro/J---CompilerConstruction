@@ -199,15 +199,18 @@ class JRemainderOp extends JBinaryExpression {
     public JRemainderOp(int line, JExpression lhs, JExpression rhs) {
         super(line, "%", lhs, rhs);
     }
-    public void codegen(CLEmitter output) {
-        lhs.codegen(output);
-        rhs.codegen(output);
-        output.addNoArgInstruction(IREM);
-    }
-
 
     public JExpression analyze(Context context) {
         return analyze(context, Type.INT, Type.DOUBLE);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        if(type == Type.INT)
+            output.addNoArgInstruction(IREM);
+        else if(type == Type.DOUBLE)
+            output.addNoArgInstruction(DREM);
     }
 }
 
@@ -215,15 +218,18 @@ class JDivideOp extends JBinaryExpression {
 	public JDivideOp(int line, JExpression lhs, JExpression rhs) {
 		super(line, "/", lhs, rhs);
 	}
-	public void codegen(CLEmitter output) {
-		lhs.codegen(output);
-		rhs.codegen(output);
-		output.addNoArgInstruction(IDIV);
-	}
-
 
 	public JExpression analyze(Context context) {
         return analyze(context, Type.INT, Type.DOUBLE);
+    }
+
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        rhs.codegen(output);
+        if(type == Type.INT)
+            output.addNoArgInstruction(IDIV);
+        else if(type == Type.DOUBLE)
+            output.addNoArgInstruction(DDIV);
     }
 }
 
@@ -291,11 +297,12 @@ class JPlusOp extends JBinaryExpression {
      */
 
     public void codegen(CLEmitter output) {
-        if (type == Type.INT) {
-            lhs.codegen(output);
-            rhs.codegen(output);
+        lhs.codegen(output);
+        rhs.codegen(output);
+        if (type == Type.INT)
             output.addNoArgInstruction(IADD);
-        }
+        else if(type == Type.DOUBLE)
+            output.addNoArgInstruction(DADD);
     }
 
 }
@@ -348,7 +355,10 @@ class JSubtractOp extends JBinaryExpression {
     public void codegen(CLEmitter output) {
         lhs.codegen(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(ISUB);
+        if(type == Type.INT)
+            output.addNoArgInstruction(ISUB);
+        else if(type == Type.DOUBLE)
+            output.addNoArgInstruction(DSUB);
     }
 
 }
@@ -401,7 +411,10 @@ class JMultiplyOp extends JBinaryExpression {
     public void codegen(CLEmitter output) {
         lhs.codegen(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(IMUL);
+        if(type == Type.INT)
+            output.addNoArgInstruction(IMUL);
+        else if(type == Type.DOUBLE)
+            output.addNoArgInstruction(DMUL);
     }
 
 }
