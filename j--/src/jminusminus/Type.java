@@ -410,7 +410,6 @@ class Type {
      */
 
     public String toDescriptor() {
-        System.out.println(this.toString() + " " + descriptorFor(classRep));
         return descriptorFor(classRep);
     }
 
