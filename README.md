@@ -16,7 +16,7 @@
  Interface.java 			| Complete! Now also with implementing several interfaces
  Operators.java 			| Complete!
  
-### Step 3 - In Progress
+### Step 3 - Complete!
 
  Test | Status 
 ------|------
@@ -35,7 +35,7 @@
  ReservedWords.java 			| Not necessary 
  Separators.java 			| Complete!
 
-### Step 4 - Not started
+### Step 4 - Complete!
 
 Test | Status
 -----|-------
@@ -47,4 +47,13 @@ ForStatements.java | Complete!
 Interface.java | Complete!
 Operators.java | Complete!
 
-### Step 5 - Not started
+### Step 5 - In Progress
+Test | Status
+-----|-------
+Blocks.java | Not started
+ConditionalExpression.java | Not started
+Double.java | Not started
+ExceptionHandlers.java | Not started
+ForStatements.java | Not started
+Interface.java | Not started
+Operators.java | Not started
