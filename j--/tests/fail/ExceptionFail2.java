@@ -1,8 +1,6 @@
 package fail;
 import java.lang.Boolean;
 import java.lang.Exception;
-this is a fail.
-/*
 
 public class ExceptionFail2 {
 
@@ -27,4 +25,3 @@ public class ExceptionFail2 {
 		}
 	}
 }
-*/

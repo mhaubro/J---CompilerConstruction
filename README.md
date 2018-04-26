@@ -42,7 +42,7 @@ Test | Status
 Blocks.java | Complete!
 ConditionalExpression.java | Complete!
 Double.java | Complete!
-ExceptionHandlers.java | Incomplete
+ExceptionHandlers.java | Complete!
 ForStatements.java | Complete!
 Interface.java | Complete!
 Operators.java | Complete!
