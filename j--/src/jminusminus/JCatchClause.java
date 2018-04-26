@@ -43,17 +43,21 @@ public class JCatchClause extends JAST {
 			}
 		}
 
+		exception_param.setType(exception_param.type().resolve(context));
+
+
 		LocalVariableDefn defn = new LocalVariableDefn(exception_param.type(), this.context.nextOffset());
 		defn.initialize();
 		this.context.addEntry(exception_param.line(), exception_param.name(), defn);
-		/*if (!Type.THROWABLE.isJavaAssignableFrom(exception_param.type())) {
+		if (!Type.THROWABLE.isJavaAssignableFrom(exception_param.type())) {
 			JAST.compilationUnit.reportSemanticError(line,
 					"Type %s does not extend type %s, which is required for" +
 							" objects in a throw statement", exception_param.type(), Type.THROWABLE);
+			return this;
 
-		}*/
+		}
 
-		catchBlock.analyze(context);
+		catchBlock.analyze(this.context);
 
 		return this;
 	}

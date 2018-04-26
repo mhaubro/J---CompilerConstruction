@@ -131,6 +131,7 @@ class Context {
 
     public void addType(int line, Type type) {
         IDefn iDefn = new TypeNameDefn(type);
+
         compilationUnitContext.addEntry(line, type.simpleName(), iDefn);
         if (!type.toString().equals(type.simpleName())) {
             compilationUnitContext.addEntry(line, type.toString(), iDefn);
