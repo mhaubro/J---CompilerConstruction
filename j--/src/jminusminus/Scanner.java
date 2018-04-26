@@ -372,7 +372,22 @@ class Scanner {
             return new TokenInfo(STRING_LITERAL, buffer.toString(), line);
         case '.':
             nextCh();
-            return new TokenInfo(DOT, line);
+            if(!isDigit(ch)) {
+                return new TokenInfo(DOT, line);
+            }
+            else
+            {
+                buffer = new StringBuffer();
+                buffer.append("0");
+                buffer.append(".");
+                while(isDigit(ch))
+                {
+                    buffer.append(ch);
+                    nextCh();
+                }
+                parseED(buffer);
+                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            }
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':

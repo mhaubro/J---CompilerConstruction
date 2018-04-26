@@ -10,6 +10,8 @@ public class JRangeBasedFor extends JForStatement {
 	/* For the range-based for loop, what is the object */
 	private JExpression range;
 
+	private LocalContext context;
+
 	/**
 	 * Construct an AST node for a statement given its line number.
 	 *
@@ -27,12 +29,19 @@ public class JRangeBasedFor extends JForStatement {
 
 
 	public JForStatement analyze(Context context) {
-		formalParam = (JFormalParameter) formalParam.analyze(context);
-		range = range.analyze(context);
+	    this.context = new LocalContext(context);
+
+        formalParam.setType(formalParam.type().resolve(context));
+        LocalVariableDefn defn = new LocalVariableDefn(formalParam.type(),
+                this.context.nextOffset());
+        defn.initialize();
+        this.context.addEntry(formalParam.line(), formalParam.name(), defn);
+
+		range = range.analyze(this.context);
 
 		formalParam.type().mustMatchExpected(line(), range.type().componentType());
 
-		body = (JStatement) body.analyze(context);
+		body = (JStatement) body.analyze(this.context);
 		return this;
 	}
 

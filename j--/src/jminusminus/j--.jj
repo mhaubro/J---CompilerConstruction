@@ -824,8 +824,7 @@ private ArrayList<JCatchClause> catchClauses() : {
 	int line = 0;
 	ArrayList<String> mods = null;
 	ArrayList<JCatchClause> cc = new ArrayList<JCatchClause>();
-	TypeName typeDecl = null;
-	String name = "";
+	JFormalParameter param = null;
 	JBlock block=  null;
 }
 {
@@ -834,11 +833,10 @@ private ArrayList<JCatchClause> catchClauses() : {
 			<CATCH> { line = token.beginLine; }
 			<LPAREN>
 			mods = modifiers()
-			typeDecl = qualifiedIdentifier()
-			<IDENTIFIER> { name = token.image; }
+			param = formalParameter()
 			<RPAREN>
 			block = block()
-			{ cc.add(new JCatchClause(line, mods, typeDecl, name, block)); }
+			{ cc.add(new JCatchClause(line, mods, param, block)); }
 		)+
 	}
 	catch(ParseException e) {
