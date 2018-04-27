@@ -1,9 +1,11 @@
 package pass;
 
+import java.lang.System;
+
 public class OperatorsInt {
 
 	public static void main (String[] args) {
-		System.out.println(20/7);
+		System.out.println(multAssign(3, 4));
 	}
 	// Integer methods
 	public static int minusAssign(int x, int y) {

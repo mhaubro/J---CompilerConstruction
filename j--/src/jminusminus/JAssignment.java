@@ -251,7 +251,12 @@ class JMinusAssignOp extends JAssignment {
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(ISUB);
+        if (lhs.type().equals(Type.INT)) {
+            output.addNoArgInstruction(ISUB);
+        }
+        else {
+            output.addNoArgInstruction(DSUB);
+        }
         if (!isStatementExpression) {
             // Generate code to leave the r-value atop stack
             ((JLhs) lhs).codegenDuplicateRvalue(output);
@@ -315,7 +320,12 @@ class JMultAssignOp extends JAssignment {
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(IMUL);
+        if (lhs.type().equals(Type.INT)) {
+            output.addNoArgInstruction(IMUL);
+        }
+        else {
+            output.addNoArgInstruction(DMUL);
+        }
         if (!isStatementExpression) {
             // Generate code to leave the r-value atop stack
             ((JLhs) lhs).codegenDuplicateRvalue(output);
@@ -379,7 +389,12 @@ class JDivAssignOp extends JAssignment {
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(IDIV);
+        if (lhs.type().equals(Type.INT)) {
+            output.addNoArgInstruction(IDIV);
+        }
+        else {
+            output.addNoArgInstruction(DDIV);
+        }
         if (!isStatementExpression) {
             // Generate code to leave the r-value atop stack
             ((JLhs) lhs).codegenDuplicateRvalue(output);
@@ -443,7 +458,12 @@ class JRemAssignOp extends JAssignment {
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
         rhs.codegen(output);
-        output.addNoArgInstruction(IREM);
+        if (lhs.type().equals(Type.INT)) {
+            output.addNoArgInstruction(IREM);
+        }
+        else {
+            output.addNoArgInstruction(DREM);
+        }
         if (!isStatementExpression) {
             // Generate code to leave the r-value atop stack
             ((JLhs) lhs).codegenDuplicateRvalue(output);
