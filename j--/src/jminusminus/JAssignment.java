@@ -154,7 +154,7 @@ class JPlusAssignOp extends JAssignment {
         if (lhs.type().equals(Type.INT)) {
             rhs.type().mustMatchExpected(line(), Type.INT);
             type = Type.INT;
-        } else if (lhs.type().equals(Type.INT)) {
+        } else if (lhs.type().equals(Type.DOUBLE)) {
             rhs.type().mustMatchExpected(line(), Type.DOUBLE);
             type = Type.DOUBLE;
         } else if (lhs.type().equals(Type.STRING)) {
@@ -250,6 +250,7 @@ class JMinusAssignOp extends JAssignment {
 
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
+        ((JLhs) lhs).codegenLoadLhsRvalue(output);
         rhs.codegen(output);
         if (lhs.type().equals(Type.INT)) {
             output.addNoArgInstruction(ISUB);
@@ -319,6 +320,7 @@ class JMultAssignOp extends JAssignment {
 
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
+        ((JLhs) lhs).codegenLoadLhsRvalue(output);
         rhs.codegen(output);
         if (lhs.type().equals(Type.INT)) {
             output.addNoArgInstruction(IMUL);
@@ -388,6 +390,7 @@ class JDivAssignOp extends JAssignment {
 
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
+        ((JLhs) lhs).codegenLoadLhsRvalue(output);
         rhs.codegen(output);
         if (lhs.type().equals(Type.INT)) {
             output.addNoArgInstruction(IDIV);
@@ -457,6 +460,7 @@ class JRemAssignOp extends JAssignment {
 
     public void codegen(CLEmitter output) {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
+        ((JLhs) lhs).codegenLoadLhsRvalue(output);
         rhs.codegen(output);
         if (lhs.type().equals(Type.INT)) {
             output.addNoArgInstruction(IREM);
