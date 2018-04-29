@@ -1,5 +1,7 @@
 package jminusminus;
 
+import static jminusminus.CLConstants.*;
+
 public class JTernaryExpression extends JExpression {
 
 
@@ -11,6 +13,10 @@ public class JTernaryExpression extends JExpression {
 
 	/* The right hand side of the expression */
 	protected JExpression rhs;
+
+
+	/* The type of the return */
+	protected Type returnType;
 
 	/**
 	 * Construct an AST node for an expression given its line number.
@@ -42,6 +48,7 @@ public class JTernaryExpression extends JExpression {
 		/* Check that the middle and rhs are the same type */
 		middle.type().mustMatchExpected(line, rhs.type());
 		this.type = middle.type();
+		returnType = middle.type();
 
 		/* The left hand side must be a boolean */
 		lhs.type().mustMatchExpected(line, Type.BOOLEAN);
@@ -50,10 +57,17 @@ public class JTernaryExpression extends JExpression {
 
 	/**
 	 * Generates the code for a ternary expression
-	 * TODO: Write the code to implement the code generation of a ternary expression
 	 */
 	public void codegen(CLEmitter output) {
-
+		((JLhs) lhs).codegenLoadLhsLvalue(output);
+		String elseLabel = output.createLabel();
+		String endLabel = output.createLabel();
+		lhs.codegen(output, elseLabel, false);
+		middle.codegen(output);
+		output.addBranchInstruction(GOTO, endLabel);
+		output.addLabel(elseLabel);
+		rhs.codegen(output);
+		output.addLabel(endLabel);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

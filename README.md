@@ -51,7 +51,7 @@ Operators.java | Complete!
 Test | Status
 -----|-------
 Blocks.java | Not started
-ConditionalExpression.java | Not started
+ConditionalExpression.java | Complete!
 Double.java | Not started
 ExceptionHandlers.java | Not started
 ForStatements.java | Not started

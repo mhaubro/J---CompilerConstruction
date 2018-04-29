@@ -23,7 +23,7 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(ClassesTest.class);
         suite.addTestSuite(DivisionTest.class);
         suite.addTestSuite(OperatorsTest.class);
-        suite.addTestSuite(ConditionalExpression.class);
+        suite.addTestSuite(ConditionalExpressionTest.class);
         suite.addTestSuite(RemainderTest.class);
         suite.addTestSuite(ShiftTest.class);
         suite.addTestSuite(BitwiseTest.class);

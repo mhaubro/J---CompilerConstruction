@@ -23,5 +23,8 @@ public class ConditionalExpressionTest extends TestCase {
 		this.assertEquals(condExpr.dblConditionalExpr(true, 34.5, 15.1), 34.5, 1e-6);
 		this.assertEquals(condExpr.dblConditionalExpr(false, 34.5, 15.1), 15.1, 1e-6);
 
+		this.assertEquals(condExpr.stringConditionalExpr(true, "Hello", "World"), "Hello");
+		this.assertEquals(condExpr.stringConditionalExpr(false, "Hello", "World"), "World");
+
 	}
 }
