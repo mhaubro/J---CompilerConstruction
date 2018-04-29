@@ -70,6 +70,11 @@ class JVariableDeclaration extends JStatement {
             LocalVariableDefn defn = new LocalVariableDefn(decl.type().resolve(
                     context), offset);
 
+            // For double support, doubles take 2 stack variables of space
+            if (defn.type() == Type.DOUBLE) {
+                ((LocalContext)context).incrementOffset();
+            }
+
             // First, check for shadowing
             IDefn previousDefn = context.lookup(decl.name());
             if (previousDefn != null

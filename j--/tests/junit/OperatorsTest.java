@@ -28,10 +28,10 @@ public class OperatorsTest extends TestCase {
 	}
 
 	public void testDoubleOps() {
-		this.assertEquals(opDouble.minusAssign(3.5, 1.2), 2.3);
-		this.assertEquals(opDouble.multAssign(5.1, 3.1), 15.81);
-		this.assertEquals(opDouble.divAssign(5.0, 2.0), 2.5);
-		this.assertEquals(opDouble.remAssign(14.3, 2.0), 0.3);
+		this.assertEquals(opDouble.minusAssign(3.5, 1.2), 2.3, 1e-6);
+		this.assertEquals(opDouble.multAssign(5.1, 3.1), 15.81, 1e-6);
+		this.assertEquals(opDouble.divAssign(5.0, 2.0), 2.5, 1e-6);
+		this.assertEquals(opDouble.remAssign(14.3, 2.0), 0.3, 1e-6);
 	}
 
 }

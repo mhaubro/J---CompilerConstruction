@@ -160,6 +160,10 @@ class JMethodDeclaration
 				this.context.nextOffset());
 			defn.initialize();
 			this.context.addEntry(param.line(), param.name(), defn);
+            // For double support, doubles take 2 stack variables of space
+            if (defn.type() == Type.DOUBLE) {
+                this.context.incrementOffset();
+            }
 		}
 		if (body != null) {
 			body = body.analyze(this.context);

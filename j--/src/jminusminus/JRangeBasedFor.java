@@ -35,6 +35,10 @@ public class JRangeBasedFor extends JForStatement {
         LocalVariableDefn defn = new LocalVariableDefn(formalParam.type(),
                 this.context.nextOffset());
         defn.initialize();
+		// For double support, doubles take 2 stack variables of space
+		if (defn.type() == Type.DOUBLE) {
+			this.context.incrementOffset();
+		}
         this.context.addEntry(formalParam.line(), formalParam.name(), defn);
 
 		range = range.analyze(this.context);

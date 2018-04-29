@@ -14,7 +14,7 @@ class JLiteralDouble extends JExpression {
     private String text;
 
     /**
-     * Construct an AST node for an int literal given its line number and string
+     * Construct an AST node for an double literal given its line number and string
      * representation.
      *
      * @param line
@@ -29,7 +29,7 @@ class JLiteralDouble extends JExpression {
     }
 
     /**
-     * Analyzing an int literal is trivial.
+     * Analyzing an double literal is trivial.
      *
      * @param context
      *            context in which names are resolved (ignored here).
@@ -42,7 +42,7 @@ class JLiteralDouble extends JExpression {
     }
 
     /**
-     * Generating code for an int literal means generating code to push it onto
+     * Generating code for an double literal means generating code to push it onto
      * the stack.
      *
      * @param output
@@ -51,11 +51,16 @@ class JLiteralDouble extends JExpression {
      */
 
     public void codegen(CLEmitter output) {
-        /*
-        TODO
-         */
         double d = Double.parseDouble(text);
-        output.addLDCInstruction(d);
+        if (d == 0.) {
+            output.addNoArgInstruction(DCONST_0);
+        }
+        else if (d == 1.) {
+            output.addNoArgInstruction(DCONST_1);
+        }
+        else {
+            output.addLDCInstruction(d);
+        }
     }
 
     /**

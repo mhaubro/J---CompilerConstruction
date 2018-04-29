@@ -345,6 +345,15 @@ class LocalContext extends Context {
     }
 
     /**
+     * Increment the offset (Part of adding support for doubles
+     * doubles take two stack variables of space.
+     */
+    public void incrementOffset() {
+        offset += 1;
+    }
+
+
+    /**
      * @inheritDoc
      */
 
