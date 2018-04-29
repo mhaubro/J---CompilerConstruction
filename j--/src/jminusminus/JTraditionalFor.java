@@ -2,6 +2,8 @@ package jminusminus;
 
 import java.util.ArrayList;
 
+import static jminusminus.CLConstants.*;
+
 public class JTraditionalFor extends JForStatement {
 	/* Initial set of StatementExpressions in the For loop */
 	private JVariableDeclaration varInit;
@@ -59,7 +61,31 @@ public class JTraditionalFor extends JForStatement {
 	}
 
 	public void codegen(CLEmitter output) {
+		String condLabel = output.createLabel();
+		String end = output.createLabel();
+		// Initialize the codegen
+		if (varInit != null) {
+			varInit.codegen(output);
+		}
+		else {
+			for (JStatement statement : init) {
+				statement.codegen(output);
+			}
+		}
 
+		// Set the condition and add a label to branch back up to if needed
+		output.addLabel(condLabel);
+		condition.codegen(output, end, false);
+
+		body.codegen(output);
+
+		// Run the update portion
+		for (JStatement statement : update) {
+			statement.codegen(output);
+		}
+		output.addBranchInstruction(GOTO, condLabel);
+		// Add the unconditional branch back up to the conditional
+		output.addLabel(end);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

@@ -399,7 +399,7 @@ class JPostIncrementOp extends JUnaryExpression {
                 // Loading its original rvalue
                 arg.codegen(output);
             }
-            output.addIINCInstruction(offset, -1);
+            output.addIINCInstruction(offset, 1);
         } else {
             ((JLhs) arg).codegenLoadLhsLvalue(output);
             ((JLhs) arg).codegenLoadLhsRvalue(output);
