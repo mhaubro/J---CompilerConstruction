@@ -2,6 +2,8 @@ package jminusminus;
 
 import java.util.ArrayList;
 
+import static jminusminus.CLConstants.RETURN;
+
 /* This class is the AST node for class initializers
  *
  */
@@ -56,11 +58,20 @@ public class JClassInitializer extends JAST implements JMember {
 		if (body != null) {
 			body = body.analyze(this.context);
 		}
-
 		return this;
 	}
 
+
+	/**
+	 *
+	 * @param output
+	 *            the code emitter (basically an abstraction for producing the code of the body
+	 */
 	public void codegen(CLEmitter output) {
+		if (!isStatic) {
+			body.codegen(output);
+			output.addNoArgInstruction(RETURN);
+		}
 
 	}
 
