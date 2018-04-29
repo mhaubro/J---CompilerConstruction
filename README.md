@@ -52,7 +52,7 @@ Test | Status
 -----|-------
 Blocks.java | Not started
 ConditionalExpression.java | Complete!
-Double.java | Not started
+Double.java | Complete!
 ExceptionHandlers.java | Not started
 ForStatements.java | Not started
 Interface.java | Not started
