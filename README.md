@@ -50,7 +50,7 @@ Operators.java | Complete!
 ### Step 5 - In Progress
 Test | Status
 -----|-------
-Blocks.java | Not started
+Blocks.java | Complete!
 ConditionalExpression.java | Complete!
 Double.java | Complete!
 ExceptionHandlers.java | Not started

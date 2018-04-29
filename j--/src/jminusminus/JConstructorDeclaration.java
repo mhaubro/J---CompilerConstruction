@@ -138,6 +138,7 @@ class JConstructorDeclaration extends JMethodDeclaration implements JMember {
                     ((JTypeDecl) context.classContext().definition())
                             .superType().jvmName(), "<init>", "()V");
         }
+
         partial.addNoArgInstruction(RETURN);
     }
 
@@ -149,7 +150,7 @@ class JConstructorDeclaration extends JMethodDeclaration implements JMember {
      *            .class file).
      */
 
-    public void codegen(CLEmitter output) {
+    public void codegen(CLEmitter output, ArrayList<JMember> classBlock) {
         output.addMethod(mods, "<init>", descriptor, null, false);
         if (!invokesConstructor) {
             output.addNoArgInstruction(ALOAD_0);
@@ -157,6 +158,15 @@ class JConstructorDeclaration extends JMethodDeclaration implements JMember {
                     ((JTypeDecl) context.classContext().definition())
                             .superType().jvmName(), "<init>", "()V");
         }
+
+        for (JMember member : classBlock) {
+            if (member instanceof JClassInitializer) {
+                if (!((JClassInitializer) member).isStatic) {
+                    ((JClassInitializer)member).codegen(output);
+                }
+            }
+        }
+
         // Field initializations
         for (JFieldDeclaration field : definingClass
                 .instanceFieldInitializations()) {

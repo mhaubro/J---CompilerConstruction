@@ -254,14 +254,19 @@ class JClassDeclaration extends JAST implements JTypeDecl {
                 : JAST.compilationUnit.packageName() + "/" + name;
         output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
 
+
         // The implicit empty constructor?
         if (!hasExplicitConstructor) {
             codegenImplicitConstructor(output);
         }
-
         // The members
         for (JMember member : classBlock) {
-            ((JAST) member).codegen(output);
+            if (member instanceof JConstructorDeclaration) {
+                ((JConstructorDeclaration) member).codegen(output, classBlock);
+            }
+            else if (!(member instanceof JClassInitializer)) {
+                ((JAST) member).codegen(output);
+            }
         }
 
         // Generate a class initialization method?
@@ -269,6 +274,8 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             codegenClassInit(output);
         }
     }
+
+
 
     /**
      * @inheritDoc
@@ -301,7 +308,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         p.indentLeft();
         p.println("</JClassDeclaration>");
     }
-
     /**
      * Generate code for an implicit empty constructor. (Necessary only if there
      * is not already an explicit one.)
@@ -319,6 +325,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         partial.addNoArgInstruction(ALOAD_0);
         partial.addMemberAccessInstruction(INVOKESPECIAL, superType.jvmName(),
                 "<init>", "()V");
+
 
         // Return
         partial.addNoArgInstruction(RETURN);
@@ -341,6 +348,15 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         output.addNoArgInstruction(ALOAD_0);
         output.addMemberAccessInstruction(INVOKESPECIAL, superType.jvmName(),
                 "<init>", "()V");
+
+        // Generate code for any instance initializers
+        for (JMember memb : classBlock) {
+            if (memb instanceof JClassInitializer) {
+                if (!((JClassInitializer) memb).isStatic) {
+                    ((JClassInitializer) memb).codegen(output);
+                }
+            }
+        }
 
         // If there are instance field initializations, generate
         // code for them
@@ -371,6 +387,13 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // for them
         for (JFieldDeclaration staticField : staticFieldInitializations) {
             staticField.codegenInitializations(output);
+        }
+
+        // Do the same for any static initialization blocks
+        for (JMember member : classBlock) {
+            if (member instanceof JClassInitializer && ((JClassInitializer) member).isStatic) {
+                ((JClassInitializer) member).codegen(output);
+            }
         }
 
         // Return

@@ -7,7 +7,7 @@ import static jminusminus.CLConstants.RETURN;
 /* This class is the AST node for class initializers
  *
  */
-public class JClassInitializer extends JAST implements JMember {
+public class JClassInitializer extends JMethodDeclaration implements JMember {
 
 	/* Modifiers */
 	protected ArrayList<String> mods;
@@ -29,8 +29,9 @@ public class JClassInitializer extends JAST implements JMember {
 	 * @param body body of the initializer
 	 */
 	protected JClassInitializer(int line, ArrayList<String> mods, JBlock body) {
-		super(line);
+		super(line, mods, "", Type.VOID, null, null, body);
 		this.mods = mods;
+		this.isStatic = mods.contains("static");
 		this.body = body;
 	}
 
@@ -42,13 +43,13 @@ public class JClassInitializer extends JAST implements JMember {
 	public void preAnalyze(Context context, CLEmitter partial) {
 		for (String mod : mods) {
 			if (!mod.equals("static")) {
-				JAST.compilationUnit.reportSemanticError(line(),
+				JMethodDeclaration.compilationUnit.reportSemanticError(line(),
 						String.format("Initializer may not be declared %s", mod));
 			}
 		}
 	}
 
-	public JAST analyze(Context context) {
+	public JMethodDeclaration analyze(Context context) {
 		this.context = new MethodContext(context, isStatic, Type.VOID);
 
 		if (!isStatic) {
@@ -68,11 +69,7 @@ public class JClassInitializer extends JAST implements JMember {
 	 *            the code emitter (basically an abstraction for producing the code of the body
 	 */
 	public void codegen(CLEmitter output) {
-		if (!isStatic) {
-			body.codegen(output);
-			output.addNoArgInstruction(RETURN);
-		}
-
+		body.codegen(output);
 	}
 
 	/*
