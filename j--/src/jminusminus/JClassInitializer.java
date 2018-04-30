@@ -50,14 +50,8 @@ public class JClassInitializer extends JMethodDeclaration implements JMember {
 	}
 
 	public JMethodDeclaration analyze(Context context) {
-		this.context = new MethodContext(context, isStatic, Type.VOID);
-
-		if (!isStatic) {
-			this.context.nextOffset();
-		}
-
 		if (body != null) {
-			body = body.analyze(this.context);
+			body = body.analyze(context);
 		}
 		return this;
 	}

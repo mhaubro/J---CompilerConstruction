@@ -1,5 +1,7 @@
 package jminusminus;
 
+
+import static jminusminus.CLConstants.*;
 import java.util.ArrayList;
 
 public class JRangeBasedFor extends JForStatement {
@@ -9,6 +11,9 @@ public class JRangeBasedFor extends JForStatement {
 
 	/* For the range-based for loop, what is the object */
 	private JExpression range;
+
+	/* Implicit loop variable */
+	private JVariable iter;
 
 	private LocalContext context;
 
@@ -42,11 +47,45 @@ public class JRangeBasedFor extends JForStatement {
         this.context.addEntry(formalParam.line(), formalParam.name(), defn);
 
 		range = range.analyze(this.context);
+		if (!Type.ITERABLE.isJavaAssignableFrom(range.type()) && !range.type().isArray()) {
+			JAST.compilationUnit.reportSemanticError(line(), "Range object must be iterable");
+		}
 
 		formalParam.type().mustMatchExpected(line(), range.type().componentType());
 
 		body = (JStatement) body.analyze(this.context);
 		return this;
+	}
+
+	public void codegen(CLEmitter output) {
+		String condLabel = output.createLabel();
+		String end = output.createLabel();
+
+		// Transform into a traditional for by first
+		// fetching the array and calculating array length
+		range.codegen(output);
+		output.addNoArgInstruction(ARRAYLENGTH);
+
+		// We now have the length on the stack, store it in a local variable
+		// We will use this variable to compare with (nothing on stack form
+
+
+
+
+
+
+
+
+
+		// Load the array and store in local variable
+		output.addLabel(condLabel);
+
+		body.codegen(output);
+
+
+	//	output.addBranchInstruction(GOTO, condLabel);
+		output.addLabel(end);
+
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

@@ -72,6 +72,9 @@ class Type {
     /** Throwable class. All exceptions must be a subclass of throwable */
     public static Type THROWABLE = typeFor(java.lang.Throwable.class);
 
+    /** Iterable class. Used for the enhanced for loop */
+    public static Type ITERABLE = typeFor(java.lang.Iterable.class);
+
     /**
      * A type marker indicating a constructor (having no return type).
      */
