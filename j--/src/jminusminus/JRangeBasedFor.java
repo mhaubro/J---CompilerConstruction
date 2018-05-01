@@ -12,8 +12,10 @@ public class JRangeBasedFor extends JForStatement {
 	/* For the range-based for loop, what is the object */
 	private JExpression range;
 
-	/* Implicit loop variable */
-	private JVariable iter;
+	/* Implicit loop variable and length condition variable */
+	private JVariableDeclaration varDecls;
+	private JVariable loopVar;
+	private JVariable condVar;
 
 	private LocalContext context;
 
@@ -30,6 +32,16 @@ public class JRangeBasedFor extends JForStatement {
 		this.mods = mods;
 		this.formalParam = formalParam;
 		this.range = range;
+
+		this.loopVar = new JVariable(line, " loopVar");
+		this.condVar = new JVariable(line, " condVar");
+
+		ArrayList<JVariableDeclarator> decls = new ArrayList<>();
+		JExpression lhsAssign = new JAssignOp(line, new JVariable(line, " loopVar"), new JLiteralInt(line, "0"));
+		decls.add(new JVariableDeclarator(line," loopVar", Type.INT, lhsAssign));
+		decls.add(new JVariableDeclarator(line," condVar", Type.INT, null));
+		this.varDecls = new JVariableDeclaration(line, new ArrayList<String>(), decls);
+
 	}
 
 
@@ -45,6 +57,11 @@ public class JRangeBasedFor extends JForStatement {
 			this.context.incrementOffset();
 		}
         this.context.addEntry(formalParam.line(), formalParam.name(), defn);
+
+		this.varDecls.analyze(context);
+		//this.loopVar.analyze(context);
+		//this.condVar.analyze(context);
+		condVar = (JVariable) ((JLhs) condVar).analyzeLhs(context);
 
 		range = range.analyze(this.context);
 		if (!Type.ITERABLE.isJavaAssignableFrom(range.type()) && !range.type().isArray()) {
@@ -65,22 +82,19 @@ public class JRangeBasedFor extends JForStatement {
 		// fetching the array and calculating array length
 		range.codegen(output);
 		output.addNoArgInstruction(ARRAYLENGTH);
-
-		// We now have the length on the stack, store it in a local variable
-		// We will use this variable to compare with (nothing on stack form
-
+		// Store array length to our condition variable
+		((JLhs) condVar).codegenStore(output);
 
 
-
-
+		// Initialize our implicit loop variable
+		//loopVar.codegen(output);
 
 
 
-
-		// Load the array and store in local variable
 		output.addLabel(condLabel);
 
-		body.codegen(output);
+
+		//body.codegen(output);
 
 
 	//	output.addBranchInstruction(GOTO, condLabel);
