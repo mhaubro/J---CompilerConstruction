@@ -16,6 +16,14 @@ public class JRangeBasedFor extends JForStatement {
 	private JVariableDeclaration varDecls;
 	private JVariable loopVar;
 	private JVariable condVar;
+	private JVariable formalParamVar;
+
+	/* Implicit update */
+	private JStatement formalParamUpdate;
+	private JStatement update;
+
+	/* Implicit condition */
+	private JExpression condition;
 
 	private LocalContext context;
 
@@ -35,12 +43,19 @@ public class JRangeBasedFor extends JForStatement {
 
 		this.loopVar = new JVariable(line, " loopVar");
 		this.condVar = new JVariable(line, " condVar");
+		this.formalParamVar = new JVariable(line, formalParam.name());
 
 		ArrayList<JVariableDeclarator> decls = new ArrayList<>();
-		JExpression lhsAssign = new JAssignOp(line, new JVariable(line, " loopVar"), new JLiteralInt(line, "0"));
+		JExpression lhsAssign = new JAssignOp(line, this.loopVar, new JLiteralInt(line, "0"));
 		decls.add(new JVariableDeclarator(line," loopVar", Type.INT, lhsAssign));
 		decls.add(new JVariableDeclarator(line," condVar", Type.INT, null));
 		this.varDecls = new JVariableDeclaration(line, new ArrayList<String>(), decls);
+
+		formalParamUpdate = new JAssignOp(line, formalParamVar, new JArrayExpression(line, range, loopVar));
+
+		update = new JPostIncrementOp(line(), loopVar);
+		((JPostIncrementOp) update).isStatementExpression = true;
+		condition = new JLessEqualOp(line(), loopVar, condVar);
 
 	}
 
@@ -48,7 +63,7 @@ public class JRangeBasedFor extends JForStatement {
 	public JForStatement analyze(Context context) {
 	    this.context = new LocalContext(context);
 
-        formalParam.setType(formalParam.type().resolve(context));
+        formalParam.setType(formalParam.type().resolve(this.context));
         LocalVariableDefn defn = new LocalVariableDefn(formalParam.type(),
                 this.context.nextOffset());
         defn.initialize();
@@ -58,10 +73,9 @@ public class JRangeBasedFor extends JForStatement {
 		}
         this.context.addEntry(formalParam.line(), formalParam.name(), defn);
 
-		this.varDecls.analyze(context);
-		//this.loopVar.analyze(context);
-		//this.condVar.analyze(context);
-		condVar = (JVariable) ((JLhs) condVar).analyzeLhs(context);
+		this.varDecls.analyze(this.context);
+		condVar = (JVariable) ((JLhs) condVar).analyzeLhs(this.context);
+		loopVar = (JVariable) ((JLhs) loopVar).analyzeLhs(this.context);
 
 		range = range.analyze(this.context);
 		if (!Type.ITERABLE.isJavaAssignableFrom(range.type()) && !range.type().isArray()) {
@@ -69,6 +83,10 @@ public class JRangeBasedFor extends JForStatement {
 		}
 
 		formalParam.type().mustMatchExpected(line(), range.type().componentType());
+		formalParamUpdate.analyze(this.context);
+		condition = condition.analyze(this.context);
+		condition.type().mustMatchExpected(line(), Type.BOOLEAN);
+		update = (JStatement) update.analyze(this.context);
 
 		body = (JStatement) body.analyze(this.context);
 		return this;
@@ -76,29 +94,65 @@ public class JRangeBasedFor extends JForStatement {
 
 	public void codegen(CLEmitter output) {
 		String condLabel = output.createLabel();
-		String end = output.createLabel();
+		String endLabel = output.createLabel();
+
 
 		// Transform into a traditional for by first
 		// fetching the array and calculating array length
 		range.codegen(output);
 		output.addNoArgInstruction(ARRAYLENGTH);
+
+
 		// Store array length to our condition variable
 		((JLhs) condVar).codegenStore(output);
+		// Subtract 1 since we don't have less than or equal
+		int offset = ((LocalVariableDefn) (condVar).iDefn())
+				.offset();
+		output.addIINCInstruction(offset, -1);
 
 
 		// Initialize our implicit loop variable
-		//loopVar.codegen(output);
+		output.addNoArgInstruction(ICONST_0);
+		((JLhs) loopVar).codegenStore(output);
 
-
-
+		// Create label for condition code
 		output.addLabel(condLabel);
 
+		// Generate condition code
+		condition.codegen(output, endLabel, false);
 
-		//body.codegen(output);
+		// Set the formal parameter to proper index of array
+		/*
+		 * We can do this with the following instructions
+		 * ALOAD (This is the looped array)
+		 * ILOAD (This is the index)
+		 * IALOAD (Put the value of A[i] on the stack (for ints)
+		 * STORE (Get the value and put it in the formalParamVar)
+		 */
+		// Using iastore; requires arrayref ---> index
+		range.codegen(output);
+		loopVar.codegenLoadLhsRvalue(output);
+		Type formalParamType = formalParamVar.iDefn().type();
+		if (formalParamType.isReference()) {
+			output.addNoArgInstruction(AALOAD);
+		}
+		else if (formalParamType == Type.DOUBLE) {
+			output.addNoArgInstruction(DALOAD);
+		}
+		else {
+			output.addNoArgInstruction(IALOAD);
+		}
+		formalParamVar.codegenStore(output);
 
 
-	//	output.addBranchInstruction(GOTO, condLabel);
-		output.addLabel(end);
+		// Generate loop body
+		body.codegen(output);
+
+		// Update our implicit loop variable
+		update.codegen(output);
+
+		output.addBranchInstruction(GOTO, condLabel);
+		output.addLabel(endLabel);
 
 	}
 
