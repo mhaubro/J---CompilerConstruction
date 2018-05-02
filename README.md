@@ -54,6 +54,6 @@ Blocks.java | Complete!
 ConditionalExpression.java | Complete!
 Double.java | Complete!
 ExceptionHandlers.java | Not started
-ForStatements.java | Not started
+ForStatements.java | Complete!
 Interface.java | Not started
 Operators.java | Complete!
