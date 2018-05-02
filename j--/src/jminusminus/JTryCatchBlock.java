@@ -37,7 +37,23 @@ public class JTryCatchBlock extends JStatement {
 	}
 
 	public void codegen(CLEmitter output) {
+		// Create start label, end label of the try block
+		String startLabel = output.createLabel();
+		String endLabel = output.createLabel();
 
+		output.addLabel(startLabel);
+		tryBlock.codegen(output);
+		output.addLabel(endLabel);
+		for (JCatchClause cc : catches) {
+			// Create a handler label
+			String handlerLabel = output.createLabel();
+			output.addLabel(handlerLabel);
+			String exceptionType = cc.exception_param.type().jvmName();
+			output.addExceptionHandler(startLabel, endLabel, handlerLabel, exceptionType);
+			cc.codegen(output);
+		}
+
+		finalBlock.codegen(output);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

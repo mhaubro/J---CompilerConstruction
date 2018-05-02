@@ -7,7 +7,7 @@ public class JCatchClause extends JAST {
 	private ArrayList<String> mods;
 
 	/* The type of exception being caught */
-	private JFormalParameter exception_param;
+	public JFormalParameter exception_param;
 
 	/* Block portion of the catch */
 	private JBlock catchBlock;
@@ -63,7 +63,7 @@ public class JCatchClause extends JAST {
 	}
 
 	public void codegen(CLEmitter output) {
-
+		catchBlock.codegen(output);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

@@ -1,5 +1,8 @@
 package jminusminus;
 
+import static jminusminus.CLConstants.*;
+
+
 public class JThrowStatement extends JStatement {
 
 	private JExpression exception;
@@ -26,7 +29,8 @@ public class JThrowStatement extends JStatement {
 	}
 
 	public void codegen(CLEmitter output) {
-
+		exception.codegen(output);
+		output.addNoArgInstruction(ATHROW);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {
