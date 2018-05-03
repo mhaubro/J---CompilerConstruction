@@ -786,7 +786,7 @@ public class Parser {
 
     private ArrayList<JCatchClause> catchClauses() {
         int line = scanner.token().line();
-        ArrayList<String> mods = new ArrayList<>();
+        ArrayList<String> mods;
         ArrayList<JCatchClause> cc = new ArrayList<>();
         scanner.recordPosition();
         mustBe(CATCH);
@@ -794,12 +794,30 @@ public class Parser {
         while (have(CATCH)) {
             mustBe(LPAREN);
             mods = modifiers();
-            JFormalParameter exception_param = formalParameter();
+            ArrayList<Type> exceptionTypes = caughtTypes();
+            mustBe(IDENTIFIER);
+            String name = scanner.previousToken().image();
             mustBe(RPAREN);
-            JBlock block = block();
-            cc.add(new JCatchClause(line, mods, exception_param, block));
+            scanner.recordPosition();
+            for (Type ex : exceptionTypes) {
+                scanner.returnToPosition();
+                scanner.recordPosition();
+                JBlock block = block();
+                JFormalParameter param = new JFormalParameter(line, name, ex);
+                cc.add(new JCatchClause(line, mods, param, block));
+            }
         }
         return cc;
+    }
+
+    private ArrayList<Type> caughtTypes() {
+        ArrayList<Type> types = new ArrayList<Type>();
+        types.add(type());
+        while (have(BITWISE_OR)) {
+            types.add(type());
+        }
+
+        return types;
     }
 
     private boolean checkForType() {
