@@ -149,12 +149,12 @@ class JClassDeclaration extends JAST implements JTypeDecl {
      *            the parent (compilation unit) context.
      */
 
-    public void preAnalyze(Context context) {
+    public void preAnalyze(Context ct) {
         // Construct a class context
-        this.context = new ClassContext(this, context);
+        context = new ClassContext(this, ct);
 
         // Resolve superclass
-        superType = superType.resolve(this.context);
+        superType = superType.resolve(context);
 
         // Creating a partial class in memory can result in a
         // java.lang.VerifyError if the semantics below are
@@ -176,7 +176,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // Pre-analyze the members and add them to the partial
         // class
         for (JMember member : classBlock) {
-            member.preAnalyze(this.context, partial);
+            member.preAnalyze(context, partial);
             if (member instanceof JConstructorDeclaration
                     && ((JConstructorDeclaration) member).params.size() == 0) {
                 hasExplicitConstructor = true;
@@ -191,10 +191,12 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // Get the Class rep for the (partial) class and make it
         // the
         // representation for this type
-        Type id = this.context.lookupType(name);
+        Type id = context.lookupType(name);
         if (id != null && !JAST.compilationUnit.errorHasOccurred()) {
             id.setClassRep(partial.toClass());
         }
+
+
     }
 
     /**

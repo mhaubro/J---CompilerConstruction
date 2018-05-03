@@ -273,7 +273,7 @@ class JFieldSelection extends JExpression implements JLhs {
      */
 
     public void writeToStdOut(PrettyPrinter p) {
-        p.printf("<JFieldSelection line=\"%d\" name=\"%s\"/>\n", line(),
+        p.printf("<JFieldSelection line=\"%d\" name=\"%s\">\n", line(),
                 fieldName);
         p.indentRight();
         if (target != null) {
@@ -282,6 +282,13 @@ class JFieldSelection extends JExpression implements JLhs {
             target.writeToStdOut(p);
             p.indentLeft();
             p.println("</Target>");
+        }
+        if(ambiguousPart != null) {
+            p.println("<AmbiguousName>");
+            p.indentRight();
+            ambiguousPart.writeToStdOut(p);
+            p.indentLeft();
+            p.println("</AmbiguousName>");
         }
         p.indentLeft();
         p.println("</JFieldSelection>");
