@@ -229,15 +229,21 @@ class JClassDeclaration extends JAST implements JTypeDecl {
 
         // Finally, ensure that a non-abstract class has
         // no abstract methods.
-        if (!thisType.isAbstract() && thisType.abstractMethods().size() > 0) {
-            String methods = "";
-            for (Method method : thisType.abstractMethods()) {
-                methods += "\n" + method;
-            }
-            JAST.compilationUnit.reportSemanticError(line,
-                    "Class must be declared abstract since it defines "
-                            + "the following abstract methods: %s", methods);
+        if (!thisType.isAbstract()) {
+            ArrayList<Method> interfaceMethods = new ArrayList<>();
+            for(String intername: superInterfaces)
+                interfaceMethods.addAll(context.lookupType(intername).abstractMethods());
 
+            if(thisType.abstractMethods(interfaceMethods).size() > 0) {
+                String methods = "";
+                for (Method method : thisType.abstractMethods()) {
+                    methods += "\n" + method;
+                }
+                JAST.compilationUnit.reportSemanticError(line,
+                        "Class must be declared abstract since it defines "
+                                + "the following abstract methods: %s", methods);
+
+            }
         }
         return this;
     }
@@ -254,7 +260,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // The class header
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
-        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
+        output.addClass(mods, qualifiedName, superType.jvmName(), new ArrayList<>(), false);
 
 
         // The implicit empty constructor?

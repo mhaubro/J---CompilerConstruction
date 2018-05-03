@@ -145,6 +145,10 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 
 		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false);
 
+		for (JMember member : body) {
+			member.preAnalyze(context, partial);
+		}
+
 
 		// Get the Class rep for the (partial) class and make it
 		// the representation for this type

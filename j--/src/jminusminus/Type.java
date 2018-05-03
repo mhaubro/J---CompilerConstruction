@@ -3,6 +3,7 @@
 package jminusminus;
 
 import java.lang.reflect.Array;
+// import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -253,14 +254,27 @@ class Type {
      * 
      * @return a list of abstract methods.
      */
-
     public ArrayList<Method> abstractMethods() {
-        ArrayList<Method> inheritedAbstractMethods = superClass() == null ? new ArrayList<Method>()
+        return abstractMethods(new ArrayList<>());
+    }
+    public ArrayList<Method> abstractMethods(ArrayList<Method> additionalMethods) {
+        ArrayList<Method> inheritedAbstractMethods = superClass() == null ? new ArrayList<>()
                 : superClass().abstractMethods();
-        ArrayList<Method> abstractMethods = new ArrayList<Method>();
+        ArrayList<Method> abstractMethods = new ArrayList<>();
         ArrayList<Method> declaredConcreteMethods = declaredConcreteMethods();
         ArrayList<Method> declaredAbstractMethods = declaredAbstractMethods();
-        abstractMethods.addAll(declaredAbstractMethods);
+        for(Method method : additionalMethods) {
+            boolean isDeclared = false;
+            for(Method concrete : declaredConcreteMethods) {
+                if(concrete.name().equals(method.name())) {
+                    isDeclared = true;
+                    break;
+                }
+            }
+            if(!isDeclared)
+                abstractMethods.add(method);
+        }
+
         for (Method method : inheritedAbstractMethods) {
             if (!declaredConcreteMethods.contains(method)
                     && !declaredAbstractMethods.contains(method)) {
@@ -277,9 +291,10 @@ class Type {
      */
 
     private ArrayList<Method> declaredAbstractMethods() {
+
         ArrayList<Method> declaredAbstractMethods = new ArrayList<Method>();
         for (java.lang.reflect.Method method : classRep.getDeclaredMethods()) {
-            if (Modifier.isAbstract(method.getModifiers())) {
+            if (Modifier.isAbstract(method.getModifiers()) || isInterface()) {
                 declaredAbstractMethods.add(new Method(method));
             }
         }
@@ -554,6 +569,9 @@ class Type {
      * Return the Field having this name.
      * 
      * @param name
+n
+x
+A
      *            the name of the field we want.
      * @return the Field or null if it's not there.
      */
