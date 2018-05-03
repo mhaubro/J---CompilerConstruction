@@ -28,7 +28,7 @@ class JMethodDeclaration
      * This is an array of TypeName, which is j-- for
      * qualifiedIdentifier
      */
-    protected ArrayList<TypeName> exceptions;
+    protected ArrayList<Type> exceptions;
 
     /** Method body. */
     protected JBlock body;
@@ -70,7 +70,7 @@ class JMethodDeclaration
 
     public JMethodDeclaration(int line, ArrayList<String> mods,
         String name, Type returnType,
-        ArrayList<JFormalParameter> params, ArrayList<TypeName> exceptions, JBlock body)
+        ArrayList<JFormalParameter> params, ArrayList<Type> exceptions, JBlock body)
 
     {
         super(line);
@@ -147,6 +147,10 @@ class JMethodDeclaration
         MethodContext methodContext = 
 	    new MethodContext(context, isStatic, returnType);
 		this.context = methodContext;
+
+		for (Type ex : exceptions) {
+            ((MethodContext)this.context).exceptions.add(ex.resolve(context));
+        }
 
 		if (!isStatic) {
 			// Offset 0 is used to address "this".
@@ -263,7 +267,7 @@ class JMethodDeclaration
         if (exceptions != null) {
             p.println("<Exceptions>");
             p.indentRight();
-            for (TypeName ex : exceptions) {
+            for (Type ex : exceptions) {
                 p.printf("<Exception name=\"%s\"/>\n", ex.toString());
             }
             p.indentLeft();

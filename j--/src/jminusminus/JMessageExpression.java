@@ -95,6 +95,12 @@ class JMessageExpression extends JExpression {
                 if (target == null) {
                     target = expr;
                 } else {
+                    try {
+                        throw new Exception("hi!");
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     // Can't even happen syntactically
                     JAST.compilationUnit.reportSemanticError(line(),
                             "Badly formed suffix");

@@ -637,7 +637,7 @@ public class Parser {
             mustBe(IDENTIFIER);
             String name = scanner.previousToken().image();
             ArrayList<JFormalParameter> params = formalParameters();
-            ArrayList<TypeName> except = exceptions();
+            ArrayList<Type> except = exceptions();
             JBlock body = block();
             memberDecl = new JConstructorDeclaration(line, mods, name, params, except,
                     body);
@@ -655,7 +655,7 @@ public class Parser {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
                 ArrayList<JFormalParameter> params = formalParameters();
-                ArrayList<TypeName> except = exceptions();
+                ArrayList<Type> except = exceptions();
                 JBlock body = have(SEMI) ? null : block();
                 memberDecl = new JMethodDeclaration(line, mods, name, type,
                         params, except, body);
@@ -666,7 +666,7 @@ public class Parser {
                     mustBe(IDENTIFIER);
                     String name = scanner.previousToken().image();
                     ArrayList<JFormalParameter> params = formalParameters();
-                    ArrayList<TypeName> except = exceptions();
+                    ArrayList<Type> except = exceptions();
                     JBlock body = have(SEMI) ? null : block();
                     memberDecl = new JMethodDeclaration(line, mods, name, type,
                             params, except, body);
@@ -706,7 +706,7 @@ public class Parser {
 			mustBe(IDENTIFIER);
 			String name = scanner.previousToken().image();
 			ArrayList<JFormalParameter> params = formalParameters();
-			ArrayList<TypeName> except = exceptions();
+			ArrayList<Type> except = exceptions();
 			mustBe(SEMI);
 			JBlock body = null;
 			memberDecl = new JMethodDeclaration(line, mods, name, type,
@@ -718,7 +718,7 @@ public class Parser {
 				mustBe(IDENTIFIER);
 				String name = scanner.previousToken().image();
 				ArrayList<JFormalParameter> params = formalParameters();
-				ArrayList<TypeName> except = exceptions();
+				ArrayList<Type> except = exceptions();
 				mustBe(SEMI);
 				JBlock body = null;
 				memberDecl = new JMethodDeclaration(line, mods, name, type,
@@ -786,7 +786,7 @@ public class Parser {
 
     private ArrayList<JCatchClause> catchClauses() {
         int line = scanner.token().line();
-        ArrayList<String> mods = new ArrayList<>();
+        ArrayList<String> mods;
         ArrayList<JCatchClause> cc = new ArrayList<>();
         scanner.recordPosition();
         mustBe(CATCH);
@@ -794,12 +794,30 @@ public class Parser {
         while (have(CATCH)) {
             mustBe(LPAREN);
             mods = modifiers();
-            JFormalParameter exception_param = formalParameter();
+            ArrayList<Type> exceptionTypes = caughtTypes();
+            mustBe(IDENTIFIER);
+            String name = scanner.previousToken().image();
             mustBe(RPAREN);
-            JBlock block = block();
-            cc.add(new JCatchClause(line, mods, exception_param, block));
+            scanner.recordPosition();
+            for (Type ex : exceptionTypes) {
+                scanner.returnToPosition();
+                scanner.recordPosition();
+                JBlock block = block();
+                JFormalParameter param = new JFormalParameter(line, name, ex);
+                cc.add(new JCatchClause(line, mods, param, block));
+            }
         }
         return cc;
+    }
+
+    private ArrayList<Type> caughtTypes() {
+        ArrayList<Type> types = new ArrayList<Type>();
+        types.add(type());
+        while (have(BITWISE_OR)) {
+            types.add(type());
+        }
+
+        return types;
     }
 
     private boolean checkForType() {
@@ -937,12 +955,12 @@ public class Parser {
      * @return a list of exceptions.
      */
 
-    private ArrayList<TypeName> exceptions() {
-        ArrayList<TypeName> except = new ArrayList<TypeName>();
+    private ArrayList<Type> exceptions() {
+        ArrayList<Type> except = new ArrayList<>();
         if(have(THROWS)) {
-            except.add(qualifiedIdentifier());
+            except.add(type());
             while (have(COMMA)) {
-                except.add(qualifiedIdentifier());
+                except.add(type());
             }
         }
         return except;

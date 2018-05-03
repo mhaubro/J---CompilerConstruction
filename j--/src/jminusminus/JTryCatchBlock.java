@@ -29,8 +29,15 @@ public class JTryCatchBlock extends JStatement {
 
 	public JAST analyze(Context context) {
 		tryBlock.analyze(context);
+		ArrayList<Type> caughtTypes = new ArrayList<>();
 		for (JCatchClause catch_clause : catches) {
 			catch_clause.analyze(context);
+			if (caughtTypes.contains(catch_clause.exception_param.type())) {
+				JAST.compilationUnit.reportSemanticError(line(),
+						"Caught exceptions may not be subclasses of each other");
+
+			}
+			caughtTypes.add(catch_clause.exception_param.type());
 		}
 		finalBlock.analyze(context);
 		return this;

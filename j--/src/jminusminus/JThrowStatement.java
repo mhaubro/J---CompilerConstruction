@@ -19,6 +19,13 @@ public class JThrowStatement extends JStatement {
 
 	public JStatement analyze(Context context) {
 		exception.analyze(context);
+		MethodContext mContext = context.methodContext();
+
+		if (!mContext.exceptions.contains(exception.type())) {
+			JAST.compilationUnit.reportSemanticError(line,
+					"Throw statement throws exception %s not specified by method",
+					exception.type().toString());
+		}
 
 		if (!Type.THROWABLE.isJavaAssignableFrom(exception.type())) {
 			JAST.compilationUnit.reportSemanticError(line,
