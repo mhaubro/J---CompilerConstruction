@@ -2,6 +2,7 @@
 
 package jminusminus;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
@@ -395,6 +396,9 @@ class MethodContext extends LocalContext {
 
     /** Does (non-void) method have at least one return? */
     private boolean hasReturnStatement = false;
+
+    /** Thrown exceptions */
+    public ArrayList<Type> exceptions = new ArrayList<>();
 
     /**
      * Construct a method context.
