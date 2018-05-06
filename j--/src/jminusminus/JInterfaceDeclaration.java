@@ -1,6 +1,7 @@
 package jminusminus;
 
 import java.util.ArrayList;
+import jminusminus.JMethodDeclaration;
 
 public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 
@@ -34,6 +35,7 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		this.line = line;
 		this.mods = mods;
 		mods.add("interface");
+		mods.add("abstract");
 		this.name = name;
 		this.superType = null;//the default supertype for JClass is Type.OBJECT, but for interface it's null.
 		//If the interface extends more, they'll just have to grab the ArrayList if the list is desired.
@@ -125,6 +127,8 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
 				: JAST.compilationUnit.packageName() + "/" + name;
 		CLEmitter partial = new CLEmitter(false);
+		
+		// Compile-time hack: only define the interfaces at compile-time 
 		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces,
 				false);
 		thisType = Type.typeFor(partial.toClass());
@@ -146,6 +150,8 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false);
 
 		for (JMember member : body) {
+			if(member instanceof JMethodDeclaration)
+				((JMethodDeclaration) member).makeInterfaceMethod();
 			member.preAnalyze(context, partial);
 		}
 

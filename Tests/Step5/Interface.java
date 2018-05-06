@@ -10,7 +10,7 @@ interface A {
 }
 
 class B implements A {
-    public int g(int x) {
+    public int f(int x) {
         return x * x;
     }
 }
@@ -26,7 +26,7 @@ public class Interface {
         int x = Integer.parseInt(args[0]);
         B b = new B();
         C c = new C();
-        System.out.println(b.g(x));
+        System.out.println(b.f(x));
         System.out.println(c.f(x));
     }
 }

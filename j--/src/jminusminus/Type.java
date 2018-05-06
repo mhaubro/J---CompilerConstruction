@@ -3,7 +3,6 @@
 package jminusminus;
 
 import java.lang.reflect.Array;
-// import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.ArrayList;
@@ -247,6 +246,17 @@ class Type {
         return this.classRep.isAssignableFrom(that.classRep);
     }
 
+    public ArrayList<Type> interfacesTypes() {
+        if(classRep == null)
+            return new ArrayList<>();
+        if(classRep.getInterfaces().length < 1)
+            return new ArrayList<>();
+        ArrayList<Type> result = new ArrayList<>();
+        for(Class<?> itf: classRep.getInterfaces())
+            result.add(typeFor(itf));
+        return result;
+    }
+
     /**
      * Return a list of this class' abstract methods? It does has abstract
      * methods if (1) Any method declared in the class is abstract, or (2) Its
@@ -255,30 +265,43 @@ class Type {
      * @return a list of abstract methods.
      */
     public ArrayList<Method> abstractMethods() {
-        return abstractMethods(new ArrayList<>());
-    }
-    public ArrayList<Method> abstractMethods(ArrayList<Method> additionalMethods) {
         ArrayList<Method> inheritedAbstractMethods = superClass() == null ? new ArrayList<>()
                 : superClass().abstractMethods();
         ArrayList<Method> abstractMethods = new ArrayList<>();
-        ArrayList<Method> declaredConcreteMethods = declaredConcreteMethods();
+
         ArrayList<Method> declaredAbstractMethods = declaredAbstractMethods();
-        for(Method method : additionalMethods) {
-            boolean isDeclared = false;
-            for(Method concrete : declaredConcreteMethods) {
-                if(concrete.name().equals(method.name())) {
-                    isDeclared = true;
-                    break;
-                }
-            }
-            if(!isDeclared)
-                abstractMethods.add(method);
-        }
+        ArrayList<Method> declaredConcreteMethods = declaredConcreteMethods();
+
+        abstractMethods.addAll(declaredAbstractMethods);
 
         for (Method method : inheritedAbstractMethods) {
             if (!declaredConcreteMethods.contains(method)
                     && !declaredAbstractMethods.contains(method)) {
                 abstractMethods.add(method);
+            }
+        }
+        
+
+        for(Type itfType: interfacesTypes()) {
+            
+            for(Method method: itfType.abstractMethods()) {
+                boolean foundConcrete = false;
+                for(Method method2: declaredConcreteMethods) {
+                    if(method.name().equals(method2.name())) {
+                        foundConcrete = true;
+                    }
+                }   
+                if(!foundConcrete) {
+                    boolean foundAbstract = false;
+                    for(Method method2: abstractMethods) {
+                        if(method.name().equals(method2.name())) {
+                            foundAbstract = true;
+                        }
+                    }   
+                    if(!foundAbstract) {
+                        abstractMethods.add(method);
+                    }
+                }
             }
         }
         return abstractMethods;

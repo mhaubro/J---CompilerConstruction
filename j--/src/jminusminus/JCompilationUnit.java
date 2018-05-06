@@ -197,7 +197,7 @@ class JCompilationUnit extends JAST {
 
     public void codegen(CLEmitter output) {
         for (JAST typeDeclaration : typeDeclarations) {
-            if(((JTypeDecl) typeDeclaration).thisType().isInterface())
+            if(typeDeclaration instanceof JInterfaceDeclaration)
                 continue;
             typeDeclaration.codegen(output);
             output.write();
