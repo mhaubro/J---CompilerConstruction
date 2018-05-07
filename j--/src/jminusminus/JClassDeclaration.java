@@ -171,6 +171,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // Add the class header to the partial class
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
+
         partial.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
 
         // Pre-analyze the members and add them to the partial
@@ -229,15 +230,18 @@ class JClassDeclaration extends JAST implements JTypeDecl {
 
         // Finally, ensure that a non-abstract class has
         // no abstract methods.
-        if (!thisType.isAbstract() && thisType.abstractMethods().size() > 0) {
-            String methods = "";
-            for (Method method : thisType.abstractMethods()) {
-                methods += "\n" + method;
-            }
-            JAST.compilationUnit.reportSemanticError(line,
-                    "Class must be declared abstract since it defines "
-                            + "the following abstract methods: %s", methods);
+        if (!thisType.isAbstract()) {
 
+            if(thisType.abstractMethods().size() > 0) {
+                String methods = "";
+                for (Method method : thisType.abstractMethods()) {
+                    methods += "\n" + method;
+                }
+                JAST.compilationUnit.reportSemanticError(line,
+                        "Class must be declared abstract since it defines "
+                                + "the following abstract methods: %s", methods);
+
+            }
         }
         return this;
     }
@@ -254,7 +258,10 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         // The class header
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
-        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
+        
+        // Compile-time hack to simplify things: interfaces are just available at compile time 
+        // and are no code is generated for them.
+        output.addClass(mods, qualifiedName, superType.jvmName(), new ArrayList<>(), false);
 
 
         // The implicit empty constructor?

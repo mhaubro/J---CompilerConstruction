@@ -7,21 +7,20 @@ compilationUnit ::= [PACKAGE qualifiedIdentifier SEMI]
 
 qualifiedIdentifier ::= IDENTIFIER {DOT IDENTIFIER}
 
-typeDeclaration ::= modifiers classDeclaration
+typeDeclaration ::= modifiers ( classDeclaration | interfaceDeclaration )
 
 modifiers ::= {PUBLIC | PROTECTED | PRIVATE | CONST |
                 STATIC | ABSTRACT | VOLATILE | STRICTFP |
                 FINAL  | SYNCHRONIZED | TRANSIENT}
 
-classDeclaration ::= (CLASS) IDENTIFIER
+classDeclaration ::= CLASS IDENTIFIER
                        [EXTENDS qualifiedIdentifier] 
                        [IMPLEMENTS qualifiedIdentifier]
-                       [THROWS EXCEPTION]
-                       classBody | interfaceDeclaration
+                       classBody
 
-interfaceDeclaration ::= (INTERFACE) IDENTIFIER
+interfaceDeclaration ::= INTERFACE IDENTIFIER
                        [EXTENDS qualifiedIdentifier]
-                       [THROWS EXCEPTION]
+                       [IMPLEMENTS qualifiedIdentifier]
                        classBody
 
 
@@ -31,9 +30,10 @@ memberDecl ::= IDENTIFIER            // constructor
                  formalParameters block
              | (VOID | type) [NATIVE] IDENTIFIER  // method
                  formalParameters
+                 [THROWS exceptions]
                  (block | SEMI)
-                 [THROWS EXCEPTION {COMMA EXCEPTION}]
              | type variableDeclarators SEMI // field
+             | block // Static and instance initialization block
 
 block ::= LCURLY {blockStatement} RCURLY 
 
@@ -42,7 +42,8 @@ blockStatement ::= localVariableDeclarationStatement
 
 statement ::= block
             | IF parExpression statement [ELSE statement]
-            | FOR LPAREN [variableInitializer] SEMI [conditionalExpression] SEMI [statementExpression] RPAREN (statement)
+            | traditionalFor
+            | rangeFor
             | WHILE parExpression (statement)
             | DO statement WHILE parExpression
             | CASE (expression | DEFAULT) COLON
@@ -51,13 +52,30 @@ statement ::= block
             | CONTINUE SEMI
             | SWITCH ((CASE COLON statement) | (DEFAULT COLON statement))
             | THROW expression SEMI
-            | TRY block catch [FINALLY block]
+            | tryClause
             | SEMI
             | statementExpression SEMI
 
-
-catch           ::= (CATCH LPAREN [modifiers] typeDeclaration IDENTIFIER RPAREN block)+
-
+traditionalForInit ::= 
+    localVariableDeclarationStatement 
+    | statementExpression { statementExpression }
+    
+traditionalFor ::= 
+    FOR LPAREN // for(
+    [ traditionalForInit ] SEMI // int i = 0;
+    [ conditionalOrExpression ] SEMI // i < 5;
+    [ statementExpression ] RPAREN // i++
+    statement
+    
+rangeFor ::= 
+    FOR LPAREN // for(
+    variableIdentifier IDENTIFIER COLON // int a:
+    variableIdentifier RPAREN // array)
+    statement 
+    
+tryClause ::= TRY block catch [FINALLY block]
+catch     ::= (CATCH LPAREN [modifiers] qualifiedIdentifier IDENTIFIER RPAREN block)+
+exceptions ::= qualifiedIdentifier { qualifiedIdentifier }
 
 
 formalParameters ::= LPAREN
@@ -93,14 +111,16 @@ statementExpression ::= expression // but must have side-effect, eg i++
 
 expression ::= assignmentExpression
 
+assignmentOperator ::= (ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
+                        MULT_ASSIGN | DIV_ASSIGN | REM_ASSIGN |
+                        ISHR_ASSIGN | IUSHR_ASSIGN | ISHL_ASSIGN |
+                        XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN)
+                        
 assignmentExpression ::= ternaryExpression  // must be a valid lhs
-                           [(ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
-                            MULT_ASSIGN | DIV_ASSIGN | REM_ASSIGN |
-                            ISHR_ASSIGN | IUSHR_ASSIGN | ISHL_ASSIGN |
-                            XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN) assignmentExpression]
+                           [assignmentOperator assignmentExpression]
 
 ternaryExpression           ::= conditionalOrExpression // level 12
-                                {TERNARY conditionalOr COLON conditionalOr}
+                                {TERNARY conditionalOrExpression COLON conditionalOrExpression}
 
 conditionalOrExpression     ::= conditionalAndExpression // level 11
                                 {LOR conditionalAndExpression}
@@ -135,7 +155,7 @@ multiplicativeExpression ::= unaryExpression       // level 2
                                {(STAR | DIV | REM) unaryExpression}
 
 unaryExpression ::= INC unaryExpression  // level 1
-                  | (MINUS | COMPLEMENT | PLUS) unaryExpression
+                  | (MINUS | COMPLEMENT | PLUS) unaryExpression // Prefix operator
                   | simpleUnaryExpression
 
 simpleUnaryExpression ::= LNOT unaryExpression
@@ -145,7 +165,7 @@ simpleUnaryExpression ::= LNOT unaryExpression
                           RPAREN simpleUnaryExpression
                         | postfixExpression 
 
-postfixExpression ::= primary {selector} {DEC}
+postfixExpression ::= primary {selector} {DEC | INC}
 
 selector ::= DOT qualifiedIdentifier [arguments]
            | LBRACK expression RBRACK
