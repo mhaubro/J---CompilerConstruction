@@ -145,7 +145,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
      * Pre-analysis extends to the member headers (including method headers) but
      * not into the bodies.
      * 
-     * @param context
+     * @param ct
      *            the parent (compilation unit) context.
      */
 

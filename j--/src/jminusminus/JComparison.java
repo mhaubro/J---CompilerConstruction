@@ -96,7 +96,7 @@ class JGreaterThanOp extends JComparison {
         else if(lhs.type() == Type.DOUBLE)
         {
             output.addNoArgInstruction(DCMPG);
-            output.addBranchInstruction(onTrue ? IFGE : IFLE, targetLabel);
+            output.addBranchInstruction(onTrue ? IFGT : IFLE, targetLabel);
         }
     }
 
@@ -141,9 +141,16 @@ class JLessEqualOp extends JComparison {
     public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
         lhs.codegen(output);
         rhs.codegen(output);
-        output
-                .addBranchInstruction(onTrue ? IF_ICMPLE : IF_ICMPGT,
-                        targetLabel);
+        if (lhs.type() == Type.INT) {
+            output
+                    .addBranchInstruction(onTrue ? IF_ICMPLE : IF_ICMPGT,
+                            targetLabel);
+        }
+        else if(lhs.type() == Type.DOUBLE)
+        {
+            output.addNoArgInstruction(DCMPG);
+            output.addBranchInstruction(onTrue ? IFLE : IFGT, targetLabel);
+        }
     }
 
 }

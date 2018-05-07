@@ -9,7 +9,6 @@ import java.lang.System;
 public class Factorial {
 
     // Two methods and a field
-
     public static int factorial(int n) {
         if (n <= 0)
             return 1;

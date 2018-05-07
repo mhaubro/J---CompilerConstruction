@@ -48,8 +48,6 @@ public class JTernaryExpression extends JExpression {
 		/* Check that the middle and rhs are the same type */
 		middle.type().mustMatchExpected(line, rhs.type());
 		this.type = middle.type();
-		returnType = middle.type();
-
 		/* The left hand side must be a boolean */
 		lhs.type().mustMatchExpected(line, Type.BOOLEAN);
 		return this;
