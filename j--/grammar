@@ -97,11 +97,13 @@ statementExpression ::= expression // but must have side-effect, eg i++
 
 expression ::= assignmentExpression
 
+assignmentOperator ::= (ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
+                        MULT_ASSIGN | DIV_ASSIGN | REM_ASSIGN |
+                        ISHR_ASSIGN | IUSHR_ASSIGN | ISHL_ASSIGN |
+                        XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN)
+                        
 assignmentExpression ::= ternaryExpression  // must be a valid lhs
-                           [(ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
-                            MULT_ASSIGN | DIV_ASSIGN | REM_ASSIGN |
-                            ISHR_ASSIGN | IUSHR_ASSIGN | ISHL_ASSIGN |
-                            XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN) assignmentExpression]
+                           [ assignmentExpression]
 
 ternaryExpression           ::= conditionalOrExpression // level 12
                                 {TERNARY conditionalOr COLON conditionalOr}
@@ -149,7 +151,7 @@ simpleUnaryExpression ::= LNOT unaryExpression
                           RPAREN simpleUnaryExpression
                         | postfixExpression 
 
-postfixExpression ::= primary {selector} {DEC}
+postfixExpression ::= primary {selector} {DEC | INC}
 
 selector ::= DOT qualifiedIdentifier [arguments]
            | LBRACK expression RBRACK
