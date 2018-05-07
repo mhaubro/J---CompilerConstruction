@@ -103,7 +103,7 @@ assignmentOperator ::= (ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
                         XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN)
                         
 assignmentExpression ::= ternaryExpression  // must be a valid lhs
-                           [ assignmentExpression]
+                           [assignmentOperator assignmentExpression]
 
 ternaryExpression           ::= conditionalOrExpression // level 12
                                 {TERNARY conditionalOr COLON conditionalOr}
