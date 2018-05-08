@@ -57,7 +57,6 @@ public class JTernaryExpression extends JExpression {
 	 * Generates the code for a ternary expression
 	 */
 	public void codegen(CLEmitter output) {
-		((JLhs) lhs).codegenLoadLhsLvalue(output);
 		String elseLabel = output.createLabel();
 		String endLabel = output.createLabel();
 		lhs.codegen(output, elseLabel, false);
