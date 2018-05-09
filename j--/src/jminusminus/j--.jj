@@ -855,14 +855,14 @@ private ArrayList<JCatchClause> catchClauses() : {
                 <IDENTIFIER> {name = token.image;}
             )
 			<RPAREN>
-
-			block = block()
             {
+            Token t = token;
                 for (int i = 0; i < types.size(); i++){
+                    token = t;
                     //Copy block
+        			block = block();
                     JFormalParameter formalparameter = new JFormalParameter(line, name, types.get(i));
-
-                    cc.add(new JCatchClause(line, mods, formalparameter, new JBlock( block)));
+                    cc.add(new JCatchClause(line, mods, formalparameter,( block)));
                 }
 			}
 		)+
