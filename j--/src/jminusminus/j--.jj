@@ -272,8 +272,9 @@ TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
-| < DOUBLE_LITERAL: <INT_LITERAL> ((<EXPONENT>)? <DOUBLE_SUFFIX> | <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)?) >
-| < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >  
+| < DOUBLE_LITERAL: <INT_LITERAL> ((<EXPONENT>)? <DOUBLE_SUFFIX> | <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)?)>
+| < DOT_DOUBLE_LITERAL:  <DOT>  ((<DIGIT>)+ (<DOUBLE_SUFFIX>)?)>
+| < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >
 | < #EXPONENT: ["e", "E"] ("-")? (<DIGIT>)+ >
 | < #DOUBLE_SUFFIX: ["d", "D"] >  
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
@@ -2269,7 +2270,9 @@ private JExpression literal(): {
         <INT_LITERAL> 
         { expr = new JLiteralInt( token.beginLine, token.image ); } | 
         <DOUBLE_LITERAL>
-        { expr = new JLiteralDouble( token.beginLine, token.image ); } |
+        { expr = new JLiteralDouble(token.beginLine, token.image ); } |
+        <DOT_DOUBLE_LITERAL>
+        { expr = new JLiteralDouble(token.beginLine, "0" + token.image ); } |
         <CHAR_LITERAL>
         { expr = new JLiteralChar( token.beginLine, token.image ); } |
         <STRING_LITERAL> 
