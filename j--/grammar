@@ -25,7 +25,8 @@ interfaceDeclaration ::= INTERFACE IDENTIFIER
 interfaceBody    ::= {; | (modifiers interfaceMemberDecl)}
 
 interfaceMemberDecl ::= (VOID | type) IDENTIFIER  // method
-                 formalParameters [THROWS exceptions]
+                 formalParameters [THROWS exceptions] |
+				 type variableDeclarators SEMI
 
 memberDecl ::= IDENTIFIER            // constructor
                  formalParameters block
