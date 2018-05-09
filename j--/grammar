@@ -9,26 +9,27 @@ qualifiedIdentifier ::= IDENTIFIER {DOT IDENTIFIER}
 
 typeDeclaration ::= modifiers ( classDeclaration | interfaceDeclaration )
 
-modifiers ::= {PUBLIC | PROTECTED | PRIVATE | CONST |
-                STATIC | ABSTRACT | VOLATILE | STRICTFP |
-                FINAL  | SYNCHRONIZED | TRANSIENT}
+modifiers ::= {PUBLIC | PROTECTED | PRIVATE | STATIC | ABSTRACT}
 
 classDeclaration ::= CLASS IDENTIFIER
-                       [EXTENDS qualifiedIdentifier] 
-                       [IMPLEMENTS qualifiedIdentifier]
-                       classBody
-
-interfaceDeclaration ::= INTERFACE IDENTIFIER
-                       [EXTENDS qualifiedIdentifier]
-                       [IMPLEMENTS qualifiedIdentifier]
-                       classBody
-
+                    [EXTENDS qualifiedIdentifier] 
+                    [IMPLEMENTS typeList]
+                    classBody
 
 classBody ::= LCURLY {modifiers memberDecl} RCURLY
 
+interfaceDeclaration ::= INTERFACE IDENTIFIER 
+                        [EXTENDS qualifiedIdentifier] 
+                        interfaceBody
+                        
+interfaceBody    ::= {; | (modifiers interfaceMemberDecl)}
+
+interfaceMemberDecl ::= (VOID | type) IDENTIFIER  // method
+                 formalParameters [THROWS exceptions]
+
 memberDecl ::= IDENTIFIER            // constructor
                  formalParameters block
-             | (VOID | type) [NATIVE] IDENTIFIER  // method
+             | (VOID | type) IDENTIFIER  // method
                  formalParameters
                  [THROWS exceptions]
                  (block | SEMI)
@@ -56,26 +57,25 @@ statement ::= block
             | SEMI
             | statementExpression SEMI
 
-traditionalForInit ::= 
-    localVariableDeclarationStatement 
-    | statementExpression { statementExpression }
+traditionalForInit ::= formalParameter | 
+	statementExpression {COMMA statementExpression }
     
 traditionalFor ::= 
-    FOR LPAREN // for(
-    [ traditionalForInit ] SEMI // int i = 0;
-    [ conditionalOrExpression ] SEMI // i < 5;
-    [ statementExpression ] RPAREN // i++
+    FOR LPAREN
+    [ traditionalForInit ] SEMI
+    [ expression ] SEMI 
+    [ statementExpression ] RPAREN
     statement
     
 rangeFor ::= 
-    FOR LPAREN // for(
-    variableIdentifier IDENTIFIER COLON // int a:
-    variableIdentifier RPAREN // array)
+    FOR LPAREN
+    formalParameter COLON
+    expression RPAREN
     statement 
     
-tryClause ::= TRY block catch [FINALLY block]
-catch     ::= (CATCH LPAREN [modifiers] qualifiedIdentifier IDENTIFIER RPAREN block)+
-exceptions ::= qualifiedIdentifier { qualifiedIdentifier }
+tryClause 	 ::= TRY block catchClauses [FINALLY block]
+catchClauses ::= (CATCH LPAREN [modifiers] (qualifiedIdentifier {| qualifiedIdentifier} IDENTIFIER RPAREN block)+
+exceptions 	::= qualifiedIdentifier {COMMA qualifiedIdentifier }
 
 
 formalParameters ::= LPAREN
@@ -102,6 +102,8 @@ arguments ::= LPAREN [expression {COMMA expression}] RPAREN
 
 type ::= referenceType | basicType
 
+typeList ::= referenceType { , referenceType }
+
 basicType ::= BOOLEAN | CHAR | INT | BYTE | DOUBLE | FLOAT | LONG | SHORT
 
 referenceType ::= basicType LBRACK RBRACK {LBRACK RBRACK}
@@ -114,7 +116,7 @@ expression ::= assignmentExpression
 assignmentOperator ::= (ASSIGN | PLUS_ASSIGN | MINUS_ASSIGN |
                         MULT_ASSIGN | DIV_ASSIGN | REM_ASSIGN |
                         ISHR_ASSIGN | IUSHR_ASSIGN | ISHL_ASSIGN |
-                        XOR_ASSIGN | OR_ASSIGN | AND_ASSIGN)
+                        XOR_ASSIGN | OR	_ASSIGN | AND_ASSIGN)
                         
 assignmentExpression ::= ternaryExpression  // must be a valid lhs
                            [assignmentOperator assignmentExpression]
@@ -188,5 +190,5 @@ creator ::= (basicType | qualifiedIdentifier)
 newArrayDeclarator ::= LBRACK expression RBRACK 
                          {LBRACK expression RBRACK} {LBRACK RBRACK}
 
-literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL | FLOAT_LITERAL
+literal ::= INT_LITERAL | CHAR_LITERAL | STRING_LITERAL | DOUBLE_LITERAL
           | TRUE        | FALSE        | NULL
