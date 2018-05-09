@@ -272,7 +272,8 @@ TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
-| < DOUBLE_LITERAL: <INT_LITERAL> ((<EXPONENT>)? <DOUBLE_SUFFIX> | <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)?)>
+| < DOUBLE_LITERAL: (<INT_DOUBLE_LITERAL> | <DOT_DOUBLE_LITERAL>) >
+| < INT_DOUBLE_LITERAL: <INT_LITERAL> ((<EXPONENT>)? <DOUBLE_SUFFIX> | <DOT> (<DIGIT>)* (<EXPONENT>)? (<DOUBLE_SUFFIX>)?)>
 | < DOT_DOUBLE_LITERAL:  <DOT>  ((<DIGIT>)+ (<DOUBLE_SUFFIX>)?)>
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >
 | < #EXPONENT: ["e", "E"] ("-")? (<DIGIT>)+ >
@@ -1012,7 +1013,7 @@ private JStatement statement(): {
 		]
 		// Range-based
 		(
-			LOOKAHEAD( formalParameter() )
+			LOOKAHEAD( formalParameter() <COLON> )
 			formalParam = formalParameter()
 			<COLON>
 			range = expression()
@@ -1022,7 +1023,7 @@ private JStatement statement(): {
 		|
 		// Traditional
 			(
-			LOOKAHEAD( type() <IDENTIFIER> )
+			LOOKAHEAD( localVariableDeclarationStatement() | <SEMI> | (initUpdateStatements() <SEMI>) )
 			varInit = localVariableDeclarationStatement() |
 			init = initUpdateStatements() 
 			<SEMI> |
@@ -2271,8 +2272,6 @@ private JExpression literal(): {
         { expr = new JLiteralInt( token.beginLine, token.image ); } | 
         <DOUBLE_LITERAL>
         { expr = new JLiteralDouble(token.beginLine, token.image ); } |
-        <DOT_DOUBLE_LITERAL>
-        { expr = new JLiteralDouble(token.beginLine, "0" + token.image ); } |
         <CHAR_LITERAL>
         { expr = new JLiteralChar( token.beginLine, token.image ); } |
         <STRING_LITERAL> 
