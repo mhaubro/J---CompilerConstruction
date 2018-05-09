@@ -48,6 +48,9 @@ class JMethodDeclaration
     /** Is method private. */
     protected boolean isPrivate;
 
+    /** Is declared in a interface */
+    protected boolean isFromInterface;
+
     /**
      * Construct an AST node for a method declaration given the
      * line number, method name, return type, formal parameters,
@@ -83,6 +86,7 @@ class JMethodDeclaration
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
         this.isPrivate = mods.contains("private");
+        isFromInterface = false;
     }
 
     /**
@@ -108,7 +112,7 @@ class JMethodDeclaration
         if (isAbstract && body != null) {
             JAST.compilationUnit.reportSemanticError(line(),
                 "abstract method cannot have a body");
-        } else if (body == null && !isAbstract) {
+        } else if (body == null && !(isAbstract || isFromInterface)) {
             JAST.compilationUnit.reportSemanticError(line(),
                 "Method with null body must be abstarct");
         } else if (isAbstract && isPrivate) {
@@ -117,6 +121,9 @@ class JMethodDeclaration
         } else if (isAbstract && isStatic) {
             JAST.compilationUnit.reportSemanticError(line(),
                 "static method cannot be declared abstract");
+        } else if(isFromInterface && isPrivate) {
+            JAST.compilationUnit.reportSemanticError(line(), 
+                "interface method cannot be declared private");
         }
 
         // Compute descriptor
@@ -128,6 +135,10 @@ class JMethodDeclaration
 
         // Generate the method with an empty body (for now)
         partialCodegen(context, partial);
+    }
+
+    public void makeInterfaceMethod() {
+        isFromInterface = true;
     }
 
     /**
@@ -193,6 +204,9 @@ class JMethodDeclaration
         // Generate a method with an empty body; need a return to
         // make
         // the class verifier happy.
+        if(isFromInterface) {
+            mods.add("abstract");
+        }
         partial.addMethod(mods, name, descriptor, null, false);
 
         // Add implicit RETURN

@@ -888,13 +888,10 @@ public class Parser {
                 JVariableDeclaration varInit = null;
                 JExpression condition = null;
                 ArrayList<JStatement> update = new ArrayList<JStatement>();
-				scanner.recordPosition();
-				if (seeBasicType() || have(IDENTIFIER) && have(IDENTIFIER)) {
-					scanner.returnToPosition();
+				if (seeBasicType()) {
 					varInit = localVariableDeclarationStatement();
 				}
-				else if (!have(SEMI)) {
-					scanner.returnToPosition();
+				else {
 					init = statementExpressionList();
 					mustBe(SEMI);
 				}

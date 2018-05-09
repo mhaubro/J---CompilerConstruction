@@ -31,7 +31,7 @@ public class JCatchClause extends JAST {
 		this.catchBlock = catchBlock;
 	}
 
-	public JAST analyze(Context context) {
+	public JCatchClause analyze(Context context) {
 		LocalContext localContext =
 				new LocalContext(context);
 		this.context = localContext;

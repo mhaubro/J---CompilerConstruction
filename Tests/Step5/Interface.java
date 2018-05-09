@@ -2,6 +2,9 @@
  * Interface.java
  */
 
+import java.lang.System;
+import java.lang.Integer;
+
 interface A {
     public int f(int x);
 }

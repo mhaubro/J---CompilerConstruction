@@ -246,6 +246,17 @@ class Type {
         return this.classRep.isAssignableFrom(that.classRep);
     }
 
+    public ArrayList<Type> interfacesTypes() {
+        if(classRep == null)
+            return new ArrayList<>();
+        if(classRep.getInterfaces().length < 1)
+            return new ArrayList<>();
+        ArrayList<Type> result = new ArrayList<>();
+        for(Class<?> itf: classRep.getInterfaces())
+            result.add(typeFor(itf));
+        return result;
+    }
+
     /**
      * Return a list of this class' abstract methods? It does has abstract
      * methods if (1) Any method declared in the class is abstract, or (2) Its
@@ -253,18 +264,44 @@ class Type {
      * 
      * @return a list of abstract methods.
      */
-
     public ArrayList<Method> abstractMethods() {
-        ArrayList<Method> inheritedAbstractMethods = superClass() == null ? new ArrayList<Method>()
+        ArrayList<Method> inheritedAbstractMethods = superClass() == null ? new ArrayList<>()
                 : superClass().abstractMethods();
-        ArrayList<Method> abstractMethods = new ArrayList<Method>();
-        ArrayList<Method> declaredConcreteMethods = declaredConcreteMethods();
+        ArrayList<Method> abstractMethods = new ArrayList<>();
+
         ArrayList<Method> declaredAbstractMethods = declaredAbstractMethods();
+        ArrayList<Method> declaredConcreteMethods = declaredConcreteMethods();
+
         abstractMethods.addAll(declaredAbstractMethods);
+
         for (Method method : inheritedAbstractMethods) {
             if (!declaredConcreteMethods.contains(method)
                     && !declaredAbstractMethods.contains(method)) {
                 abstractMethods.add(method);
+            }
+        }
+        
+
+        for(Type itfType: interfacesTypes()) {
+            
+            for(Method method: itfType.abstractMethods()) {
+                boolean foundConcrete = false;
+                for(Method method2: declaredConcreteMethods) {
+                    if(method.name().equals(method2.name())) {
+                        foundConcrete = true;
+                    }
+                }   
+                if(!foundConcrete) {
+                    boolean foundAbstract = false;
+                    for(Method method2: abstractMethods) {
+                        if(method.name().equals(method2.name())) {
+                            foundAbstract = true;
+                        }
+                    }   
+                    if(!foundAbstract) {
+                        abstractMethods.add(method);
+                    }
+                }
             }
         }
         return abstractMethods;
@@ -277,9 +314,10 @@ class Type {
      */
 
     private ArrayList<Method> declaredAbstractMethods() {
+
         ArrayList<Method> declaredAbstractMethods = new ArrayList<Method>();
         for (java.lang.reflect.Method method : classRep.getDeclaredMethods()) {
-            if (Modifier.isAbstract(method.getModifiers())) {
+            if (Modifier.isAbstract(method.getModifiers()) || isInterface()) {
                 declaredAbstractMethods.add(new Method(method));
             }
         }
@@ -554,6 +592,9 @@ class Type {
      * Return the Field having this name.
      * 
      * @param name
+n
+x
+A
      *            the name of the field we want.
      * @return the Field or null if it's not there.
      */

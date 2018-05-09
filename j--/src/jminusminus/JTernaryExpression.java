@@ -48,8 +48,6 @@ public class JTernaryExpression extends JExpression {
 		/* Check that the middle and rhs are the same type */
 		middle.type().mustMatchExpected(line, rhs.type());
 		this.type = middle.type();
-		returnType = middle.type();
-
 		/* The left hand side must be a boolean */
 		lhs.type().mustMatchExpected(line, Type.BOOLEAN);
 		return this;
@@ -59,7 +57,6 @@ public class JTernaryExpression extends JExpression {
 	 * Generates the code for a ternary expression
 	 */
 	public void codegen(CLEmitter output) {
-		((JLhs) lhs).codegenLoadLhsLvalue(output);
 		String elseLabel = output.createLabel();
 		String endLabel = output.createLabel();
 		lhs.codegen(output, elseLabel, false);

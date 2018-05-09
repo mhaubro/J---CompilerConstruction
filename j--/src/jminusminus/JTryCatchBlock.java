@@ -27,7 +27,7 @@ public class JTryCatchBlock extends JStatement {
 		this.finalBlock = finalBlock;
 	}
 
-	public JAST analyze(Context context) {
+	public JTryCatchBlock analyze(Context context) {
 		tryBlock.analyze(context);
 		ArrayList<Type> caughtTypes = new ArrayList<>();
 		for (JCatchClause catch_clause : catches) {

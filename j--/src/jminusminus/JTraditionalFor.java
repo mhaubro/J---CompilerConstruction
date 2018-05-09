@@ -72,7 +72,6 @@ public class JTraditionalFor extends JForStatement {
 				statement.codegen(output);
 			}
 		}
-
 		// Set the condition and add a label to branch back up to if needed
 		output.addLabel(condLabel);
 		condition.codegen(output, end, false);
