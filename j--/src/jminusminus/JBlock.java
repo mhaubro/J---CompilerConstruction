@@ -33,6 +33,14 @@ class JBlock extends JStatement {
         this.statements = statements;
     }
 
+    public JBlock(JBlock block) {
+        super(block.line);
+        this.statements = new ArrayList<>();
+        for (JStatement statement : block.statements){
+            this.statements.add(statement);
+        }
+
+    }
 
     /**
      * Return the list of statements comprising the block.
