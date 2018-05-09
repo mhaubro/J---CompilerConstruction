@@ -700,7 +700,7 @@ private JMember memberDecl( ArrayList<String>  mods ): {
     JBlock body = null;
     ArrayList<JVariableDeclarator> variableDeclarators = null;
     JMember memberDecl = null;
-	ArrayList<TypeName> excepts = null;
+	ArrayList<Type> excepts = null;
 }
 {
     try {
@@ -790,9 +790,9 @@ private ArrayList<JStatement> initUpdateStatements(): {
 	{ return updates; }
 }
 
-private ArrayList<TypeName> exceptions(): {
-	ArrayList<TypeName> excepts = new ArrayList<TypeName>();
-	TypeName id = null;
+private ArrayList<Type> exceptions(): {
+	ArrayList<Type> excepts = new ArrayList<Type>();
+	Type id = null;
 }
 {
 	try {
@@ -822,7 +822,10 @@ private ArrayList<TypeName> exceptions(): {
 
 private ArrayList<JCatchClause> catchClauses() : {
 	int line = 0;
-	ArrayList<String> mods = null;
+	String name;
+    ArrayList<Type> types = new ArrayList<Type>();
+	ArrayList<String> mods;
+
 	ArrayList<JCatchClause> cc = new ArrayList<JCatchClause>();
 	JFormalParameter param = null;
 	JBlock block=  null;
@@ -832,32 +835,59 @@ private ArrayList<JCatchClause> catchClauses() : {
 		(
 			<CATCH> { line = token.beginLine; }
 			<LPAREN>
-			mods = modifiers()
-			param = formalParameter()
+			(
+			{
+		    	mods = modifiers();
+            }
+                {
+                    types.add(type());
+                }
+            )
+            //Several exceptions
+            (
+                <BITWISE_OR>
+                {
+                    types.add(type());
+                }
+            )*
+
+            (
+                <IDENTIFIER> {name = token.image;}
+            )
 			<RPAREN>
-			block = block()
-			{ cc.add(new JCatchClause(line, mods, param, block)); }
+            {
+            Token t = token;
+                for (int i = 0; i < types.size(); i++){
+                    token = t;
+                    //Copy block
+        			block = block();
+                    JFormalParameter formalparameter = new JFormalParameter(line, name, types.get(i));
+                    cc.add(new JCatchClause(line, mods, formalparameter,( block)));
+                }
+			}
 		)+
 	}
 	catch(ParseException e) {
 		recoverFromError( new int[] {SEMI, EOF}, e);
 	}
-	{ return cc; }	
+	{ return cc; }
 }
 
 
 
-private TypeName exception(): {
+
+private Type exception(): {
 	int line = 0;
 	String name = "";
+	Type type = Type.ANY;
 }
 {
 	try {
-		<IDENTIFIER> { line = token.beginLine; name = token.image; }
+		{ type = type(); }
 	} catch(ParseException e) {
 		recoverFromError( new int[] {SEMI, EOF}, e);
 	}
-	{ return new TypeName(line, name); }
+	{ return type; }
 }
 /**
  * Parse a block.
