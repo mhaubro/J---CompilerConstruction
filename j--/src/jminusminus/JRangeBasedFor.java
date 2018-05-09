@@ -131,7 +131,7 @@ public class JRangeBasedFor extends JForStatement {
 		 */
 		// Using iastore; requires arrayref ---> index
 		range.codegen(output);
-		loopVar.codegenLoadLhsRvalue(output);
+		loopVar.codegen(output);
 		Type formalParamType = formalParamVar.iDefn().type();
 		if (formalParamType.isReference()) {
 			output.addNoArgInstruction(AALOAD);
