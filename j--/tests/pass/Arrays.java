@@ -14,9 +14,20 @@ public class Arrays {
 
     int[][] iaa2 = { { 1, 2, 3 }, { 1, 2, 3, 4 }, {} };
 
+    double[] a = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+
+    public void test() {
+        /*
+        for(int i = 0; i <= ia.length-1; i++)
+        {
+            System.out.println(a[i]);
+        }
+        */
+    }
+
     public static void main(String[] args) {
-        int[][] iaa3 = { { 1, 2, 3 }, { 1, 2, 3, 4 }, {} };
-        System.out.println((Object) iaa3);
+        Arrays main = new Arrays();
+        main.test();
     }
 
 }

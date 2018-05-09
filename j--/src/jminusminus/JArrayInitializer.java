@@ -110,7 +110,9 @@ class JArrayInitializer
 		output.addNoArgInstruction(CASTORE);
 	    } else if (!componentType.isPrimitive()) {
 		output.addNoArgInstruction(AASTORE);
-	    }
+	    } else if (componentType == Type.DOUBLE) {
+	        output.addNoArgInstruction(DASTORE);
+        }
         }
     }
 

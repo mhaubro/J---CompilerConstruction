@@ -294,6 +294,26 @@ class ClassContext extends Context {
         return definition;
     }
 
+    public void writeToStdOut(PrettyPrinter p) {
+        p.println("<ClassContext>");
+        p.indentRight();
+        p.println("<Entries>");
+        if (entries != null) {
+            p.indentRight();
+            for (String key : names()) {
+                IDefn defn = entries.get(key);
+                if (defn instanceof LocalVariableDefn) {
+                    p.printf("<Entry name=\"%s\" " + "offset=\"%d\"/>\n", key,
+                            ((LocalVariableDefn) defn).offset());
+                }
+            }
+            p.indentLeft();
+        }
+        p.println("</Entries>");
+        p.indentLeft();
+        p.println("</ClassContext>");
+    }
+
 }
 
 /**

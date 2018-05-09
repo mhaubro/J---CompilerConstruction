@@ -96,4 +96,10 @@ class AmbiguousName {
         return result;
     }
 
+    public void writeToStdOut(PrettyPrinter p)
+    {
+        p.println(name);
+    }
+
+
 }
