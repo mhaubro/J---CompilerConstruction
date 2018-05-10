@@ -1,7 +1,7 @@
 package junit;
 
 import junit.framework.TestCase;
-import pass.*;
+import pass.LegalInterface;
 
 
 public class InterfaceTest extends TestCase {
@@ -9,20 +9,15 @@ public class InterfaceTest extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        interfacet = new LegalInterfaces();
+        interfacet = new LegalInterface();
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
     }
 
-
-
     public void testInterfaceFunctions() {
-        assertEquals(interfacet.testValues(), 52);
-
-
-
+       assertEquals(interfacet.testValues(), 52);
     }
 
 }
