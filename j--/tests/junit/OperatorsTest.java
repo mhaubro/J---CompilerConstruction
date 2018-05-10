@@ -1,7 +1,6 @@
 package junit;
 
 import junit.framework.TestCase;
-import pass.OperatorsDouble;
 import pass.OperatorsInt;
 
 

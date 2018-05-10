@@ -82,7 +82,17 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 	}
 
 	public void codegen(CLEmitter output) {
+		// The class header
+		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
+				: JAST.compilationUnit.packageName() + "/" + name;
 
+		output.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfaces, false);
+		for (JMember member : body) {
+			if (member instanceof JMethodDeclaration) {
+				JMethodDeclaration mem = (JMethodDeclaration)member;
+				output.addMethod(mem.mods, mem.name, mem.descriptor, mem.exJvmForm, false);
+			}
+		}
 	}
 	public void writeToStdOut(PrettyPrinter p) {
 	    String s = "";
@@ -128,8 +138,7 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 				: JAST.compilationUnit.packageName() + "/" + name;
 		CLEmitter partial = new CLEmitter(false);
 		
-		// Compile-time hack: only define the interfaces at compile-time 
-		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces,
+		partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfaces,
 				false);
 		thisType = Type.typeFor(partial.toClass());
 		context.addType(line, thisType);
@@ -142,19 +151,24 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		// Create the (partial) class
 		CLEmitter partial = new CLEmitter(false);
 
-
 		// Add the class header to the partial class
 		String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
 				: JAST.compilationUnit.packageName() + "/" + name;
 
-		partial.addClass(mods, qualifiedName, Type.NULLTYPE.jvmName(), superInterfaces, false);
+		partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfaces, false);
 
 		for (JMember member : body) {
-			if(member instanceof JMethodDeclaration)
+			if(member instanceof JMethodDeclaration) {
 				((JMethodDeclaration) member).makeInterfaceMethod();
+				if (!((JMethodDeclaration) member).mods.contains("abstract")) {
+					((JMethodDeclaration) member).mods.add("abstract");
+				}
+				if (!((JMethodDeclaration) member).mods.contains("public")) {
+					((JMethodDeclaration) member).mods.add("public");
+				}
+			}
 			member.preAnalyze(context, partial);
 		}
-
 
 		// Get the Class rep for the (partial) class and make it
 		// the representation for this type

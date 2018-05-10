@@ -121,7 +121,7 @@ class JMethodDeclaration
                 "abstract method cannot have a body");
         } else if (body == null && !(isAbstract || isFromInterface)) {
             JAST.compilationUnit.reportSemanticError(line(),
-                "Method with null body must be abstarct");
+                "Method with null body must be abstract");
         } else if (isAbstract && isPrivate) {
             JAST.compilationUnit.reportSemanticError(line(),
                 "private method cannot be declared abstract");
@@ -221,11 +221,11 @@ class JMethodDeclaration
         // make
         // the class verifier happy.
         if(isFromInterface) {
+            mods.add("public");
             mods.add("abstract");
         }
 
         partial.addMethod(mods, name, descriptor, exJvmForm, false);
-
         // Add implicit RETURN
         if (returnType == Type.VOID) {
             partial.addNoArgInstruction(RETURN);
@@ -255,6 +255,18 @@ class JMethodDeclaration
 
     public void codegen(CLEmitter output) {
         output.addMethod(mods, name, descriptor, exJvmForm, false);
+        if (body != null) {
+            body.codegen(output);
+        }
+
+        // Add implicit RETURN
+        if (returnType == Type.VOID) {
+            output.addNoArgInstruction(RETURN);
+        }
+    }
+
+    public void codegenInterfaceMethod(CLEmitter output, String target) {
+        output.addMemberAccessInstruction(INVOKEINTERFACE, target, name, descriptor);
         if (body != null) {
             body.codegen(output);
         }

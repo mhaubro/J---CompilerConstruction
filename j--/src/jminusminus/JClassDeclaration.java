@@ -3,6 +3,9 @@
 package jminusminus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import static jminusminus.CLConstants.*;
 
 /**
@@ -29,6 +32,9 @@ class JClassDeclaration extends JAST implements JTypeDecl {
     /** Implements interface */
     private ArrayList<TypeName> implType;
     private ArrayList<String> superInterfaces;
+    private ArrayList<HashMap<String, String>> implementedMethods;
+    private HashMap<String, String> implementedFields;
+
     /** This class type. */
     private Type thisType;
 
@@ -78,6 +84,8 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         this.implType = implType;
         this.classBlock = classBlock;
         hasExplicitConstructor = false;
+        implementedFields = new HashMap<>();
+        implementedMethods = new ArrayList<>();
         instanceFieldInitializations = new ArrayList<JFieldDeclaration>();
         staticFieldInitializations = new ArrayList<JFieldDeclaration>();
     }
@@ -228,6 +236,66 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             }
         }
 
+        // Populate all implemented functions
+        if (superInterfaces != null) {
+            int idx = 0;
+            for (String inter : superInterfaces) {
+                implementedMethods.add(new HashMap<>());
+                Type interfaceType = context.lookupType(inter);
+                Class classRep = interfaceType.resolve(context).classRep();
+
+                for (java.lang.reflect.Method m : classRep.getDeclaredMethods()) {
+                    String descriptor = "(";
+                    for (Class<?> cl : m.getParameterTypes()) {
+                        Type newType = Type.typeFor(cl);
+                        descriptor += newType.toDescriptor();
+                    }
+                    Type returnType = Type.typeFor(m.getReturnType());
+                    descriptor += ")" + returnType.toDescriptor();
+                    implementedMethods.get(idx).put(m.getName(), descriptor);
+                }
+
+                idx++;
+            }
+        }
+
+
+        int numImpl = 0;
+        for (JMember member : classBlock) {
+            if (member instanceof JMethodDeclaration) {
+                JMethodDeclaration mem = (JMethodDeclaration) member;
+
+                // a super interface has this method. mark it as such
+                for (HashMap<String, String> map : implementedMethods) {
+                    if (map.containsKey(mem.name) &&
+                            map.get(mem.name).equals(mem.descriptor)) {
+                        numImpl++;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < implementedMethods.size(); i++ ) {
+            HashMap<String, String> map = implementedMethods.get(i);
+            for (String mName : map.keySet()) {
+                String desc = map.get(mName);
+                boolean isImplemented = false;
+                for (JMember member : classBlock) {
+                    if (member instanceof JMethodDeclaration) {
+                        JMethodDeclaration mem = (JMethodDeclaration) member;
+                        if (mem.name.equals(mName) && mem.descriptor.equals(desc)) {
+                            isImplemented = true;
+                        }
+                    }
+                }
+                if (!isImplemented) {
+                    JAST.compilationUnit.reportSemanticError(line(), "Class " + name +
+                            " does not implement method " +
+                            mName + " declared from implemented interface " + superInterfaces.get(i));
+                }
+            }
+        }
+
         // Finally, ensure that a non-abstract class has
         // no abstract methods.
         if (!thisType.isAbstract()) {
@@ -235,11 +303,21 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             if(thisType.abstractMethods().size() > 0) {
                 String methods = "";
                 for (Method method : thisType.abstractMethods()) {
-                    methods += "\n" + method;
+                    boolean found = false;
+                    for (HashMap<String, String> t : implementedMethods) {
+                        if (t.containsKey(method.name())) {
+                            found = true;
+                        }
+                    }
+                    if (!found) {
+                        methods += "\n" + method;
+                    }
                 }
-                JAST.compilationUnit.reportSemanticError(line,
-                        "Class must be declared abstract since it defines "
-                                + "the following abstract methods: %s", methods);
+                if (!methods.equals("")) {
+                    JAST.compilationUnit.reportSemanticError(line,
+                            "Class must be declared abstract since it defines "
+                                    + "the following abstract methods: %s", methods);
+                }
 
             }
         }
@@ -259,9 +337,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
         
-        // Compile-time hack to simplify things: interfaces are just available at compile time 
-        // and are no code is generated for them.
-        output.addClass(mods, qualifiedName, superType.jvmName(), new ArrayList<>(), false);
+        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
 
 
         // The implicit empty constructor?
@@ -272,6 +348,29 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         for (JMember member : classBlock) {
             if (member instanceof JConstructorDeclaration) {
                 ((JConstructorDeclaration) member).codegen(output, classBlock);
+            }
+            // check if it's an interface method
+            else if (member instanceof JMethodDeclaration &&
+                    !(member instanceof JClassInitializer)) {
+                JMethodDeclaration mem = (JMethodDeclaration)member;
+                boolean found = false;
+                String target = "";
+                for (int i = 0; i < implementedMethods.size(); i++) {
+                    HashMap<String, String> map = implementedMethods.get(i);
+					if (map.containsKey(mem.name) &&
+							map.get(mem.name).equals(mem.descriptor)) {
+                        found = true;
+                        target = superInterfaces.get(i);
+                        break;
+					}
+                }
+                /*if (found) {
+                    mem.codegenInterfaceMethod(output, target);
+                }
+                else {
+                    mem.codegen(output);
+                }*/
+                mem.codegen(output);
             }
             else if (!(member instanceof JClassInitializer)) {
                 ((JAST) member).codegen(output);

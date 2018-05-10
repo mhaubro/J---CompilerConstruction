@@ -95,12 +95,6 @@ class JMessageExpression extends JExpression {
                 if (target == null) {
                     target = expr;
                 } else {
-                    try {
-                        throw new Exception("hi!");
-                    }
-                    catch (Exception e) {
-                        e.printStackTrace();
-                    }
                     // Can't even happen syntactically
                     JAST.compilationUnit.reportSemanticError(line(),
                             "Badly formed suffix");
@@ -186,8 +180,10 @@ class JMessageExpression extends JExpression {
         for (JExpression argument : arguments) {
             argument.codegen(output);
         }
+
         int mnemonic = method.isStatic() ? INVOKESTATIC : target.type()
                 .isInterface() ? INVOKEINTERFACE : INVOKEVIRTUAL;
+
         output.addMemberAccessInstruction(mnemonic, target.type().jvmName(),
                 messageName, method.toDescriptor());
         if (isStatementExpression && type != Type.VOID) {
