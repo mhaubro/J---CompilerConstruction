@@ -1329,9 +1329,9 @@ public class Parser {
         while (more) {
             /* Format is lhs ? middle : rhs; */
             if (have(TERNARY)) {
-                JExpression middle = conditionalOrExpression();
+                JExpression middle = assignmentExpression();
                 mustBe(COLON);
-                JExpression rhs = conditionalOrExpression();
+                JExpression rhs = ternaryExpression();
                 lhs = new JTernaryExpression(line, lhs, middle, rhs);
             } else {
                 more = false;

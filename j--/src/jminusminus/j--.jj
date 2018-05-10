@@ -1563,7 +1563,7 @@ private JExpression assignmentExpression(): {
  * 
  * <pre>
  *   ternaryExpression ::= conditionalOrExpression // level 12
- *                                  {TERNARY conditionalOrExpression COLON conditionalOrExpression}
+ *                                  {TERNARY assignmentExpression COLON ternaryExpression}
  * </pre>
  * 
  * @return an AST for a conditionalExpression.
@@ -1578,9 +1578,9 @@ private JExpression ternaryExpression(): {
         lhs = conditionalOrExpression() { line = lhs.line(); }
         [
             <TERNARY>
-            middle = conditionalOrExpression()
+            middle = assignmentExpression()
 			<COLON>
-			rhs = conditionalOrExpression()
+			rhs = ternaryExpression()
             { lhs = new JTernaryExpression( line, lhs, middle, rhs ); }
         ]
     } 
