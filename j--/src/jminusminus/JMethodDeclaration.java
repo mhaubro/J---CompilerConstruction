@@ -29,6 +29,7 @@ class JMethodDeclaration
      * qualifiedIdentifier
      */
     protected ArrayList<Type> exceptions;
+    protected ArrayList<String> exJvmForm;
 
     /** Method body. */
     protected JBlock body;
@@ -82,6 +83,7 @@ class JMethodDeclaration
         this.returnType = returnType;
         this.params = params;
         this.exceptions = exceptions;
+        this.exJvmForm = null;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
@@ -103,6 +105,11 @@ class JMethodDeclaration
         // Resolve types of the formal parameters
         for (JFormalParameter param : params) {
             param.setType(param.type().resolve(context));
+        }
+
+        for (int i = 0; i < exceptions.size(); i++) {
+            Type newType = exceptions.get(i).resolve(context);
+            exceptions.set(i, newType);
         }
 
         // Resolve return type
@@ -160,8 +167,17 @@ class JMethodDeclaration
 		this.context = methodContext;
 
 		for (Type ex : exceptions) {
-            ((MethodContext)this.context).exceptions.add(ex.resolve(context));
+            ((MethodContext)this.context).exceptions.add(ex);
         }
+
+        exJvmForm = null;
+        if (exceptions.size() > 0) {
+            exJvmForm = new ArrayList<>();
+            for (Type ex : exceptions) {
+                exJvmForm.add(ex.jvmName());
+            }
+        }
+
 
 		if (!isStatic) {
 			// Offset 0 is used to address "this".
@@ -207,7 +223,8 @@ class JMethodDeclaration
         if(isFromInterface) {
             mods.add("abstract");
         }
-        partial.addMethod(mods, name, descriptor, null, false);
+
+        partial.addMethod(mods, name, descriptor, exJvmForm, false);
 
         // Add implicit RETURN
         if (returnType == Type.VOID) {
@@ -237,7 +254,7 @@ class JMethodDeclaration
      */
 
     public void codegen(CLEmitter output) {
-        output.addMethod(mods, name, descriptor, null, false);
+        output.addMethod(mods, name, descriptor, exJvmForm, false);
         if (body != null) {
             body.codegen(output);
         }

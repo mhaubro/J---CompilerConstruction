@@ -1,6 +1,7 @@
 package jminusminus;
 
 import java.util.ArrayList;
+import jminusminus.CLConstants.*;
 
 public class JTryCatchBlock extends JStatement {
 	/* The try block */
@@ -11,6 +12,7 @@ public class JTryCatchBlock extends JStatement {
 
 	/* The code inside the finally block */
 	private JBlock finalBlock;
+	private int finallyOffset;
 
 	/**
 	 * Construct an AST node for a statement given its line number.
@@ -39,28 +41,46 @@ public class JTryCatchBlock extends JStatement {
 			}
 			caughtTypes.add(catch_clause.exception_param.type());
 		}
+
 		finalBlock.analyze(context);
+		finallyOffset = ((LocalContext)context).nextOffset();
 		return this;
 	}
 
 	public void codegen(CLEmitter output) {
 		// Create start label, end label of the try block
-		String startLabel = output.createLabel();
-		String endLabel = output.createLabel();
+		String startTryLabel = output.createLabel();
+		String endTryLabel = output.createLabel();
+		String finallyLabel = output.createLabel();
+		String endOfTryCatchLabel = output.createLabel();
 
-		output.addLabel(startLabel);
+		output.addLabel(startTryLabel);
 		tryBlock.codegen(output);
-		output.addLabel(endLabel);
-		for (JCatchClause cc : catches) {
-			// Create a handler label
-			String handlerLabel = output.createLabel();
-			output.addLabel(handlerLabel);
-			String exceptionType = cc.exception_param.type().jvmName();
-			output.addExceptionHandler(startLabel, endLabel, handlerLabel, exceptionType);
-			cc.codegen(output);
-		}
-
+		output.addLabel(endTryLabel);
 		finalBlock.codegen(output);
+		output.addBranchInstruction(CLConstants.GOTO, endOfTryCatchLabel);
+		for (JCatchClause cc : catches) {
+			// Create labels
+			String startCatchLabel = output.createLabel();
+			String endCatchLabel = output.createLabel();
+			output.addExceptionHandler(startTryLabel, endTryLabel, startCatchLabel, cc.exception_param.type().jvmName());
+			output.addLabel(startCatchLabel);
+			cc.codegen(output);
+			output.addLabel(endCatchLabel);
+			output.addExceptionHandler(startCatchLabel, endCatchLabel, finallyLabel, null);
+			finalBlock.codegen(output);
+			output.addBranchInstruction(CLConstants.GOTO, endOfTryCatchLabel);
+		}
+		output.addExceptionHandler(startTryLabel, endTryLabel, finallyLabel, null);
+
+		output.addLabel(finallyLabel);
+		/* If we get to this final block.. it means we had an exception that wasn't caught elsewhere*/
+		/* Therefore we must store the exception to a local variable. Load it to stack. Then throw */
+		output.addOneArgInstruction(CLConstants.ASTORE, finallyOffset);
+		finalBlock.codegen(output);
+		output.addOneArgInstruction(CLConstants.ALOAD, finallyOffset);
+		output.addNoArgInstruction(CLConstants.ATHROW);
+		output.addLabel(endOfTryCatchLabel);
 	}
 
 	public void writeToStdOut(PrettyPrinter p) {

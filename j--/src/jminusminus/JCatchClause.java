@@ -1,5 +1,6 @@
 package jminusminus;
 
+
 import java.util.ArrayList;
 
 public class JCatchClause extends JAST {
@@ -8,6 +9,7 @@ public class JCatchClause extends JAST {
 
 	/* The type of exception being caught */
 	public JFormalParameter exception_param;
+	private int exOffset;
 
 	/* Block portion of the catch */
 	private JBlock catchBlock;
@@ -37,10 +39,8 @@ public class JCatchClause extends JAST {
 		this.context = localContext;
 
 		for (String mod : mods) {
-			if (!mod.equals("final")) {
-				JAST.compilationUnit.reportSemanticError(line,
-						"Modifier %s may not be used to modify a catchtype", mod);
-			}
+			JAST.compilationUnit.reportSemanticError(line,
+					"Modifier %s may not be used to modify a catchtype", mod);
 		}
 
 		exception_param.setType(exception_param.type().resolve(context));
@@ -48,6 +48,7 @@ public class JCatchClause extends JAST {
 
 		LocalVariableDefn defn = new LocalVariableDefn(exception_param.type(), this.context.nextOffset());
 		defn.initialize();
+		exOffset = defn.offset();
 		this.context.addEntry(exception_param.line(), exception_param.name(), defn);
 		if (!Type.THROWABLE.isJavaAssignableFrom(exception_param.type())) {
 			JAST.compilationUnit.reportSemanticError(line,
@@ -63,6 +64,7 @@ public class JCatchClause extends JAST {
 	}
 
 	public void codegen(CLEmitter output) {
+		output.addOneArgInstruction(CLConstants.ASTORE, exOffset);
 		catchBlock.codegen(output);
 	}
 
