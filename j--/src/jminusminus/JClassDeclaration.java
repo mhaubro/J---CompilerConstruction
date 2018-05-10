@@ -34,7 +34,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
     private ArrayList<TypeName> superInterfaces;
     private ArrayList<String> superInterfacesJvm;
     private ArrayList<HashMap<String, String>> implementedMethods;
-    private HashMap<String, String> implementedFields;
 
     /** This class type. */
     private Type thisType;
@@ -85,7 +84,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         this.implType = implType;
         this.classBlock = classBlock;
         hasExplicitConstructor = false;
-        implementedFields = new HashMap<>();
         implementedMethods = new ArrayList<>();
         instanceFieldInitializations = new ArrayList<JFieldDeclaration>();
         staticFieldInitializations = new ArrayList<JFieldDeclaration>();
@@ -181,7 +179,15 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
 
-        partial.addClass(mods, qualifiedName, superType.jvmName(), null, false);
+        if (superInterfaces != null) {
+            superInterfacesJvm = new ArrayList<>();
+            for (TypeName tn : superInterfaces) {
+                Type newType = tn.resolve(context);
+                superInterfacesJvm.add(newType.jvmName());
+            }
+        }
+
+        partial.addClass(mods, qualifiedName, superType.jvmName(), superInterfacesJvm, false);
 
         // Pre-analyze the members and add them to the partial
         // class
