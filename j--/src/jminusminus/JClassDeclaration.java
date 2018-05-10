@@ -349,29 +349,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             if (member instanceof JConstructorDeclaration) {
                 ((JConstructorDeclaration) member).codegen(output, classBlock);
             }
-            // check if it's an interface method
-            else if (member instanceof JMethodDeclaration &&
-                    !(member instanceof JClassInitializer)) {
-                JMethodDeclaration mem = (JMethodDeclaration)member;
-                boolean found = false;
-                String target = "";
-                for (int i = 0; i < implementedMethods.size(); i++) {
-                    HashMap<String, String> map = implementedMethods.get(i);
-					if (map.containsKey(mem.name) &&
-							map.get(mem.name).equals(mem.descriptor)) {
-                        found = true;
-                        target = superInterfaces.get(i);
-                        break;
-					}
-                }
-                /*if (found) {
-                    mem.codegenInterfaceMethod(output, target);
-                }
-                else {
-                    mem.codegen(output);
-                }*/
-                mem.codegen(output);
-            }
             else if (!(member instanceof JClassInitializer)) {
                 ((JAST) member).codegen(output);
             }

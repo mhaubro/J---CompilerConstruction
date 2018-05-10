@@ -4,7 +4,6 @@ package junit;
 
 import java.io.File;
 
-import jminusminus.JavaCCMain;
 import junit.framework.TestCase;
 import jminusminus.Main;
 

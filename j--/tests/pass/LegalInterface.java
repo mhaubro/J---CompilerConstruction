@@ -1,5 +1,5 @@
 package pass;
-
+/*
 public class LegalInterface {
     public static void main(String[] args){
 
@@ -103,3 +103,4 @@ class C4 implements Ei {
 }
 
 
+*/
