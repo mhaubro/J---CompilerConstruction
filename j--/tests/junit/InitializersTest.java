@@ -22,5 +22,6 @@ public class InitializersTest extends TestCase {
 		assertEquals(init.a, 1.2, 1e-6);
 		assertEquals(init.b, 1.5, 1e-6);
 		assertEquals(Initializers.c, 2.1, 1e-6);
+		assertEquals(init.d, 3.6, 1e-6);
 	}
 }
