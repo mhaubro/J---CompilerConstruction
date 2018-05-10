@@ -866,6 +866,7 @@ private ArrayList<JCatchClause> catchClauses() : {
                     JFormalParameter formalparameter = new JFormalParameter(line, name, types.get(i));
                     cc.add(new JCatchClause(line, mods, formalparameter,( block)));
                 }
+                types.clear();
 			}
 		)+
 	}

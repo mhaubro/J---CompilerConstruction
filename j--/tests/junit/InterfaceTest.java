@@ -1,4 +1,28 @@
 package junit;
 
-public class InterfaceTest {
+import junit.framework.TestCase;
+import pass.*;
+
+
+public class InterfaceTest extends TestCase {
+    private LegalInterface interfacet;
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        interfacet = new LegalInterfaces();
+    }
+
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+
+
+    public void testInterfaceFunctions() {
+        assertEquals(interfacet.testValues(), 52);
+
+
+
+    }
+
 }

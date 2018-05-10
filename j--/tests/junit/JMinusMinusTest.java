@@ -3,6 +3,8 @@
 package junit;
 
 import java.io.File;
+
+import jminusminus.JavaCCMain;
 import junit.framework.TestCase;
 import jminusminus.Main;
 
@@ -44,6 +46,9 @@ public class JMinusMinusTest extends TestCase {
                 System.out.printf("\n\n");
 
                 // true even if a single test fails
+                if (Main.errorHasOccurred()){
+                    System.out.println("FAIL FAIL FAIL");
+                }
                 errorHasOccurred |= Main.errorHasOccurred();
             }
         }
