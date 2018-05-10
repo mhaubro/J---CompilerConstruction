@@ -1,8 +1,11 @@
 package pass;
-/*
+
+import java.lang.System;
+
 public class LegalInterface {
     public static void main(String[] args){
-
+        LegalInterface a = new LegalInterface();
+        System.out.println(a.testValues());
     }
 
     public int testValues(){
@@ -47,7 +50,7 @@ interface Ci {
 }
 
 interface Di extends Ai, Ci {
-//    int d();
+    int d();
 }
 
 interface Ei extends Bi, Ci {
@@ -103,4 +106,3 @@ class C4 implements Ei {
 }
 
 
-*/

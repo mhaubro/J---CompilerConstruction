@@ -891,7 +891,8 @@ class TypeName extends Type {
                 resolvedType = Type.ANY;
             }
         }
-        if (resolvedType != Type.ANY) {
+
+        if (resolvedType != Type.ANY && context.classContext != null) {
             Type referencingType = ((JTypeDecl) (context.classContext
                     .definition())).thisType();
             Type.checkAccess(line, referencingType.classRep(), resolvedType

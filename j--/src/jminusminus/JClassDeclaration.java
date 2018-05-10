@@ -31,7 +31,8 @@ class JClassDeclaration extends JAST implements JTypeDecl {
 
     /** Implements interface */
     private ArrayList<TypeName> implType;
-    private ArrayList<String> superInterfaces;
+    private ArrayList<TypeName> superInterfaces;
+    private ArrayList<String> superInterfacesJvm;
     private ArrayList<HashMap<String, String>> implementedMethods;
     private HashMap<String, String> implementedFields;
 
@@ -78,7 +79,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         if (implType != null) {
             this.superInterfaces = new ArrayList<>();
             for (TypeName interfaceType : implType) {
-                this.superInterfaces.add(interfaceType.jvmName());
+                this.superInterfaces.add(interfaceType);
             }
         }
         this.implType = implType;
@@ -142,7 +143,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
         CLEmitter partial = new CLEmitter(false);
-        partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfaces,
+        partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), null,
                 false); // Object for superClass, just for now
         thisType = Type.typeFor(partial.toClass());
         context.addType(line, thisType);
@@ -180,7 +181,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
 
-        partial.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
+        partial.addClass(mods, qualifiedName, superType.jvmName(), null, false);
 
         // Pre-analyze the members and add them to the partial
         // class
@@ -236,13 +237,20 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             }
         }
 
+        if (superInterfaces != null) {
+            superInterfacesJvm = new ArrayList<>();
+            for (TypeName tn : superInterfaces) {
+                Type newType = tn.resolve(context);
+                superInterfacesJvm.add(newType.jvmName());
+            }
+        }
+
         // Populate all implemented functions
         if (superInterfaces != null) {
             int idx = 0;
-            for (String inter : superInterfaces) {
+            for (TypeName inter : superInterfaces) {
                 implementedMethods.add(new HashMap<>());
-                Type interfaceType = context.lookupType(inter);
-                Class classRep = interfaceType.resolve(context).classRep();
+                Class classRep = inter.resolve(context).classRep();
 
                 for (java.lang.reflect.Method m : classRep.getDeclaredMethods()) {
                     String descriptor = "(";
@@ -337,7 +345,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
         String qualifiedName = JAST.compilationUnit.packageName() == "" ? name
                 : JAST.compilationUnit.packageName() + "/" + name;
         
-        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfaces, false);
+        output.addClass(mods, qualifiedName, superType.jvmName(), superInterfacesJvm, false);
 
 
         // The implicit empty constructor?
