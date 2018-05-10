@@ -19,4 +19,5 @@ public class ConditionalExpression {
 	public static String stringConditionalExpr(boolean cond, String x1, String x2) {
 		return cond ? x1 : x2;
 	}
+
 }

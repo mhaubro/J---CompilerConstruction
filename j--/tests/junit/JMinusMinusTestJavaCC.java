@@ -44,6 +44,9 @@ public class JMinusMinusTestJavaCC extends TestCase {
                 System.out.printf("\n\n");
 
                 // true even if a single test fails
+                if (JavaCCMain.errorHasOccurred()){
+                    System.out.println("FAIL FAIL FAIL");
+                }
                 errorHasOccurred |= JavaCCMain.errorHasOccurred();
             }
         }
