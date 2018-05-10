@@ -1024,10 +1024,10 @@ private JStatement statement(): {
 		|
 		// Traditional
 			(
-			LOOKAHEAD( localVariableDeclarationStatement() | <SEMI> | (initUpdateStatements() <SEMI>) )
+			LOOKAHEAD( localVariableDeclarationStatement() )
 			varInit = localVariableDeclarationStatement() |
-			init = initUpdateStatements() 
-			<SEMI> |
+			LOOKAHEAD( initUpdateStatements() <SEMI> )
+			init = initUpdateStatements() <SEMI>  |
 			<SEMI>
 			)
 			[
