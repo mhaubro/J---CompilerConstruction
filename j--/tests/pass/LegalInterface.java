@@ -8,6 +8,17 @@ public class LegalInterface {
         System.out.println(a.testValues());
     }
 
+    public int testInterfaceCast (int classToCastTo) {
+        Ai AiInstance;
+        if (classToCastTo == 1) {
+            AiInstance = (Ai)new C2();
+        }
+        else {
+            AiInstance = (Ai)new C3();
+        }
+        return AiInstance.a();
+    }
+
     public int testValues(){
         C1 c1 = new C1();
         C2 c2 = new C2();
@@ -33,7 +44,6 @@ public class LegalInterface {
     }
 
 }
-
 
 interface Ai {
 
@@ -71,7 +81,10 @@ class C1 implements Di {
 
 
 }
-class C2 implements Ci {
+class C2 implements Ai, Ci {
+    public int a() {
+        return 10;
+    }
     public int c(){
         return 2+3;
     }
