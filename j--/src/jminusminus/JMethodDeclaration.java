@@ -265,18 +265,6 @@ class JMethodDeclaration
         }
     }
 
-    public void codegenInterfaceMethod(CLEmitter output, String target) {
-        output.addMemberAccessInstruction(INVOKEINTERFACE, target, name, descriptor);
-        if (body != null) {
-            body.codegen(output);
-        }
-
-        // Add implicit RETURN
-        if (returnType == Type.VOID) {
-            output.addNoArgInstruction(RETURN);
-        }
-    }
-
     /**
      * @inheritDoc
      */

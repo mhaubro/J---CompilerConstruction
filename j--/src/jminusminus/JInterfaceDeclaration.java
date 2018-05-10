@@ -63,30 +63,6 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 				superInterfacesJvm.add(newType.jvmName());
 			}
 		}
-
-		// Copy declared fields for purposes of initialization.
-		for (JMember member : body) {
-			if (member instanceof JFieldDeclaration) {
-				JFieldDeclaration fieldDecl = (JFieldDeclaration) member;
-				if (fieldDecl.mods().contains("static")) {
-					staticFieldInitializations.add(fieldDecl);
-				} else {
-					instanceFieldInitializations.add(fieldDecl);
-				}
-			}
-		}
-
-		// Finally, ensure that a non-abstract class has
-		// no abstract methods.
-		if (!thisType.isAbstract() && thisType.abstractMethods().size() > 0) {
-			String methods = "";
-			for (Method method : thisType.abstractMethods()) {
-				methods += "\n" + method;
-			}
-			JAST.compilationUnit.reportSemanticError(line,
-					"Class must be declared abstract since it defines "
-							+ "the following abstract methods: %s", methods);
-		}
 		return this;
 	}
 

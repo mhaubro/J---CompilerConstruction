@@ -251,7 +251,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             for (TypeName inter : superInterfaces) {
                 implementedMethods.add(new HashMap<>());
                 Class classRep = inter.resolve(context).classRep();
-
                 for (java.lang.reflect.Method m : classRep.getDeclaredMethods()) {
                     String descriptor = "(";
                     for (Class<?> cl : m.getParameterTypes()) {
@@ -262,24 +261,7 @@ class JClassDeclaration extends JAST implements JTypeDecl {
                     descriptor += ")" + returnType.toDescriptor();
                     implementedMethods.get(idx).put(m.getName(), descriptor);
                 }
-
                 idx++;
-            }
-        }
-
-
-        int numImpl = 0;
-        for (JMember member : classBlock) {
-            if (member instanceof JMethodDeclaration) {
-                JMethodDeclaration mem = (JMethodDeclaration) member;
-
-                // a super interface has this method. mark it as such
-                for (HashMap<String, String> map : implementedMethods) {
-                    if (map.containsKey(mem.name) &&
-                            map.get(mem.name).equals(mem.descriptor)) {
-                        numImpl++;
-                    }
-                }
             }
         }
 
