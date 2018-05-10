@@ -24,7 +24,7 @@ public class DoubleTest extends TestCase {
 		this.assertEquals(opDouble.multAssign(5.1, 3.1), 15.81, 1e-6);
 		this.assertEquals(opDouble.divAssign(5.0, 2.0), 2.5, 1e-6);
 		this.assertEquals(opDouble.remAssign(14.3, 2.0), 0.3, 1e-6);
-		this.assertEquals(opDouble.plusAssign(3.5, 1.2), 2.3, 1e-6);
+		this.assertEquals(opDouble.plusAssign(3.5, 1.2), 4.7, 1e-6);
 		this.assertEquals(opDouble.rem(1.1, .2d), .1, 1e-6);
         this.assertEquals(opDouble.div(5.0, 2.0), 2.5, 1e-6);
         this.assertEquals(opDouble.plus(14.3, 2.0d), 16.3d, 1e-6);
@@ -62,5 +62,6 @@ public class DoubleTest extends TestCase {
 
     public void testCast(){
         this.assertEquals(opDouble.cast(5.5), 5);
+        this.assertEquals(opDouble.castToDouble(5), 5.0);
     }
 }

@@ -23,6 +23,9 @@ public class JMinusMinusTestRunner {
         suite.addTestSuite(ClassesTest.class);
         suite.addTestSuite(DivisionTest.class);
         suite.addTestSuite(OperatorsTest.class);
+        suite.addTestSuite(DoubleTest.class);
+        //suite.addTestSuite(ExceptionTest.class);
+        //suite.addTestSuite(InterfaceTest.class);
         suite.addTestSuite(ConditionalExpressionTest.class);
         suite.addTestSuite(InitializersTest.class);
         suite.addTestSuite(RemainderTest.class);

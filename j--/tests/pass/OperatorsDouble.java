@@ -75,7 +75,7 @@ public class OperatorsDouble {
 
 	public static double cmp(double x, double y) {
 		if (y > x) {
-			return .01d;
+			return .1d;
 		} else {
 			return 2.0;
 		}
@@ -105,5 +105,10 @@ public class OperatorsDouble {
 	public static int cast(double x) {
 		return (int) x;
 	}
+	public static double castToDouble(int x) {
+		return (double) x;
+	}
+
+
 
 }
