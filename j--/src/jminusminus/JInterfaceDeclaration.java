@@ -55,14 +55,6 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 		for (JMember member : body) {
 			((JAST) member).analyze(this.context);
 		}
-
-		if (superInterfaces != null) {
-			superInterfacesJvm = new ArrayList<>();
-			for (TypeName tn : superInterfaces) {
-				Type newType = tn.resolve(context);
-				superInterfacesJvm.add(newType.jvmName());
-			}
-		}
 		return this;
 	}
 

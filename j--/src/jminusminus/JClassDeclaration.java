@@ -243,14 +243,6 @@ class JClassDeclaration extends JAST implements JTypeDecl {
             }
         }
 
-        if (superInterfaces != null) {
-            superInterfacesJvm = new ArrayList<>();
-            for (TypeName tn : superInterfaces) {
-                Type newType = tn.resolve(context);
-                superInterfacesJvm.add(newType.jvmName());
-            }
-        }
-
         // Populate all implemented functions
         if (superInterfaces != null) {
             int idx = 0;
