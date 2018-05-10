@@ -123,7 +123,7 @@ assignmentExpression ::= ternaryExpression  // must be a valid lhs
                            [assignmentOperator assignmentExpression]
 
 ternaryExpression           ::= conditionalOrExpression // level 12
-                                {TERNARY conditionalOrExpression COLON conditionalOrExpression}
+                                {TERNARY assignmentExpression COLON ternaryExpression}
 
 conditionalOrExpression     ::= conditionalAndExpression // level 11
                                 {LOR conditionalAndExpression}
