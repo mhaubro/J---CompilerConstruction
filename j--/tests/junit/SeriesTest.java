@@ -23,4 +23,6 @@ public class SeriesTest extends TestCase {
         this.assertEquals(series.computeSum(Series.GEOMETRIC), 100);
     }
 
+    public static class ConditionalTest {
+    }
 }

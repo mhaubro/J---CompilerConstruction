@@ -59,4 +59,6 @@ public class ScannerTest extends TestCase {
         junit.textui.TestRunner.run(ScannerTest.class);
     }
 
+    public static class ExceptionTest {
+    }
 }
