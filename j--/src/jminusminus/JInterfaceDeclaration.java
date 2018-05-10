@@ -140,7 +140,14 @@ public class JInterfaceDeclaration extends JAST implements JTypeDecl {
 				: JAST.compilationUnit.packageName() + "/" + name;
 
 
-		partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), null, false);
+		if (superInterfaces != null) {
+			superInterfacesJvm = new ArrayList<>();
+			for (TypeName tn : superInterfaces) {
+				Type newType = tn.resolve(context);
+				superInterfacesJvm.add(newType.jvmName());
+			}
+		}
+		partial.addClass(mods, qualifiedName, Type.OBJECT.jvmName(), superInterfacesJvm, false);
 
 		for (JMember member : body) {
 			if(member instanceof JMethodDeclaration) {
