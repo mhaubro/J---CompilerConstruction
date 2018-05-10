@@ -103,7 +103,7 @@ arguments ::= LPAREN [expression {COMMA expression}] RPAREN
 
 type ::= referenceType | basicType
 
-typeList ::= referenceType { , referenceType }
+typeList ::= referenceType { COMMA referenceType }
 
 basicType ::= BOOLEAN | CHAR | INT | BYTE | DOUBLE | FLOAT | LONG | SHORT
 
